@@ -1,0 +1,41 @@
+﻿生成启动时间为 2017/6/21 23:54:33。
+     1>项目“G:\Code\7.pySmc64\pySmc\pySmc\pySmc.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D PYSMC_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\pySmc.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt pySmc.cpp
+         pySmc.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"G:\Code\7.pySmc64\pySmc\Debug\pySmc.dll" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:"pySmc.def" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"G:\Code\7.pySmc64\pySmc\Debug\pySmc.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"G:\Code\7.pySmc64\pySmc\Debug\pySmc.lib" /MACHINE:X86 /DLL Debug\dllmain.obj
+         Debug\pySmc.obj
+         Debug\stdafx.obj
+         smc6x.lib
+            正在创建库 G:\Code\7.pySmc64\pySmc\Debug\pySmc.lib 和对象 G:\Code\7.pySmc64\pySmc\Debug\pySmc.exp
+     1>pySmc.exp : warning LNK4070: .EXP 中的 /OUT:pySmc64.dll 指令与输出文件名“G:\Code\7.pySmc64\pySmc\Debug\pySmc.dll”不同；忽略指令
+     1>pySmc.obj : error LNK2019: 无法解析的外部符号 _SMCOpenEth@8，该符号在函数 "int __cdecl pySMCOpenEth(int,int,int,int)" (?pySMCOpenEth@@YAHHHHH@Z) 中被引用
+     1>pySmc.obj : error LNK2019: 无法解析的外部符号 _SMCClose@4，该符号在函数 "int __stdcall pySMCClose(void)" (?pySMCClose@@YGHXZ) 中被引用
+     1>pySmc.obj : error LNK2019: 无法解析的外部符号 _SMCPause@4，该符号在函数 "int __stdcall pySMCPause(void)" (?pySMCPause@@YGHXZ) 中被引用
+     1>pySmc.obj : error LNK2019: 无法解析的外部符号 _SMCStop@4，该符号在函数 "int __stdcall pySMCStop(void)" (?pySMCStop@@YGHXZ) 中被引用
+     1>pySmc.obj : error LNK2019: 无法解析的外部符号 _SMCGetCurRunningLine@8，该符号在函数 "int __stdcall pySMCGetCurRunningLine(unsigned int)" (?pySMCGetCurRunningLine@@YGHI@Z) 中被引用
+     1>pySmc.obj : error LNK2019: 无法解析的外部符号 _SMCContinueRun@4，该符号在函数 "int __stdcall pySMCContinueRun(void)" (?pySMCContinueRun@@YGHXZ) 中被引用
+     1>pySmc.obj : error LNK2019: 无法解析的外部符号 _SMCPMove@20，该符号在函数 "int __stdcall pySMCPMove(unsigned char,double,unsigned char)" (?pySMCPMove@@YGHENE@Z) 中被引用
+     1>pySmc.obj : error LNK2019: 无法解析的外部符号 _SMCPMovePluses@16，该符号在函数 "int __stdcall pySMCPMovePluses(unsigned char,int,unsigned char)" (?pySMCPMovePluses@@YGHEHE@Z) 中被引用
+     1>pySmc.obj : error LNK2019: 无法解析的外部符号 _SMCVMove@12，该符号在函数 "int __stdcall pySMCVMove(unsigned char,unsigned char)" (?pySMCVMove@@YGHEE@Z) 中被引用
+     1>pySmc.obj : error LNK2019: 无法解析的外部符号 _SMCHomeMove@8，该符号在函数 "int __stdcall pySMCHomeMove(unsigned char)" (?pySMCHomeMove@@YGHE@Z) 中被引用
+     1>pySmc.obj : error LNK2019: 无法解析的外部符号 _SMCGetPosition@12，该符号在函数 "double __stdcall pySMCGetPosition(unsigned char)" (?pySMCGetPosition@@YGNE@Z) 中被引用
+     1>pySmc.obj : error LNK2019: 无法解析的外部符号 _SMCGetWorkPosition@12，该符号在函数 "double __stdcall pySMCGetWorkPosition(unsigned char)" (?pySMCGetWorkPosition@@YGNE@Z) 中被引用
+     1>pySmc.obj : error LNK2019: 无法解析的外部符号 _SMCVectMoveStart@4，该符号在函数 "int __stdcall pySMCVectMoveStart(void)" (?pySMCVectMoveStart@@YGHXZ) 中被引用
+     1>pySmc.obj : error LNK2019: 无法解析的外部符号 _SMCVectMoveEnd@4，该符号在函数 "int __stdcall pySMCVectMoveEnd(void)" (?pySMCVectMoveEnd@@YGHXZ) 中被引用
+     1>pySmc.obj : error LNK2019: 无法解析的外部符号 _SMCGetVectMoveState@8，该符号在函数 "int __stdcall pySMCGetVectMoveState(unsigned char)" (?pySMCGetVectMoveState@@YGHE@Z) 中被引用
+     1>pySmc.obj : error LNK2019: 无法解析的外部符号 _SMCGetVectMoveRemainSpace@8，该符号在函数 "int __stdcall pySMCGetVectMoveRemainSpace(unsigned int)" (?pySMCGetVectMoveRemainSpace@@YGHI@Z) 中被引用
+     1>pySmc.obj : error LNK2019: 无法解析的外部符号 _SMCVectMoveLine1@28，该符号在函数 "int __stdcall pySMCVectMoveLine1(unsigned char,double,double,unsigned char)" (?pySMCVectMoveLine1@@YGHENNE@Z) 中被引用
+     1>pySmc.obj : error LNK2019: 无法解析的外部符号 _SMCVectMoveLine2@40，该符号在函数 "int __stdcall pySMCVectMoveLine2(unsigned char,double,unsigned char,double,double,unsigned char)" (?pySMCVectMoveLine2@@YGHENENNE@Z) 中被引用
+     1>pySmc.obj : error LNK2019: 无法解析的外部符号 _SMCVectMoveLineN@28，该符号在函数 "int __stdcall pySMCVectMoveLineN(unsigned char,unsigned char,double,double,unsigned char)" (?pySMCVectMoveLineN@@YGHEENNE@Z) 中被引用
+     1>pySmc.obj : error LNK2019: 无法解析的外部符号 _SMCVectMovePause@4，该符号在函数 "int __stdcall pySMCVectMovePause(void)" (?pySMCVectMovePause@@YGHXZ) 中被引用
+     1>pySmc.obj : error LNK2019: 无法解析的外部符号 _SMCVectMoveStop@4，该符号在函数 "int __stdcall pySMCVectMoveStop(void)" (?pySMCVectMoveStop@@YGHXZ) 中被引用
+     1>pySmc.obj : error LNK2019: 无法解析的外部符号 _SMCWriteLed@12，该符号在函数 "int __stdcall pySMCWriteLed(unsigned short,unsigned char)" (?pySMCWriteLed@@YGHGE@Z) 中被引用
+     1>pySmc.obj : error LNK2019: 无法解析的外部符号 _SMCWriteOutBit@12，该符号在函数 "int __stdcall pySMCWriteOutBit(unsigned char,unsigned char)" (?pySMCWriteOutBit@@YGHEE@Z) 中被引用
+     1>G:\Code\7.pySmc64\pySmc\Debug\pySmc.dll : fatal error LNK1120: 23 个无法解析的外部命令
+     1>已完成生成项目“G:\Code\7.pySmc64\pySmc\pySmc\pySmc.vcxproj”(Build 个目标)的操作 - 失败。
+
+生成失败。
+
+已用时间 00:00:02.19

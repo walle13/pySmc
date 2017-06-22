@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MicroValve</class>
+ <widget class="QDialog" name="MicroValve">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>551</width>
+    <height>456</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QPushButton" name="pushButton_connect">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>350</y>
+     <width>81</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>connect</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_microValve">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>350</y>
+     <width>81</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Micro Valve</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_yHome">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>160</y>
+     <width>81</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Y home</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_xPul2">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>190</y>
+     <width>81</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>X-</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_stop">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>350</y>
+     <width>81</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>stop</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_16">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>350</y>
+     <width>81</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>.</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_xPul1">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>110</y>
+     <width>81</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>X+</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_yPul1">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>110</y>
+     <width>81</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Y+</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_zPul1">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>110</y>
+     <width>81</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Z+</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_out4">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>270</y>
+     <width>81</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OUT4</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_xHome">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>110</y>
+     <width>81</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>X home</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_yPul2">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>190</y>
+     <width>81</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Y-</string>
+   </property>
+  </widget>
+  <widget class="QListView" name="listView">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>30</y>
+     <width>351</width>
+     <height>71</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_out1">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>270</y>
+     <width>81</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OUT1</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_out2">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>270</y>
+     <width>81</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OUT2</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_out3">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>270</y>
+     <width>81</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OUT3</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_zHome">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>220</y>
+     <width>81</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Z home</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_zPul2">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>190</y>
+     <width>81</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>SimSun-ExtB</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Z-</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>282</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Textlabel_X</string>
+   </property>
+  </widget>
+  <widget class="QTextBrowser" name="textBrowser">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>30</y>
+     <width>121</width>
+     <height>231</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_Y">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>310</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Textlabel_Y</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_Z">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>340</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Textlabel_Z</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>380</y>
+     <width>113</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>MicroValve</sender>
+   <signal>accepted()</signal>
+   <receiver>label</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>523</x>
+     <y>340</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>469</x>
+     <y>292</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

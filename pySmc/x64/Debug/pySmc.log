@@ -1,0 +1,13 @@
+﻿生成启动时间为 2017/6/21 16:52:00。
+     1>项目“D:\Code\7.pySmc64\pySmc\pySmc\pySmc.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /sdl /Od /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D PYSMC_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"x64\Debug\pySmc.pch" /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt pySmc.cpp
+         pySmc.cpp
+     1>pySmc.cpp(76): warning C4267: “初始化”: 从“size_t”转换到“const int”，可能丢失数据
+     1>pySmc.cpp(332): error C2062: 意外的类型“double”
+     1>pySmc.cpp(344): error C2062: 意外的类型“double”
+     1>已完成生成项目“D:\Code\7.pySmc64\pySmc\pySmc\pySmc.vcxproj”(Build 个目标)的操作 - 失败。
+
+生成失败。
+
+已用时间 00:00:00.29
