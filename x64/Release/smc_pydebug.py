@@ -32,7 +32,7 @@ except AttributeError:
 class Ui_MicroValve(object):
     def setupUi(self, MicroValve):
         MicroValve.setObjectName(_fromUtf8("MicroValve"))
-        MicroValve.resize(600, 456)
+        MicroValve.resize(650, 456)
         self.pushButton_connect = QtGui.QPushButton(MicroValve)
         self.pushButton_connect.setGeometry(QtCore.QRect(220, 350, 81, 71))
         self.pushButton_connect.setObjectName(_fromUtf8("pushButton_connect"))
@@ -95,7 +95,7 @@ class Ui_MicroValve(object):
         self.label.setGeometry(QtCore.QRect(420, 282, 280, 20))
         self.label.setObjectName(_fromUtf8("label"))
         self.textBrowser = QtGui.QTextBrowser(MicroValve)
-        self.textBrowser.setGeometry(QtCore.QRect(410, 30, 121, 231))
+        self.textBrowser.setGeometry(QtCore.QRect(410, 30, 220, 231))
         self.textBrowser.setObjectName(_fromUtf8("textBrowser"))
         self.label_Y = QtGui.QLabel(MicroValve)
         self.label_Y.setGeometry(QtCore.QRect(420, 310, 81, 20))
@@ -132,6 +132,7 @@ class Ui_MicroValve(object):
         self.label.setText(_translate("MicroValve", "Textlabel_X", None))
         self.label_Y.setText(_translate("MicroValve", "Textlabel_Y", None))
         self.label_Z.setText(_translate("MicroValve", "Textlabel_Z", None))
+        self.textBrowser.setText(_translate("MicroValve", "settext", None))
 
         QtCore.QObject.connect(self.pushButton_connect, QtCore.SIGNAL("clicked()"), self.connect),
         QtCore.QObject.connect(self.pushButton_xPul1, QtCore.SIGNAL("clicked()"), self.xPul1),
@@ -149,6 +150,7 @@ class Ui_MicroValve(object):
         QtCore.QObject.connect(self.pushButton_out4, QtCore.SIGNAL("clicked()"), self.out4),
         QtCore.QObject.connect(self.pushButton_stop, QtCore.SIGNAL("clicked()"), self.stop),
         QtCore.QObject.connect(self.pushButton_16, QtCore.SIGNAL("clicked()"), self.delete),
+        QtCore.QObject.connect(self.pushButton_microValve, QtCore.SIGNAL("clicked()"), self.micro),
 
     def connect(self):
         print(dll.pySMCOpenEth(192,168,1,11))
@@ -206,6 +208,19 @@ class Ui_MicroValve(object):
 
     def out4(self):
         dll.pySMCWriteOutBit(4,0)
+
+    def micro(self):
+        #self.textBrowser.setText('stop'+"\n")
+        #self.textBrowser.append("123")
+        file_object = open("micro.txt")
+        lines = file_object.readlines() #读全部文件
+        line = file_object.readline()   #读一行，带有‘\n’
+        for line in lines:
+            line = line.strip('\n')  #去除 “\n”
+            self.textBrowser.append(line)
+            print(line)
+    #    self.textBrowser.toPlainText('stop'+"\n")
+
 
     def displayUi(self, MicroValve):
         test1=float('%.3f' % (dll.pySMCGetWorkPosition(X_IAXIS)/10000))

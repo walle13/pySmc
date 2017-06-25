@@ -1,0 +1,29 @@
+LIBRARY "pySmc64"
+
+EXPORTS
+ test1 @ 1
+ test2 @ 2
+ pySMCOpenEth @ 3
+ pySMCClose @ 4
+ pySMCWriteOutBit @ 5
+ pySMCPause @ 6
+ pySMCStop @ 7
+ pySMCWriteLed @ 8
+ pySMCGetCurRunningLine @ 9
+ pySMCContinueRun @ 10
+
+ pySMCPMove @ 12
+ pySMCPMovePluses @ 13
+ pySMCVMove @ 14
+ pySMCVectMoveStart @ 15
+ pySMCVectMoveEnd @ 16
+ pySMCGetVectMoveState @ 17
+ pySMCGetVectMoveRemainSpace @ 18
+ pySMCVectMoveLine1 @ 19
+ pySMCVectMoveLine2 @ 20
+ pySMCVectMoveLineN @ 21
+ pySMCVectMovePause @ 22
+ pySMCVectMoveStop @ 23
+ pySMCHomeMove @ 24
+ pySMCGetPosition @ 25
+ pySMCGetWorkPosition @ 26

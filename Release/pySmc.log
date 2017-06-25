@@ -1,0 +1,36 @@
+﻿生成启动时间为 2017/6/21 23:59:03。
+     1>项目“G:\Code\7.pySmc64\pySmc\pySmc\pySmc.vcxproj”在节点 2 上(Build 个目标)。
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"G:\Code\7.pySmc64\pySmc\Release\pySmc.dll" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:"pySmc.def" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"G:\Code\7.pySmc64\pySmc\Release\pySmc.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"G:\Code\7.pySmc64\pySmc\Release\pySmc.lib" /MACHINE:X86 /SAFESEH /DLL Release\dllmain.obj
+         Release\pySmc.obj
+         Release\stdafx.obj
+         smc6x.lib
+            正在创建库 G:\Code\7.pySmc64\pySmc\Release\pySmc.lib 和对象 G:\Code\7.pySmc64\pySmc\Release\pySmc.exp
+     1>pySmc.exp : warning LNK4070: .EXP 中的 /OUT:pySmc64.dll 指令与输出文件名“G:\Code\7.pySmc64\pySmc\Release\pySmc.dll”不同；忽略指令
+     1>pySmc.obj : error LNK2001: 无法解析的外部符号 _SMCOpenEth@8
+     1>pySmc.obj : error LNK2001: 无法解析的外部符号 _SMCClose@4
+     1>pySmc.obj : error LNK2001: 无法解析的外部符号 _SMCWriteOutBit@12
+     1>pySmc.obj : error LNK2001: 无法解析的外部符号 _SMCPause@4
+     1>pySmc.obj : error LNK2001: 无法解析的外部符号 _SMCStop@4
+     1>pySmc.obj : error LNK2001: 无法解析的外部符号 _SMCWriteLed@12
+     1>pySmc.obj : error LNK2001: 无法解析的外部符号 _SMCGetCurRunningLine@8
+     1>pySmc.obj : error LNK2001: 无法解析的外部符号 _SMCContinueRun@4
+     1>pySmc.obj : error LNK2001: 无法解析的外部符号 _SMCHomeMove@8
+     1>pySmc.obj : error LNK2001: 无法解析的外部符号 _SMCPMove@20
+     1>pySmc.obj : error LNK2001: 无法解析的外部符号 _SMCPMovePluses@16
+     1>pySmc.obj : error LNK2001: 无法解析的外部符号 _SMCVMove@12
+     1>pySmc.obj : error LNK2001: 无法解析的外部符号 _SMCVectMoveStart@4
+     1>pySmc.obj : error LNK2001: 无法解析的外部符号 _SMCVectMoveEnd@4
+     1>pySmc.obj : error LNK2001: 无法解析的外部符号 _SMCGetVectMoveState@8
+     1>pySmc.obj : error LNK2001: 无法解析的外部符号 _SMCGetVectMoveRemainSpace@8
+     1>pySmc.obj : error LNK2001: 无法解析的外部符号 _SMCVectMoveLine1@28
+     1>pySmc.obj : error LNK2001: 无法解析的外部符号 _SMCVectMoveLine2@40
+     1>pySmc.obj : error LNK2001: 无法解析的外部符号 _SMCVectMoveLineN@28
+     1>pySmc.obj : error LNK2001: 无法解析的外部符号 _SMCVectMovePause@4
+     1>pySmc.obj : error LNK2001: 无法解析的外部符号 _SMCVectMoveStop@4
+     1>G:\Code\7.pySmc64\pySmc\Release\pySmc.dll : fatal error LNK1120: 21 个无法解析的外部命令
+     1>已完成生成项目“G:\Code\7.pySmc64\pySmc\pySmc\pySmc.vcxproj”(Build 个目标)的操作 - 失败。
+
+生成失败。
+
+已用时间 00:00:00.40
