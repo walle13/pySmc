@@ -132,7 +132,7 @@ class Ui_MicroValve(object):
         self.label.setText(_translate("MicroValve", "Textlabel_X", None))
         self.label_Y.setText(_translate("MicroValve", "Textlabel_Y", None))
         self.label_Z.setText(_translate("MicroValve", "Textlabel_Z", None))
-        self.textBrowser.setText(_translate("MicroValve", "settext", None))
+        self.textBrowser.setText(_translate("MicroValve", "", None))
 
         QtCore.QObject.connect(self.pushButton_connect, QtCore.SIGNAL("clicked()"), self.connect),
         QtCore.QObject.connect(self.pushButton_xPul1, QtCore.SIGNAL("clicked()"), self.xPul1),

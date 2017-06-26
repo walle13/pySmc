@@ -27,11 +27,39 @@
 
 import sys , re , os
 import time
+import ctypes
+import math
 
 lines = []
 line = []
 line_N1 = []
 
+SMC_OUT_VALIDVALUE     =   0    #//有效电平，通用IO为低电平, 当切换初始电平后，输出电平会相反
+SMC_OUT_INVALIDVALUE   =  1    #//高电平
+OUT_1   =	1		#OUT输出口1
+OUT_2   =	2		#OUT输出口2
+OUT_3   =	3		#/OUT输出口3
+OUT_4   =	4		#//OUT输出口4
+OUT_5   =	5		#//OUT输出口5
+OUT_6   =	6		#//OUT输出口6
+OUT_7   =	7		#//OUT输出口7
+OUT_8   =	8		#//OUT输出口8
+X_IAXIS	=   0		#//X轴
+Y_IAXIS	=	1		#//Y轴
+Z_IAXIS =   2		#//Z轴
+IFABS_YES  =  1		#//绝对坐标系
+IFABS_NO   =   0		#//不是绝对坐标系
+
+dll = ctypes.windll.LoadLibrary("pySmc.dll")
+# SMCHANDLE * aaa = NULL;
+
+print(dll.pySMCOpenEth(192,168,1,11))
+dll.pySMCWriteOutBit(2,0)
+dll.pySMCPMovePluses(Y_IAXIS,10000,IFABS_NO)
+#dll.pySMCHomeMove(Y_IAXIS)              #Y轴回零运动
+print('%.3f'%(dll.pySMCGetPosition(Y_IAXIS)/10000))            #读取Y轴机械坐标
+print('%.3f'%(dll.pySMCGetWorkPosition(Y_IAXIS)/10000))            #读取Y轴工件坐标
+#print(dll.test1(1,2,3),123)
 
 file_object = open("micro.gcode")
 line_N1 = file_object.readline() #读一行，带有‘\n’
@@ -53,12 +81,23 @@ for line_N1 in lines:
             speed_F = re.findall(".*F(\d+(?:\.\d+)?)",line_N1)  #正则运算，取X，Y 直接的数据
             position_all = position_X + position_Y + position_Z + position_U
             print position_all , position_X , position_Y , position_Z , position_U
-
+            dll.pySMCPMovePluses(Y_IAXIS,10000,IFABS_NO)
             time.sleep(0.1)
+
+
         elif line_G[0] == "2":  #识别指令是否为 ‘G2’ 指令
             print 'G2'
+
         elif line_G[0] == "3":  #识别指令是否为 ‘G3’ 指令
             print 'G3'
+
+        elif line_G[0] == "26":  #识别指令是否为 ‘G26’ 指令 ， 回零点
+            print 'G26'
+
+
+        elif line_G[0] == "90":  #识别指令是否为 ‘G90' 指令 , 绝对坐标系
+            print 'G90'
+
         else:
             print 'G_err'
 
