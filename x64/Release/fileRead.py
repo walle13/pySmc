@@ -15,12 +15,12 @@
 
 import sys
 import time
-
-line=[]
+lines = []
+line = []
 
 file_object = open("micro.txt")
-lines = file_object.readlines() #读全部文件
 line = file_object.readline() #读一行，带有‘\n’
+lines = file_object.readlines() #读全部文件
 # gcode_all.append(gcode_line_i.strip('\n'))
 line_N1 = "G1 X218.99 Y78.99 F5000"
 if line_N1[0]=='G':
