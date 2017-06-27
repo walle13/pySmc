@@ -31,9 +31,9 @@ extern "C++" _declspec(dllexport) int32 __stdcall pySMCGetVectMoveState(uint8 pS
 
 extern "C++" _declspec(dllexport) int32 __stdcall pySMCGetVectMoveRemainSpace(uint32 pSpace);	//说明：插补运动可以填入的线段数
 
-extern "C++" _declspec(dllexport) int32 __stdcall pySMCVectMoveLine1(uint8 iaxis, double Distance, double dspeed, uint8 bIfAbs);	//说明：插补，会修改速度设置	1轴插补
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCVectMoveLine1(uint8 iaxis, int32 Distance, int32 dspeed, uint8 bIfAbs);	//说明：插补，会修改速度设置	1轴插补
 
-extern "C++" _declspec(dllexport) int32 __stdcall pySMCVectMoveLine2(uint8 iaxis1, double Distance1, uint8 iaxis2, double Distance2, double dspeed, uint8 bIfAbs);	//说明：插补，会修改速度设置,2轴插补
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCVectMoveLine2(uint8 iaxis1, int32 Distance1, uint8 iaxis2, int32 Distance2, int32 dspeed, uint8 bIfAbs);	//说明：插补，会修改速度设置,2轴插补
 
 extern "C++" _declspec(dllexport) int32 __stdcall pySMCVectMoveLineN(uint8 itotalaxis, int32 DistanceList1, int32 DistanceList2, int32 DistanceList3, int32 DistanceList4, int32 dspeed, uint8 bIfAbs);//说明：插补，不会修改速度设置	N轴插补
 

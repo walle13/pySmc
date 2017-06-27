@@ -7,7 +7,14 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
+from PyQt4.QtGui import *
 
+from PyQt4.Qt import *
+
+from PyQt4.QtCore import *
+import time
+
+#UI相关
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -25,7 +32,7 @@ except AttributeError:
 class Ui_MicroValve(object):
     def setupUi(self, MicroValve):
         MicroValve.setObjectName(_fromUtf8("MicroValve"))
-        MicroValve.resize(517, 455)
+        MicroValve.resize(650, 456)
         self.pushButton_connect = QtGui.QPushButton(MicroValve)
         self.pushButton_connect.setGeometry(QtCore.QRect(220, 350, 81, 71))
         self.pushButton_connect.setObjectName(_fromUtf8("pushButton_connect"))
@@ -84,9 +91,24 @@ class Ui_MicroValve(object):
         font.setPointSize(9)
         self.pushButton_zPul2.setFont(font)
         self.pushButton_zPul2.setObjectName(_fromUtf8("pushButton_zPul2"))
+        self.label = QtGui.QLabel(MicroValve)
+        self.label.setGeometry(QtCore.QRect(420, 282, 280, 20))
+        self.label.setObjectName(_fromUtf8("label"))
+        self.textBrowser = QtGui.QTextBrowser(MicroValve)
+        self.textBrowser.setGeometry(QtCore.QRect(410, 30, 220, 231))
+        self.textBrowser.setObjectName(_fromUtf8("textBrowser"))
+        self.label_Y = QtGui.QLabel(MicroValve)
+        self.label_Y.setGeometry(QtCore.QRect(420, 310, 81, 20))
+        self.label_Y.setObjectName(_fromUtf8("label_Y"))
+        self.label_Z = QtGui.QLabel(MicroValve)
+        self.label_Z.setGeometry(QtCore.QRect(420, 340, 81, 20))
+        self.label_Z.setObjectName(_fromUtf8("label_Z"))
 
         self.retranslateUi(MicroValve)
+        self.displayUi(MicroValve)
+        QtCore.QObject.connect(MicroValve, QtCore.SIGNAL(_fromUtf8("accepted()")), self.label.clear)
         QtCore.QMetaObject.connectSlotsByName(MicroValve)
+        # self.input = setText(self)
 
     def retranslateUi(self, MicroValve):
         MicroValve.setWindowTitle(_translate("MicroValve", "Dialog", None))
@@ -107,6 +129,10 @@ class Ui_MicroValve(object):
         self.pushButton_out3.setText(_translate("MicroValve", "OUT3", None))
         self.pushButton_zHome.setText(_translate("MicroValve", "Z home", None))
         self.pushButton_zPul2.setText(_translate("MicroValve", "Z-", None))
+        self.label.setText(_translate("MicroValve", "Textlabel_X", None))
+        self.label_Y.setText(_translate("MicroValve", "Textlabel_Y", None))
+        self.label_Z.setText(_translate("MicroValve", "Textlabel_Z", None))
+        self.textBrowser.setText(_translate("MicroValve", "", None))
 
         QtCore.QObject.connect(self.pushButton_connect, QtCore.SIGNAL("clicked()"), self.connect),
         QtCore.QObject.connect(self.pushButton_xPul1, QtCore.SIGNAL("clicked()"), self.xPul1),
@@ -124,11 +150,14 @@ class Ui_MicroValve(object):
         QtCore.QObject.connect(self.pushButton_out4, QtCore.SIGNAL("clicked()"), self.out4),
         QtCore.QObject.connect(self.pushButton_stop, QtCore.SIGNAL("clicked()"), self.stop),
         QtCore.QObject.connect(self.pushButton_16, QtCore.SIGNAL("clicked()"), self.delete),
+        QtCore.QObject.connect(self.pushButton_microValve, QtCore.SIGNAL("clicked()"), self.micro),
 
     def connect(self):
         print(dll.pySMCOpenEth(192,168,1,11))
+        self.label.setText('connect')
 
     def stop(self):
+        self.label.setText('stop')
         dll.pySMCClose()
 
     def delete(self):
@@ -180,9 +209,46 @@ class Ui_MicroValve(object):
     def out4(self):
         dll.pySMCWriteOutBit(4,0)
 
+    def micro(self):
+        #self.textBrowser.setText('stop'+"\n")
+        #self.textBrowser.append("123")
+        file_object = open("micro.txt")
+        lines = file_object.readlines() #读全部文件
+        line = file_object.readline()   #读一行，带有‘\n’
+        for line in lines:
+            line = line.strip('\n')  #去除 “\n”
+            self.textBrowser.append(line)
+            print(line)
+    #    self.textBrowser.toPlainText('stop'+"\n")
+
+
+    def displayUi(self, MicroValve):
+        test1=float('%.3f' % (dll.pySMCGetWorkPosition(X_IAXIS)/10000))
+        test2=dll.pySMCGetWorkPosition(X_IAXIS)%10000
+
+    def handleDisplay(self, data):
+        self.label.setText('x:'+str(data))   #槽函数
+
+
+class Backend(QThread):     #新建一个线程类
+    update_date = pyqtSignal(QString) #pyqt信号
+    def run(self):      #重载Qthread run
+        while True:
+            # data =dll.pySMCGetWorkPosition(X_IAXIS)/10000
+            # data1 =dll.pySMCGetWorkPosition(X_IAXIS)%10000
+            data = float(dll.pySMCGetWorkPosition(X_IAXIS))
+            data = str("%.3f"% (data/10000))
+            # print(data)
+            # data = QDateTime.currentDateTime()
+            self.update_date.emit(QString(data))   #发送信号
+            time.sleep(0.05)
+
 if __name__ == "__main__":
     import sys
+    reload(sys)
+    sys.setdefaultencoding( "utf-8" )
     import ctypes
+    import threading
 
     SMC_OUT_VALIDVALUE     =   0    #//有效电平，通用IO为低电平, 当切换初始电平后，输出电平会相反
     SMC_OUT_INVALIDVALUE   =  1    #//高电平
@@ -200,11 +266,19 @@ if __name__ == "__main__":
     IFABS_YES  =  1		#//绝对坐标系
     IFABS_NO   =   0		#//不是绝对坐标系
 
-    dll = ctypes.windll.LoadLibrary("pySmc.dll")
+    from time import ctime,sleep
 
+
+    dll = ctypes.windll.LoadLibrary("pySmc.dll")
     app = QtGui.QApplication(sys.argv)
     MicroValve = QtGui.QDialog()
     ui = Ui_MicroValve()
     ui.setupUi(MicroValve)
+
+
+    demoThread = Backend()
+    demoThread.start();     #.start 执行了一个run
+    demoThread.update_date.connect(ui.handleDisplay)    #信号与槽连接
+
     MicroValve.show()
     sys.exit(app.exec_())

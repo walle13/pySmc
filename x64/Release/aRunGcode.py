@@ -102,10 +102,11 @@ for line_N1 in lines:
             # dll.pySMCPMovePluses(X_IAXIS,pul_X,IFABS_NO)
             # dll.pySMCPMovePluses(Y_IAXIS,pul_Y,IFABS_NO)
             # dll.pySMCPMovePluses(Z_IAXIS,pul_Z,IFABS_NO)
-            _axis_iaxis = [0,1,2,3]
-            dist_array= [100,100,100,100]
+
             # dll.pySMCVectMoveLineN(2, _axis_iaxis, dist_array, 500, IFABS_NO)
-            dll.pySMCVectMoveLine1(1, 1000 ,500, IFABS_NO)
+            # dll.pySMCVectMoveLine1(1, 1000 ,500, IFABS_NO)
+            dll.pySMCVectMoveStart()
+            dll.pySMCVectMoveLineN(3 , pul_X , pul_Y , pul_Z , 0 , 100 , IFABS_YES)  #多轴插补 距离/1000
             print ('ok')
             time.sleep(5)
 
@@ -149,6 +150,17 @@ for line_N1 in lines:
 
     else:
         print 'not find'
+
+
+X_Position = dll.pySMCGetPosition(X_IAXIS)/10000
+Y_Position = dll.pySMCGetPosition(Y_IAXIS)/10000
+Z_Position = dll.pySMCGetPosition(Z_IAXIS)/10000
+X_WorkPosition =dll.pySMCGetWorkPosition(X_IAXIS)/10000
+Y_WorkPosition =dll.pySMCGetWorkPosition(Y_IAXIS)/10000
+Z_WorkPosition =dll.pySMCGetWorkPosition(Z_IAXIS)/10000
+print(('X:%.3f'%(X_Position)) + (' Y:%.3f'%(X_Position)) + (' Z:%.3f'%(X_Position)))            #读取XYZ轴机械坐标
+print(('X:%.3f'%(X_WorkPosition)) + (' Y:%.3f'%(Y_WorkPosition)) + (' Z:%.3f'%(Z_WorkPosition)))            #读取XYZ轴机械坐标
+
 
 
 # for line in lines:

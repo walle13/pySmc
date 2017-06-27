@@ -271,7 +271,9 @@ int32 __stdcall pySMCGetVectMoveRemainSpace( uint32 pSpace)
 *************************************************************/
 int32 __stdcall pySMCVectMoveLine1( uint8 iaxis, double Distance, double dspeed, uint8 bIfAbs)
 {
-	return(SMCVectMoveLine1(g_handle, iaxis, Distance, dspeed, bIfAbs));
+	double _tanceList;
+	_tanceList = double(Distance / 1000);	//python 与 c++之间只完成int型传递，扩大1000倍去掉小数
+	return(SMCVectMoveLine1(g_handle, iaxis, _tanceList, dspeed, bIfAbs));
 }
 /*************************************************************
 说明：插补，会修改速度设置	2轴插补
@@ -281,7 +283,9 @@ int32 __stdcall pySMCVectMoveLine1( uint8 iaxis, double Distance, double dspeed,
 *************************************************************/
 int32 __stdcall pySMCVectMoveLine2( uint8 iaxis1, double Distance1, uint8 iaxis2, double Distance2, double dspeed, uint8 bIfAbs)
 {
-	return(SMCVectMoveLine2(g_handle, iaxis1, Distance1, iaxis2, Distance2, dspeed, bIfAbs));
+	double _tanceList1 = double(Distance1 / 1000);	//python 与 c++之间只完成int型传递，扩大1000倍去掉小数
+	double _tanceList2 = double(Distance2 / 1000);
+	return(SMCVectMoveLine2(g_handle, iaxis1, _tanceList1, iaxis2, _tanceList2, dspeed, bIfAbs));
 }
 
 /*************************************************************
@@ -294,18 +298,13 @@ int32 __stdcall pySMCVectMoveLineN(uint8 itotalaxis, int32 DistanceList1, int32 
 {
 	//double _tanceList[] = { DistanceList1, DistanceList2, DistanceList3, DistanceList4 };
 	double _tanceList[4];
-//	double dspeed;
-	_tanceList[0] = float(DistanceList1 / 1000);
-	_tanceList[1] = float(DistanceList2 / 1000);
-	_tanceList[2] = float(DistanceList3 / 1000);
-	_tanceList[3] = float(DistanceList4 / 1000);
-	//double _tanceList[] = { DistanceList1, DistanceList2, DistanceList3, DistanceList4 };
+	_tanceList[0] = double(DistanceList1 / 1000);	//python 与 c++之间只完成int型传递，扩大1000倍去掉小数
+	_tanceList[1] = double(DistanceList2 / 1000);
+	_tanceList[2] = double(DistanceList3 / 1000);
+	_tanceList[3] = double(DistanceList4 / 1000);
 	uint8 _axis_iaxis[] = { 0, 1, 2, 3 };
 	return(SMCVectMoveLineN(g_handle, itotalaxis, _axis_iaxis, _tanceList, dspeed, bIfAbs));
-	/*_tanceList[0] = 0;
-	_tanceList[1] = 0;
-	_tanceList[2] = 0;
-	_tanceList[3] = 0;*/
+
 }
 
 

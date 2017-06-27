@@ -36,7 +36,7 @@ dll.pySMCPMovePluses(Y_IAXIS,10000,IFABS_NO)
 dll.pySMCVectMoveStop()
 dll.pySMCVectMoveStart()
 # print(dll.pySMCVectMoveLineN(3,float(101.1), float(101.1), float(101.1), float(101.1),float(30), IFABS_YES))
-print(dll.pySMCVectMoveLineN(3,100000,1000,1000,200,30, IFABS_YES))  #多轴插补 距离/1000
+print(dll.pySMCVectMoveLineN(3,10000,10000,1000,200,30, IFABS_YES))  #多轴插补 距离/1000
 # dll.pySMCVectMoveStop()
 # #dll.pySMCHomeMove(Y_IAXIS)              #Y轴回零运动
 X_Position = dll.pySMCGetPosition(X_IAXIS)/10000
