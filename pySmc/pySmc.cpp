@@ -290,9 +290,22 @@ int32 __stdcall pySMCVectMoveLine2( uint8 iaxis1, double Distance1, uint8 iaxis2
 输出：
 返回值：错误码
 *************************************************************/
-int32 __stdcall pySMCVectMoveLineN( uint8 itotalaxis, uint8 piaxisList, double DistanceList, double dspeed, uint8 bIfAbs)
+int32 __stdcall pySMCVectMoveLineN(uint8 itotalaxis, int32 DistanceList1, int32 DistanceList2, int32 DistanceList3, int32 DistanceList4, int32 dspeed, uint8 bIfAbs)
 {
-	return(SMCVectMoveLineN(g_handle, itotalaxis, &piaxisList, &DistanceList, dspeed, bIfAbs));
+	//double _tanceList[] = { DistanceList1, DistanceList2, DistanceList3, DistanceList4 };
+	double _tanceList[4];
+//	double dspeed;
+	_tanceList[0] = float(DistanceList1 / 1000);
+	_tanceList[1] = float(DistanceList2 / 1000);
+	_tanceList[2] = float(DistanceList3 / 1000);
+	_tanceList[3] = float(DistanceList4 / 1000);
+	//double _tanceList[] = { DistanceList1, DistanceList2, DistanceList3, DistanceList4 };
+	uint8 _axis_iaxis[] = { 0, 1, 2, 3 };
+	return(SMCVectMoveLineN(g_handle, itotalaxis, _axis_iaxis, _tanceList, dspeed, bIfAbs));
+	/*_tanceList[0] = 0;
+	_tanceList[1] = 0;
+	_tanceList[2] = 0;
+	_tanceList[3] = 0;*/
 }
 
 
