@@ -54,26 +54,29 @@ dll = ctypes.windll.LoadLibrary("pySmc.dll")
 # SMCHANDLE * aaa = NULL;
 
 print(dll.pySMCOpenEth(192,168,1,11))
-dll.pySMCWriteOutBit(2,0)
-dll.pySMCPMovePluses(Y_IAXIS,10000,IFABS_NO)
-#dll.pySMCHomeMove(Y_IAXIS)              #Y轴回零运动
-print('%.3f'%(dll.pySMCGetPosition(Y_IAXIS)/10000))            #读取Y轴机械坐标
-print('%.3f'%(dll.pySMCGetWorkPosition(Y_IAXIS)/10000))            #读取Y轴工件坐标
-#print(dll.test1(1,2,3),123)
+dll.pySMCWriteOutBit(1,1)
+dll.pySMCWriteOutBit(2,1)
+dll.pySMCWriteOutBit(3,1)
+dll.pySMCWriteOutBit(4,1)
+dll.pySMCWriteOutBit(5,1)
+dll.pySMCWriteOutBit(6,1)
+dll.pySMCWriteOutBit(7,1)
+dll.pySMCWriteOutBit(8,1)
 
 file_object = open("micro.gcode")
 line_N1 = file_object.readline() #读一行，带有‘\n’
 lines = file_object.readlines() #读全部文件
 # gcode_all.append(gcode_line_i.strip('\n'))
-# line_N1 = "G1 X218.99 Y78.99 Z10 F5000"
+line_N1 = "G1 X218.99 Y78.99 Z10 F5000"
 line_N2 = "M103"
+
 for line_N1 in lines:
     line_N1 = line_N1.strip('\n')  #去除 “\n”
     #print(line_N1)
     if line_N1[0]=='G' :        #识别指令是否为 ‘G’ 指令
         line_G= re.findall(".*G(\d+(?:\.\d+)?)",line_N1)  #读取G指令的类型
         if line_G[0] == "1":    #识别指令是否为 ‘G1’ 指令
-            print 'G1'
+            # print 'G1'
             position_X = re.findall(".*X(\d+(?:\.\d+)?)",line_N1)  #正则运算，取X，Y 直接的数据
             position_Y = re.findall(".*Y(\d+(?:\.\d+)?)",line_N1)  #正则运算，取X，Y 直接的数据
             position_Z = re.findall(".*Z(\d+(?:\.\d+)?)",line_N1)  #正则运算，取X，Y 直接的数据
@@ -81,8 +84,30 @@ for line_N1 in lines:
             speed_F = re.findall(".*F(\d+(?:\.\d+)?)",line_N1)  #正则运算，取X，Y 直接的数据
             position_all = position_X + position_Y + position_Z + position_U
             print position_all , position_X , position_Y , position_Z , position_U
-            dll.pySMCPMovePluses(Y_IAXIS,10000,IFABS_NO)
-            time.sleep(0.1)
+            if position_X:
+                pul_X = int(float(position_X[0])*1000)
+            else:
+                pul_X = 0
+
+            if position_Y:
+                pul_Y = int(float(position_Y[0])*1000)
+            else:
+                pul_Y = 0
+
+            if position_Z:
+                pul_Z = int(float(position_Z[0])*1000)
+            else:
+                pul_Z = 0
+
+            # dll.pySMCPMovePluses(X_IAXIS,pul_X,IFABS_NO)
+            # dll.pySMCPMovePluses(Y_IAXIS,pul_Y,IFABS_NO)
+            # dll.pySMCPMovePluses(Z_IAXIS,pul_Z,IFABS_NO)
+            _axis_iaxis = [0,1,2,3]
+            dist_array= [100,100,100,100]
+            # dll.pySMCVectMoveLineN(2, _axis_iaxis, dist_array, 500, IFABS_NO)
+            dll.pySMCVectMoveLine1(1, 1000 ,500, IFABS_NO)
+            print ('ok')
+            time.sleep(5)
 
 
         elif line_G[0] == "2":  #识别指令是否为 ‘G2’ 指令
@@ -93,7 +118,11 @@ for line_N1 in lines:
 
         elif line_G[0] == "26":  #识别指令是否为 ‘G26’ 指令 ， 回零点
             print 'G26'
-
+            dll.pySMCHomeMove(Z_IAXIS)
+            dll.pySMCHomeMove(Y_IAXIS)
+            dll.pySMCHomeMove(X_IAXIS)
+            time.sleep(5)
+            # print(dll.pySMCHomeMove(Z_IAXIS))
 
         elif line_G[0] == "90":  #识别指令是否为 ‘G90' 指令 , 绝对坐标系
             print 'G90'
@@ -106,8 +135,12 @@ for line_N1 in lines:
 
         if line_M[0] == "101":  #识别指令是否为 ‘M102’ 指令
             print 'M101'
+            dll.pySMCWriteOutBit(2,1)
+            time.sleep(0.1)
         elif line_M[0] == "103":  #识别指令是否为 ‘M103’ 指令
             print 'M103'
+            dll.pySMCWriteOutBit(2,0)
+            time.sleep(0.1)
         else:
             print 'err'
 
