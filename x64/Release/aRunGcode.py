@@ -73,6 +73,7 @@ line_N2 = "M103"
 for line_N1 in lines:
     line_N1 = line_N1.strip('\n')  #去除 “\n”
     #print(line_N1)
+
     if line_N1[0]=='G' :        #识别指令是否为 ‘G’ 指令
         line_G= re.findall(".*G(\d+(?:\.\d+)?)",line_N1)  #读取G指令的类型
         if line_G[0] == "1":    #识别指令是否为 ‘G1’ 指令
@@ -106,10 +107,13 @@ for line_N1 in lines:
             # dll.pySMCVectMoveLineN(2, _axis_iaxis, dist_array, 500, IFABS_NO)
             # dll.pySMCVectMoveLine1(1, 1000 ,500, IFABS_NO)
             dll.pySMCVectMoveStart()
-            dll.pySMCVectMoveLineN(3 , pul_X , pul_Y , pul_Z , 0 , 100 , IFABS_YES)  #多轴插补 距离/1000
+            dll.pySMCVectMoveLineN(3 , pul_X , pul_Y , pul_Z , 0 , 30 , IFABS_YES)  #多轴插补 距离/1000
             print ('ok')
-            time.sleep(5)
-
+            # time.sleep(5)
+            while 1:    #检测轴移动状态
+                smcvect = dll.pySMCVectMoveEnd()
+                if smcvect !=0:
+                    break
 
         elif line_G[0] == "2":  #识别指令是否为 ‘G2’ 指令
             print 'G2'
@@ -123,6 +127,10 @@ for line_N1 in lines:
             dll.pySMCHomeMove(Y_IAXIS)
             dll.pySMCHomeMove(X_IAXIS)
             time.sleep(5)
+            while 1:    #检测轴移动状态
+                smcvect = dll.pySMCVectMoveEnd()
+                if smcvect !=0:
+                    break
             # print(dll.pySMCHomeMove(Z_IAXIS))
 
         elif line_G[0] == "90":  #识别指令是否为 ‘G90' 指令 , 绝对坐标系
@@ -133,7 +141,6 @@ for line_N1 in lines:
 
     elif line_N1[0]=='M' :          #识别指令是否为 ‘M’ 指令
         line_M= re.findall(".*M(\d+(?:\.\d+)?)",line_N1)  #正则运算，取M 直接的数据
-
         if line_M[0] == "101":  #识别指令是否为 ‘M102’ 指令
             print 'M101'
             dll.pySMCWriteOutBit(2,1)

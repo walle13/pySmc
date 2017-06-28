@@ -228,7 +228,7 @@ int32 __stdcall pySMCVectMoveStart()
 
 
 /*************************************************************
-说明：插补结束
+说明：插补结束/我觉得不是这样
 输入：卡链接handle
 输出：
 返回值：错误码
@@ -240,14 +240,20 @@ int32 __stdcall pySMCVectMoveEnd()
 
 
 /*************************************************************
+//  VECTMOVE_STATE_RUNING = 1,
+    VECTMOVE_STATE_PAUSE = 2,
+    VECTMOVE_STATE_STOP = 3,
 说明：读取插补状态
 输入：卡链接handle
 输出：
 返回值：错误码
 *************************************************************/
-int32 __stdcall pySMCGetVectMoveState( uint8 pState)
+int32 __stdcall pySMCGetVectMoveState()
 {
-	return(SMCGetVectMoveState(g_handle, &pState));
+	uint8 pstate[1];
+	SMCGetVectMoveState(g_handle, pstate);
+	uint8 apstate = pstate[0];
+	return apstate;
 }
 
 
@@ -360,49 +366,12 @@ int32 __stdcall pySMCGetWorkPosition(uint8 iaxis)
 	int32 WCS = dWCS[0] * 10000;
 	return WCS;
 }
-/*
-void CDMC6480d1Dlg::OnTimer(UINT nIDEvent)
-{
-	// TODO: Add your message handler code here and/or call default
-	double dspeed[1];
-	double dmachine[1];
-	double dWCS[1];
-	int32 iresult;
-	CString string;
-	unsigned char pbIfDown[1];
-	if (NULL != g_handle)
-	{
-		iresult = SMCGetCurSpeed(g_handle, m_moveAxis, dspeed);
-		if (ERR_OK == iresult)
-		{
-			string.Format("%.2lf", dspeed[0]);
-			GetDlgItem(IDC_EDIT_SPEED)->SetWindowText(string);
-		}
 
-		iresult = SMCGetPosition(g_handle, m_moveAxis, dmachine);   //机械坐标
-		if (ERR_OK == iresult)
-		{
-			string.Format("%.2lf", dmachine[0]);
-			GetDlgItem(IDC_EDIT_COOR_MACHINE)->SetWindowText(string);
-		}
 
-		iresult = SMCGetWorkPosition(g_handle, m_moveAxis, dWCS);  //工件坐标
-		if (ERR_OK == iresult)
-		{
-			string.Format("%.2lf", dWCS[0]);
-			GetDlgItem(IDC_EDIT_POSE)->SetWindowText(string);
-		}
-		iresult = SMCCheckDown(g_handle, m_moveAxis, pbIfDown);
-		if (ERR_OK == iresult)
-		{
-			if (pbIfDown[0] == 1)
-			{
-				GetDlgItem(IDC_EDIT_STATE)->SetWindowText("停止");
-			}
-			else
-			{
-				GetDlgItem(IDC_EDIT_STATE)->SetWindowText("运动中");
-			}
-		}
-	}
-	*/
+/*************************************************************
+说明：检查轴停止
+输入：卡链接handle 轴号， 方向
+输出：
+返回值：错误码
+*************************************************************/
+SMC6200API  int32 __stdcall SMCCheckDown(SMCHANDLE handle, uint8 iaxis, uint8* pbIfDown);

@@ -27,7 +27,7 @@ extern "C++" _declspec(dllexport) int32 __stdcall pySMCVectMoveStart();	//进入插
 
 extern "C++" _declspec(dllexport) int32 __stdcall pySMCVectMoveEnd();	//插补运动结束
 
-extern "C++" _declspec(dllexport) int32 __stdcall pySMCGetVectMoveState(uint8 pState);//说明：读取插补状态
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCGetVectMoveState();//说明：读取插补状态
 
 extern "C++" _declspec(dllexport) int32 __stdcall pySMCGetVectMoveRemainSpace(uint32 pSpace);	//说明：插补运动可以填入的线段数
 

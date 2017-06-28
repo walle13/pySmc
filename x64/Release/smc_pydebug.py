@@ -158,7 +158,9 @@ class Ui_MicroValve(object):
 
     def stop(self):
         self.label.setText('stop')
+        dll.pySMCVectMoveStop()
         dll.pySMCClose()
+
 
     def delete(self):
         dll.pySMCWriteOutBit(1,1)
@@ -171,10 +173,10 @@ class Ui_MicroValve(object):
         dll.pySMCWriteOutBit(8,1)
 
     def xPul1(self):
-        dll.pySMCPMovePluses(X_IAXIS,10000,IFABS_NO)
+        dll.pySMCPMove(X_IAXIS,200,IFABS_NO)
 
     def xPul2(self):
-        dll.pySMCPMovePluses(X_IAXIS,-10000,IFABS_NO)
+        dll.pySMCPMove(X_IAXIS,-200,IFABS_NO)
 
     def yPul1(self):
         dll.pySMCPMovePluses(Y_IAXIS,10000,IFABS_NO)
@@ -183,10 +185,14 @@ class Ui_MicroValve(object):
         dll.pySMCPMovePluses(Y_IAXIS,-10000,IFABS_NO)
 
     def zPul1(self):
-        dll.pySMCPMovePluses(Z_IAXIS,10000,IFABS_NO)
+        dll.pySMCVectMoveStart()
+        dll.pySMCVectMoveLineN(3 , 1000000 , 10000 , 50000 , 0 , 300 , IFABS_YES)  #多轴插补 距离/1000
+        # dll.pySMCVectMoveLineN(3 , 2000000 , 20000 , 50000 , 0 , 300 , IFABS_YES)  #多轴插补 距离/1000
 
     def zPul2(self):
-        dll.pySMCPMovePluses(Z_IAXIS,-10000,IFABS_NO)
+        dll.pySMCVectMoveStart()
+        # dll.pySMCVectMoveLineN(3 , 1000000 , 10000 , 50000 , 0 , 300 , IFABS_YES)  #多轴插补 距离/1000
+        dll.pySMCVectMoveLineN(3 , 0 , 0 , 500000 , 0 , 300 , IFABS_YES)  #多轴插补 距离/1000
 
     def xHome(self):
         dll.pySMCHomeMove(X_IAXIS)              #X轴回零运动
@@ -199,15 +205,19 @@ class Ui_MicroValve(object):
 
     def out1(self):
         dll.pySMCWriteOutBit(1,0)
+        print(dll.pySMCVectMoveStart())  #110014 时候已经运行结束， 0 时候正在运行
 
     def out2(self):
         dll.pySMCWriteOutBit(2,0)
+        print(dll.pySMCVectMovePause())
 
     def out3(self):
         dll.pySMCWriteOutBit(3,0)
+        print(dll.pySMCVectMoveStop())
 
     def out4(self):
         dll.pySMCWriteOutBit(4,0)
+        dll.pySMCVectMoveEnd()
 
     def micro(self):
         #self.textBrowser.setText('stop'+"\n")
@@ -226,21 +236,41 @@ class Ui_MicroValve(object):
         test1=float('%.3f' % (dll.pySMCGetWorkPosition(X_IAXIS)/10000))
         test2=dll.pySMCGetWorkPosition(X_IAXIS)%10000
 
-    def handleDisplay(self, data):
-        self.label.setText('x:'+str(data))   #槽函数
+
+    def handleDisplay1(self, data):  #接收信号
+        # self.label.setText('X:'+str(data))   #槽函数
+        self.label.setText('X:'+str(data))   #槽函数
+
+    def handleDisplay2(self, data2):  #接收信号
+        # self.label.setText('X:'+str(data))   #槽函数
+        self.label_Y.setText('Y:'+str(data2))   #槽函数
+
+    def handleDisplay3(self, data3):  #接收信号
+        # self.label.setText('X:'+str(data))   #槽函数
+        self.label_Z.setText(str(data3))   #槽函数
+
 
 
 class Backend(QThread):     #新建一个线程类
-    update_date = pyqtSignal(QString) #pyqt信号
+    update_date1 = pyqtSignal(QString) #创建pyqt信号， update_date 信号
+    update_date2 = pyqtSignal(QString) #创建pyqt信号， update_date2 信号
+    update_date3 = pyqtSignal(QString) #创建pyqt信号， update_date2 信号
     def run(self):      #重载Qthread run
         while True:
             # data =dll.pySMCGetWorkPosition(X_IAXIS)/10000
             # data1 =dll.pySMCGetWorkPosition(X_IAXIS)%10000
-            data = float(dll.pySMCGetWorkPosition(X_IAXIS))
-            data = str("%.3f"% (data/10000))
+
+            data1 = float(dll.pySMCGetWorkPosition(X_IAXIS))
+            data1 = str("%.3f"% (data1/10000))
+            data2 = float(dll.pySMCGetWorkPosition(Y_IAXIS))
+            data2 = str("%.3f"% (data2/10000))
+            # data3 = str(dll.pySMCVectMoveEnd())     #检测轴移动状态
+            data3 = str(dll.pySMCGetVectMoveState())     #检测轴移动状态
             # print(data)
             # data = QDateTime.currentDateTime()
-            self.update_date.emit(QString(data))   #发送信号
+            self.update_date1.emit(QString(data1))   #发送 update_date 信号，附带 data 数据
+            self.update_date2.emit(QString(data2))   #发送 update_date2 信号，附带 data2 数据
+            self.update_date3.emit(QString(data3))   #发送 update_date2 信号，附带 data2 数据
             time.sleep(0.05)
 
 if __name__ == "__main__":
@@ -278,7 +308,10 @@ if __name__ == "__main__":
 
     demoThread = Backend()
     demoThread.start();     #.start 执行了一个run
-    demoThread.update_date.connect(ui.handleDisplay)    #信号与槽连接
+    demoThread.update_date1.connect(ui.handleDisplay1)    #信号与槽连接 update_date---ui.handleDisplay
+    demoThread.update_date2.connect(ui.handleDisplay2)    #信号与槽连接 update_date---ui.handleDisplay2
+    demoThread.update_date3.connect(ui.handleDisplay3)    #信号与槽连接 update_date---ui.handleDisplay2
+
 
     MicroValve.show()
     sys.exit(app.exec_())
