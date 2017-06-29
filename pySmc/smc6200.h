@@ -909,8 +909,13 @@ SMC6200API  int32 __stdcall SMCVMove(SMCHANDLE handle, uint8 iaxis, uint8 bIfPos
 SMC6200API  int32 __stdcall SMCPMoveList(SMCHANDLE handle,uint8 itotalaxises, uint8 *puilineaxislist, uint32 uisteps, double *pDistanceList, uint8 bIfAbs);
 
 
-
-
+/*************************************************************
+说明：
+输入：卡链接handle 轴号， 方向
+输出：
+返回值：错误码
+*************************************************************/
+SMC6200API  int32 __stdcall SMCCheckDown(SMCHANDLE handle, uint8 iaxis, uint8* pbIfDown);
 
 /*************************************************************
 说明：回零，回零模式通过参数指定

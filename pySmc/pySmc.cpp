@@ -185,8 +185,9 @@ int32 __stdcall pySMCHomeMove(uint8 iaxis)
 输出：
 返回值：错误码
 *************************************************************/
-int32 __stdcall pySMCPMove( uint8 iaxis, double dlength, uint8 bIfAbs)
+int32 __stdcall pySMCPMove( uint8 iaxis, int32 dlengthIn, uint8 bIfAbs)
 {
+	double dlength = double(dlengthIn / 1000);
 	return(SMCPMove(g_handle, iaxis, dlength, bIfAbs));
 }
 
@@ -263,9 +264,12 @@ int32 __stdcall pySMCGetVectMoveState()
 输出：
 返回值：错误码
 *************************************************************/
-int32 __stdcall pySMCGetVectMoveRemainSpace( uint32 pSpace)
+int32 __stdcall pySMCGetVectMoveRemainSpace()
 {
-	return(SMCGetVectMoveRemainSpace(g_handle, &pSpace));
+	uint32 pSpace[1];
+	SMCGetVectMoveRemainSpace(g_handle, pSpace);
+	uint32 pSpaceOut = pSpace[0];
+	return pSpaceOut;
 }
 
 
@@ -374,4 +378,55 @@ int32 __stdcall pySMCGetWorkPosition(uint8 iaxis)
 输出：
 返回值：错误码
 *************************************************************/
-SMC6200API  int32 __stdcall SMCCheckDown(SMCHANDLE handle, uint8 iaxis, uint8* pbIfDown);
+int32 __stdcall pySMCCheckDown( uint8 iaxis)
+{
+	uint8 pbIfDown[1];
+	uint8 iaxisDown = pbIfDown[0];
+	SMCCheckDown(g_handle, iaxis, pbIfDown);
+	return iaxisDown;
+}
+
+/*************************************************************
+说明： //读取当前插补  //python 与 c++之间只完成int型传递，扩大1000倍去掉小数
+输入：卡链接handle
+输出：
+返回值：错误码
+*************************************************************/
+int32 __stdcall pySMCWaitVectLength( double vectlengthIn)
+{
+	double vectlength = double(vectlengthIn / 1000);	//python 与 c++之间只完成int型传递，扩大1000倍去掉小数
+	SMCWaitVectLength(g_handle, vectlength);
+	int32 vectlengthOut = int(vectlength);
+	return  vectlength;
+} 
+
+/*************************************************************
+说明：	//读取当前插补 已运行长度
+输入：卡链接handle
+输出：
+返回值：错误码
+*************************************************************/
+int32 __stdcall pySMCGetCurRunVectLength()
+{
+	double pvectlengthIn[1];
+	SMCGetCurRunVectLength(g_handle, pvectlengthIn);
+	int32 pvectlength = int(pvectlengthIn[0]*1000);	//python 与 c++之间只完成int型传递，扩大1000倍去掉小数 返回：double pvectlength
+	return pvectlength;
+}
+
+
+/*************************************************************
+参数文件相关函数
+/*************************************************************
+
+
+/*************************************************************
+说明：参数函数  //修改单轴速度设置
+输入：卡链接handle
+输出：
+返回值：错误码
+*************************************************************/
+int32 __stdcall pySMCSetLocateStartSpeed( uint8 iaxis, uint32 uiSpeed)
+{
+	SMCSetLocateStartSpeed(g_handle, iaxis, uiSpeed);
+}

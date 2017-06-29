@@ -7,7 +7,14 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
+from PyQt4.QtGui import *
 
+from PyQt4.Qt import *
+
+from PyQt4.QtCore import *
+import time
+
+#UI相关
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -25,7 +32,7 @@ except AttributeError:
 class Ui_MicroValve(object):
     def setupUi(self, MicroValve):
         MicroValve.setObjectName(_fromUtf8("MicroValve"))
-        MicroValve.resize(551, 456)
+        MicroValve.resize(645, 505)
         self.pushButton_connect = QtGui.QPushButton(MicroValve)
         self.pushButton_connect.setGeometry(QtCore.QRect(220, 350, 81, 71))
         self.pushButton_connect.setObjectName(_fromUtf8("pushButton_connect"))
@@ -84,24 +91,75 @@ class Ui_MicroValve(object):
         font.setPointSize(9)
         self.pushButton_zPul2.setFont(font)
         self.pushButton_zPul2.setObjectName(_fromUtf8("pushButton_zPul2"))
-        self.label = QtGui.QLabel(MicroValve)
-        self.label.setGeometry(QtCore.QRect(420, 282, 81, 20))
-        self.label.setObjectName(_fromUtf8("label"))
+        self.label_X = QtGui.QLabel(MicroValve)
+        self.label_X.setGeometry(QtCore.QRect(420, 282, 81, 20))
+        self.label_X.setObjectName(_fromUtf8("label_X"))
         self.textBrowser = QtGui.QTextBrowser(MicroValve)
         self.textBrowser.setGeometry(QtCore.QRect(410, 30, 121, 231))
         self.textBrowser.setObjectName(_fromUtf8("textBrowser"))
         self.label_Y = QtGui.QLabel(MicroValve)
-        self.label_Y.setGeometry(QtCore.QRect(420, 310, 81, 20))
+        self.label_Y.setGeometry(QtCore.QRect(420, 300, 81, 20))
         self.label_Y.setObjectName(_fromUtf8("label_Y"))
         self.label_Z = QtGui.QLabel(MicroValve)
-        self.label_Z.setGeometry(QtCore.QRect(420, 340, 81, 20))
+        self.label_Z.setGeometry(QtCore.QRect(420, 320, 81, 20))
         self.label_Z.setObjectName(_fromUtf8("label_Z"))
-        self.lineEdit = QtGui.QLineEdit(MicroValve)
-        self.lineEdit.setGeometry(QtCore.QRect(410, 380, 113, 20))
-        self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
+        self.lineEdit_1 = QtGui.QLineEdit(MicroValve)
+        self.lineEdit_1.setGeometry(QtCore.QRect(420, 340, 113, 20))
+        self.lineEdit_1.setObjectName(_fromUtf8("lineEdit_1"))
+        self.label_1 = QtGui.QLabel(MicroValve)
+        self.label_1.setGeometry(QtCore.QRect(420, 380, 81, 20))
+        self.label_1.setObjectName(_fromUtf8("label_1"))
+        self.label_2 = QtGui.QLabel(MicroValve)
+        self.label_2.setGeometry(QtCore.QRect(420, 360, 81, 20))
+        self.label_2.setObjectName(_fromUtf8("label_2"))
+        self.label_3 = QtGui.QLabel(MicroValve)
+        self.label_3.setGeometry(QtCore.QRect(420, 400, 81, 20))
+        self.label_3.setObjectName(_fromUtf8("label_3"))
+        self.label_4 = QtGui.QLabel(MicroValve)
+        self.label_4.setGeometry(QtCore.QRect(420, 420, 81, 20))
+        self.label_4.setObjectName(_fromUtf8("label_4"))
+        self.pushButton_test4 = QtGui.QPushButton(MicroValve)
+        self.pushButton_test4.setGeometry(QtCore.QRect(310, 430, 81, 71))
+        self.pushButton_test4.setObjectName(_fromUtf8("pushButton_test4"))
+        self.pushButton_test1 = QtGui.QPushButton(MicroValve)
+        self.pushButton_test1.setGeometry(QtCore.QRect(40, 430, 81, 71))
+        self.pushButton_test1.setObjectName(_fromUtf8("pushButton_test1"))
+        self.pushButton_test2 = QtGui.QPushButton(MicroValve)
+        self.pushButton_test2.setGeometry(QtCore.QRect(130, 430, 81, 71))
+        self.pushButton_test2.setObjectName(_fromUtf8("pushButton_test2"))
+        self.pushButton_test3 = QtGui.QPushButton(MicroValve)
+        self.pushButton_test3.setGeometry(QtCore.QRect(220, 430, 81, 71))
+        self.pushButton_test3.setObjectName(_fromUtf8("pushButton_test3"))
+        self.lineEdit_2 = QtGui.QLineEdit(MicroValve)
+        self.lineEdit_2.setGeometry(QtCore.QRect(420, 440, 113, 20))
+        self.lineEdit_2.setObjectName(_fromUtf8("lineEdit_2"))
+        self.lineEdit_3 = QtGui.QLineEdit(MicroValve)
+        self.lineEdit_3.setGeometry(QtCore.QRect(420, 470, 113, 20))
+        self.lineEdit_3.setObjectName(_fromUtf8("lineEdit_3"))
+        self.pushButton_vext_x2 = QtGui.QPushButton(MicroValve)
+        self.pushButton_vext_x2.setGeometry(QtCore.QRect(540, 190, 81, 71))
+        font = QtGui.QFont()
+        font.setFamily(_fromUtf8("SimSun-ExtB"))
+        font.setPointSize(9)
+        self.pushButton_vext_x2.setFont(font)
+        self.pushButton_vext_x2.setObjectName(_fromUtf8("pushButton_vext_x2"))
+        self.pushButton_vext_x1 = QtGui.QPushButton(MicroValve)
+        self.pushButton_vext_x1.setGeometry(QtCore.QRect(540, 110, 81, 71))
+        self.pushButton_vext_x1.setObjectName(_fromUtf8("pushButton_vext_x1"))
+        self.pushButton_vext_y2 = QtGui.QPushButton(MicroValve)
+        self.pushButton_vext_y2.setGeometry(QtCore.QRect(540, 350, 81, 71))
+        font = QtGui.QFont()
+        font.setFamily(_fromUtf8("SimSun-ExtB"))
+        font.setPointSize(9)
+        self.pushButton_vext_y2.setFont(font)
+        self.pushButton_vext_y2.setObjectName(_fromUtf8("pushButton_vext_y2"))
+        self.pushButton_vext_y1 = QtGui.QPushButton(MicroValve)
+        self.pushButton_vext_y1.setGeometry(QtCore.QRect(540, 270, 81, 71))
+        self.pushButton_vext_y1.setObjectName(_fromUtf8("pushButton_vext_y1"))
 
         self.retranslateUi(MicroValve)
-        QtCore.QObject.connect(MicroValve, QtCore.SIGNAL(_fromUtf8("accepted()")), self.label.clear)
+        self.displayUi(MicroValve)
+        QtCore.QObject.connect(MicroValve, QtCore.SIGNAL(_fromUtf8("accepted()")), self.label_X.clear)
         QtCore.QMetaObject.connectSlotsByName(MicroValve)
 
     def retranslateUi(self, MicroValve):
@@ -123,17 +181,270 @@ class Ui_MicroValve(object):
         self.pushButton_out3.setText(_translate("MicroValve", "OUT3", None))
         self.pushButton_zHome.setText(_translate("MicroValve", "Z home", None))
         self.pushButton_zPul2.setText(_translate("MicroValve", "Z-", None))
-        self.label.setText(_translate("MicroValve", "Textlabel_X", None))
+        self.label_X.setText(_translate("MicroValve", "Textlabel_X", None))
         self.label_Y.setText(_translate("MicroValve", "Textlabel_Y", None))
         self.label_Z.setText(_translate("MicroValve", "Textlabel_Z", None))
+        self.label_1.setText(_translate("MicroValve", "Textlabel_Z", None))
+        self.label_2.setText(_translate("MicroValve", "Textlabel_Z", None))
+        self.label_3.setText(_translate("MicroValve", "Textlabel_Z", None))
+        self.label_4.setText(_translate("MicroValve", "Textlabel_Z", None))
+        self.pushButton_test4.setText(_translate("MicroValve", "TEST4", None))
+        self.pushButton_test1.setText(_translate("MicroValve", "TEST1", None))
+        self.pushButton_test2.setText(_translate("MicroValve", "TEST2", None))
+        self.pushButton_test3.setText(_translate("MicroValve", "TEST3", None))
+        self.pushButton_vext_x2.setText(_translate("MicroValve", "VECT_X-", None))
+        self.pushButton_vext_x1.setText(_translate("MicroValve", "VECT_X+", None))
+        self.pushButton_vext_y2.setText(_translate("MicroValve", "VECT_Y-", None))
+        self.pushButton_vext_y1.setText(_translate("MicroValve", "VECT_Y+", None))
+
+        QtCore.QObject.connect(self.pushButton_connect, QtCore.SIGNAL("clicked()"), self.connect),
+        QtCore.QObject.connect(self.pushButton_xPul1, QtCore.SIGNAL("clicked()"), self.xPul1),
+        QtCore.QObject.connect(self.pushButton_xPul2, QtCore.SIGNAL("clicked()"), self.xPul2),
+        QtCore.QObject.connect(self.pushButton_yPul1, QtCore.SIGNAL("clicked()"), self.yPul1),
+        QtCore.QObject.connect(self.pushButton_yPul2, QtCore.SIGNAL("clicked()"), self.yPul2),
+        QtCore.QObject.connect(self.pushButton_zPul1, QtCore.SIGNAL("clicked()"), self.zPul1),
+        QtCore.QObject.connect(self.pushButton_zPul2, QtCore.SIGNAL("clicked()"), self.zPul2),
+        QtCore.QObject.connect(self.pushButton_xHome, QtCore.SIGNAL("clicked()"), self.xHome),
+        QtCore.QObject.connect(self.pushButton_yHome, QtCore.SIGNAL("clicked()"), self.yHome),
+        QtCore.QObject.connect(self.pushButton_zHome, QtCore.SIGNAL("clicked()"), self.zHome),
+        QtCore.QObject.connect(self.pushButton_out1, QtCore.SIGNAL("clicked()"), self.out1),
+        QtCore.QObject.connect(self.pushButton_out2, QtCore.SIGNAL("clicked()"), self.out2),
+        QtCore.QObject.connect(self.pushButton_out3, QtCore.SIGNAL("clicked()"), self.out3),
+        QtCore.QObject.connect(self.pushButton_out4, QtCore.SIGNAL("clicked()"), self.out4),
+        QtCore.QObject.connect(self.pushButton_stop, QtCore.SIGNAL("clicked()"), self.stop),
+        QtCore.QObject.connect(self.pushButton_16, QtCore.SIGNAL("clicked()"), self.delete),
+        QtCore.QObject.connect(self.pushButton_microValve, QtCore.SIGNAL("clicked()"), self.micro),
+        QtCore.QObject.connect(self.pushButton_vext_x1, QtCore.SIGNAL("clicked()"), self.vextX1),
+        QtCore.QObject.connect(self.pushButton_vext_x2, QtCore.SIGNAL("clicked()"), self.vextX2),
+        # QtCore.QObject.connect(self.pushButton_vext_y1, QtCore.SIGNAL("clicked()"), self.vextY1),
+        # QtCore.QObject.connect(self.pushButton_vext_y2, QtCore.SIGNAL("clicked()"), self.vextY2),
+        QtCore.QObject.connect(self.pushButton_test1, QtCore.SIGNAL("clicked()"), self.test1),
+        QtCore.QObject.connect(self.pushButton_test2, QtCore.SIGNAL("clicked()"), self.test2),
+        QtCore.QObject.connect(self.pushButton_test3, QtCore.SIGNAL("clicked()"), self.test3),
+        QtCore.QObject.connect(self.pushButton_test4, QtCore.SIGNAL("clicked()"), self.test4),
+
+
+
+    def connect(self):
+        print(dll.pySMCOpenEth(192,168,1,11))
+        self.label_X.setText('connect')
+
+    def stop(self):
+        self.label_X.setText('stop')
+        dll.pySMCVectMoveStop()
+        dll.pySMCClose()
+
+
+    def delete(self):
+        dll.pySMCWriteOutBit(1,1)
+        dll.pySMCWriteOutBit(2,1)
+        dll.pySMCWriteOutBit(3,1)
+        dll.pySMCWriteOutBit(4,1)
+        dll.pySMCWriteOutBit(5,1)
+        dll.pySMCWriteOutBit(6,1)
+        dll.pySMCWriteOutBit(7,1)
+        dll.pySMCWriteOutBit(8,1)
+
+    def xPul1(self):
+        print(dll.pySMCPMove(X_IAXIS,200000,IFABS_NO))
+
+    def xPul2(self):
+        dll.pySMCPMove(X_IAXIS,-200000,IFABS_NO)
+
+    def yPul1(self):
+        dll.pySMCPMovePluses(Y_IAXIS,10000,IFABS_NO)
+
+    def yPul2(self):
+        dll.pySMCPMovePluses(Y_IAXIS,-10000,IFABS_NO)
+
+    def zPul1(self):
+        dll.pySMCPMovePluses(Z_IAXIS,10000,IFABS_NO)
+
+    def zPul2(self):
+        dll.pySMCPMovePluses(Z_IAXIS,-10000,IFABS_NO)
+
+    def vextX1(self):
+        dll.pySMCVectMoveStart()
+        dll.pySMCVectMoveLineN(3 , 1000000 , 100000 , 50000 , 0 , 300 , IFABS_YES)  #多轴插补 距离/1000
+        # dll.pySMCVectMoveLineN(3 , 1000000 , 10000 , 50000 , 0 , 300 , IFABS_YES)  #多轴插补 距离/1000
+        dll.pySMCVectMoveLineN(3 , 2000000 , 20000 , 50000 , 0 , 300 , IFABS_YES)  #多轴插补 距离/1000
+
+    def vextX2(self):
+        dll.pySMCVectMoveStart()
+        # dll.pySMCVectMoveLineN(3 , 1000000 , 10000 , 50000 , 0 , 300 , IFABS_YES)  #多轴插补 距离/1000
+        # dll.pySMCVectMoveLineN(3 , 0 , 0 , 500000 , 0 , 300 , IFABS_YES)  #多轴插补 距离/1000
+        dll.pySMCVectMoveLineN(3 ,0 , 10000 , 50000 , 0 , 300 , IFABS_YES)  #多轴插补 距离/1000
+
+
+    def xHome(self):
+        dll.pySMCHomeMove(X_IAXIS)              #X轴回零运动
+
+    def yHome(self):
+        dll.pySMCHomeMove(Y_IAXIS)              #Y轴回零运动
+
+    def zHome(self):
+        dll.pySMCHomeMove(Z_IAXIS)              #Z轴回零运动
+
+    def out1(self):
+        dll.pySMCWriteOutBit(1,0)
+        print(dll.pySMCVectMoveStart())  #110014 时候已经运行结束， 0 时候正在运行
+
+    def out2(self):
+        dll.pySMCWriteOutBit(2,0)
+        print(dll.pySMCVectMovePause())
+
+    def out3(self):
+        dll.pySMCWriteOutBit(3,0)
+        print(dll.pySMCVectMoveStop())
+
+    def out4(self):
+        dll.pySMCWriteOutBit(4,0)
+        dll.pySMCVectMoveEnd()
+
+
+    def test1(self):
+        print('test1')
+        print('X:'+str(dll.pySMCCheckDown(X_IAXIS)) + ' Y:'+str(dll.pySMCCheckDown(Y_IAXIS)) + ' Z:'+str(dll.pySMCCheckDown(Z_IAXIS)))      #检测轴移动状态
+
+    def test2(self):
+        print('test2')
+        print(dll.pySMCGetCurRunVectLength())
+
+    def test3(self):
+        print('test3')
+        print(dll.pySMCWaitVectLength())
+
+    def test4(self):
+        print('test4')
+        print(dll.pySMCPause())
+
+    def micro(self):
+        #self.textBrowser.setText('stop'+"\n")
+        #self.textBrowser.append("123")
+        file_object = open("micro.txt")
+        lines = file_object.readlines() #读全部文件
+        line = file_object.readline()   #读一行，带有‘\n’
+        for line in lines:
+            line = line.strip('\n')  #去除 “\n”
+            self.textBrowser.append(line)
+            print(line)
+    #    self.textBrowser.toPlainText('stop'+"\n")
+
+
+    def displayUi(self, MicroValve):
+        test1=float('%.3f' % (dll.pySMCGetWorkPosition(X_IAXIS)/10000))
+        test2=dll.pySMCGetWorkPosition(X_IAXIS)%10000
+
+
+    def handleDisplay1(self, data1):  #接收信号
+        # self.label.setText('X:'+str(data))   #槽函数
+        self.label_X.setText('X:'+str(data1))   #槽函数
+
+    def handleDisplay2(self, data2):  #接收信号
+        # self.label.setText('X:'+str(data))   #槽函数
+        self.label_Y.setText('Y:'+str(data2))   #槽函数
+
+    def handleDisplay3(self, data3):  #接收信号
+        # self.label.setText('X:'+str(data))   #槽函数
+        self.label_Z.setText('Z:'+str(data3))   #槽函数
+
+    def handleDisplay4(self, data_t1):  #接收信号
+        # self.label.setText('X:'+str(data))   #槽函数
+        self.label_1.setText(str(data_t1))   #槽函数
+
+    def handleDisplay5(self, data_t2):  #接收信号
+        # self.label.setText('X:'+str(data))   #槽函数
+        self.label_2.setText(str(data_t2))   #槽函数
+
+    def handleDisplay6(self, data_t3):  #接收信号
+        # self.label.setText('X:'+str(data))   #槽函数
+        self.label_3.setText(str(data_t3))   #槽函数
+
+    def handleDisplay7(self, data_t4):  #接收信号
+        # self.label.setText('X:'+str(data))   #槽函数
+        self.label_4.setText(str(data_t4))   #槽函数
+
+class Backend(QThread):     #新建一个线程类
+    update_date1 = pyqtSignal(QString) #创建pyqt信号， update_date 信号
+    update_date2 = pyqtSignal(QString) #创建pyqt信号， update_date2 信号
+    update_date3 = pyqtSignal(QString) #创建pyqt信号， update_date2 信号
+    update_data_t1 = pyqtSignal(QString)
+    update_data_t2 = pyqtSignal(QString)
+    update_data_t3 = pyqtSignal(QString)
+    update_data_t4 = pyqtSignal(QString)
+    def run(self):      #重载Qthread run
+        while True:
+            # data =dll.pySMCGetWorkPosition(X_IAXIS)/10000
+            # data1 =dll.pySMCGetWorkPosition(X_IAXIS)%10000
+
+            data1 = float(dll.pySMCGetWorkPosition(X_IAXIS))
+            data1 = str("%.3f"% (data1/10000))
+            data2 = float(dll.pySMCGetWorkPosition(Y_IAXIS))
+            data2 = str("%.3f"% (data2/10000))
+            data3 = float(dll.pySMCGetWorkPosition(Z_IAXIS))
+            data3 = str("%.3f"% (data3/10000))
+            # data3 = str(dll.pySMCVectMoveEnd())     #检测轴移动状态
+
+            data_t1 = str(dll.pySMCVectMoveEnd())     #检测插补运行状态
+            data_t2 = str(dll.pySMCGetVectMoveState())     #检测插补状态
+            data_t3 = str(dll.pySMCWaitVectLength(1000000))     #检测轴移动状态
+            # data_t3 = str(data_t3)
+            data_t4 = float(dll.pySMCGetCurRunVectLength())
+            data_t4 = str("%.3f"% (data_t4/1000))     #检测轴移动状态
+            # print(data)
+            # data = QDateTime.currentDateTime()
+            self.update_date1.emit(QString(data1))   #发送 update_date 信号，附带 data 数据
+            self.update_date2.emit(QString(data2))   #发送 update_date2 信号，附带 data2 数据
+            self.update_date3.emit(QString(data3))   #发送 update_date3 信号，附带 data3 数据
+            self.update_data_t1.emit(QString(data_t1))
+            self.update_data_t2.emit(QString(data_t2))
+            self.update_data_t3.emit(QString(data_t3))
+            self.update_data_t4.emit(QString(data_t4))
+            time.sleep(0.05)
 
 
 if __name__ == "__main__":
     import sys
+    reload(sys)
+    sys.setdefaultencoding( "utf-8" )
+    import ctypes
+    import threading
+
+    SMC_OUT_VALIDVALUE     =   0    #//有效电平，通用IO为低电平, 当切换初始电平后，输出电平会相反
+    SMC_OUT_INVALIDVALUE   =  1    #//高电平
+    OUT_1   =	1		#OUT输出口1
+    OUT_2   =	2		#OUT输出口2
+    OUT_3   =	3		#/OUT输出口3
+    OUT_4   =	4		#//OUT输出口4
+    OUT_5   =	5		#//OUT输出口5
+    OUT_6   =	6		#//OUT输出口6
+    OUT_7   =	7		#//OUT输出口7
+    OUT_8   =	8		#//OUT输出口8
+    X_IAXIS	=   0		#//X轴
+    Y_IAXIS	=	1		#//Y轴
+    Z_IAXIS =   2		#//Z轴
+    IFABS_YES  =  1		#//绝对坐标系
+    IFABS_NO   =   0		#//不是绝对坐标系
+
+    from time import ctime,sleep
+
+
+    dll = ctypes.windll.LoadLibrary("pySmc.dll")
     app = QtGui.QApplication(sys.argv)
     MicroValve = QtGui.QDialog()
     ui = Ui_MicroValve()
     ui.setupUi(MicroValve)
+
+
+    demoThread = Backend()
+    demoThread.start();     #.start 执行了一个run
+    demoThread.update_date1.connect(ui.handleDisplay1)    #信号与槽连接 update_date---ui.handleDisplay
+    demoThread.update_date2.connect(ui.handleDisplay2)    #信号与槽连接 update_date---ui.handleDisplay2
+    demoThread.update_date3.connect(ui.handleDisplay3)    #信号与槽连接 update_date---ui.handleDisplay2
+    demoThread.update_data_t1.connect(ui.handleDisplay4)
+    demoThread.update_data_t2.connect(ui.handleDisplay5)
+    demoThread.update_data_t3.connect(ui.handleDisplay6)
+    demoThread.update_data_t4.connect(ui.handleDisplay7)
+
     MicroValve.show()
     sys.exit(app.exec_())
-

@@ -27,3 +27,6 @@ EXPORTS
  pySMCHomeMove @ 24
  pySMCGetPosition @ 25
  pySMCGetWorkPosition @ 26
+ pySMCCheckDown @ 27
+ pySMCWaitVectLength @ 28
+ pySMCGetCurRunVectLength @ 29

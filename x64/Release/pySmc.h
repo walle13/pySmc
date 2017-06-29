@@ -17,7 +17,7 @@ extern "C++" _declspec(dllexport) int32 __stdcall pySMCStop();	// 停止
 
 extern "C++" _declspec(dllexport) int32 __stdcall pySMCContinueRun();	//暂停后继续
 
-extern "C++" _declspec(dllexport) int32 __stdcall pySMCPMove(uint8 iaxis, double dlength, uint8 bIfAbs);	//说明：定速移动 
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCPMove(uint8 iaxis, int32 dlengthIn, uint8 bIfAbs);	//说明：定速移动 
 
 extern "C++" _declspec(dllexport) int32 __stdcall pySMCPMovePluses(uint8 iaxis, int32 ilength, uint8 bIfAbs);	//说明：定长移动,单位脉冲
 
@@ -29,7 +29,7 @@ extern "C++" _declspec(dllexport) int32 __stdcall pySMCVectMoveEnd();	//插补运动
 
 extern "C++" _declspec(dllexport) int32 __stdcall pySMCGetVectMoveState();//说明：读取插补状态
 
-extern "C++" _declspec(dllexport) int32 __stdcall pySMCGetVectMoveRemainSpace(uint32 pSpace);	//说明：插补运动可以填入的线段数
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCGetVectMoveRemainSpace();	//说明：插补运动可以填入的线段数
 
 extern "C++" _declspec(dllexport) int32 __stdcall pySMCVectMoveLine1(uint8 iaxis, int32 Distance, int32 dspeed, uint8 bIfAbs);	//说明：插补，会修改速度设置	1轴插补
 
@@ -46,3 +46,9 @@ extern "C++" _declspec(dllexport) int32 __stdcall pySMCHomeMove(uint8 iaxis); //
 extern "C++" _declspec(dllexport) int32 __stdcall pySMCGetPosition(uint8 iaxis); //读取当前机械坐标
 
 extern "C++" _declspec(dllexport) int32 __stdcall pySMCGetWorkPosition(uint8 iaxis); //读取当前的工件坐标
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCCheckDown(uint8 iaxis);	//检查轴停止
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCWaitVectLength(double vectlengthIn);	//读取当前插补 未完成长度 //python 与 c++之间只完成int型传递，扩大1000倍去掉小数
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCGetCurRunVectLength();	//读取当前插补 已运行长度  返回：double pvectlength
