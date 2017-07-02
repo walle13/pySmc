@@ -52,3 +52,72 @@ extern "C++" _declspec(dllexport) int32 __stdcall pySMCCheckDown(uint8 iaxis);	/
 extern "C++" _declspec(dllexport) int32 __stdcall pySMCWaitVectLength(double vectlengthIn);	//读取当前插补 未完成长度 //python 与 c++之间只完成int型传递，扩大1000倍去掉小数
 
 extern "C++" _declspec(dllexport) int32 __stdcall pySMCGetCurRunVectLength();	//读取当前插补 已运行长度  返回：double pvectlength
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCIfHomeMoveing(uint8 iaxis);	//检查是否回零中。
+
+//********************************************************************//
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCBurnSetting();	//当前设置存盘（设置烧录到 FLASH）。
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCSetZeroSpeed(uint8 iaxis, uint32 uiSpeed); //修改回零速度设置。
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCGetZeroSpeed(uint8 iaxis);	//读取回零速度设置。
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCSetLocateSpeed(uint8 iaxis, uint32 uiSpeed);	//修改单轴速度设置。
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCGetLocateSpeed(uint8 iaxis);	//读取单轴速度设置。
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCSetLocateStartSpeed(uint8 iaxis, uint32 uiSpeed);	//修改单轴起始速度设置。
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCGetLocateStartSpeed(uint8 iaxis);	//读取单轴起始速度设置
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCSetLocateAcceleration(uint8 iaxis, uint32 uiValue);	//修改单轴加速度设置。
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCGetLocateAcceleration(uint8 iaxis);	//读取单轴加速度设置。
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCSetLocateDeceleration(uint8 iaxis, uint32 uiValue);	//修改单轴减速度设置。
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCGetLocateDeceleration(uint8 iaxis);	//修改单轴减速度设置。
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCSetUnitPulses(uint8 iaxis, uint32 uiValue);	//修改脉冲当量设置（即用户单位对应脉冲数）。
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCGetUnitPulses(uint8 iaxis);	//读取脉冲当量设置（即用户单位对应脉冲数）。
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCSetVectStartSpeed(uint32 uiValue);		//修改插补起始速度设置。
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCGetVectStartSpeed();	//读取插补起始速度设置。
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCSetVectSpeed(uint32 uiValue);	//修改插补最高速度设置。
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCGetVectSpeed();	//读取插补最高速度设置。
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCSetVectAcceleration(uint32 uiValue);	//修改插补加速度设置
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCGetVectAcceleration();	//读取插补加速度设置。
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCSetVectDeceleration(uint32 uiValue);	//修改插补减速度设置。
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCGetVectDeceleration();	//读取插补减速度设置,返回 uint32 puiValueOut。
+
+
+/*
+pySMCBurnSetting
+pySMCSetZeroSpeed
+pySMCGetZeroSpeed
+pySMCSetLocateSpeed
+pySMCGetLocateSpeed
+pySMCSetLocateStartSpeed
+pySMCGetLocateStartSpeed
+pySMCSetLocateAcceleration
+pySMCGetLocateAcceleration
+pySMCSetLocateDeceleration
+pySMCGetLocateDeceleration
+pySMCSetUnitPulses
+pySMCGetUnitPulses
+pySMCSetVectStartSpeed
+pySMCGetVectStartSpeed
+pySMCSetVectSpeed
+pySMCGetVectSpeed
+pySMCSetVectAcceleration
+pySMCGetVectAcceleration
+pySMCSetVectDeceleration
+pySMCGetVectDeceleration*/

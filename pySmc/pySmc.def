@@ -30,3 +30,26 @@ EXPORTS
  pySMCCheckDown @ 27
  pySMCWaitVectLength @ 28
  pySMCGetCurRunVectLength @ 29
+ pySMCIfHomeMoveing @ 30
+
+ pySMCBurnSetting @ 100
+ pySMCSetZeroSpeed @ 101
+ pySMCGetZeroSpeed @ 102
+ pySMCSetLocateSpeed @ 103
+ pySMCGetLocateSpeed @ 104
+ pySMCSetLocateStartSpeed @ 105
+ pySMCGetLocateStartSpeed @ 106
+ pySMCSetLocateAcceleration @ 107
+ pySMCGetLocateAcceleration @ 108
+ pySMCSetLocateDeceleration @ 109
+ pySMCGetLocateDeceleration @ 110
+ pySMCSetUnitPulses @ 111
+ pySMCGetUnitPulses @ 112
+ pySMCSetVectStartSpeed @ 113
+ pySMCGetVectStartSpeed @ 114
+ pySMCSetVectSpeed @ 115
+ pySMCGetVectSpeed @ 116
+ pySMCSetVectAcceleration @ 117
+ pySMCGetVectAcceleration @ 118
+ pySMCSetVectDeceleration @ 119
+ pySMCGetVectDeceleration @ 120

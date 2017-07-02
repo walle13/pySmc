@@ -313,7 +313,8 @@ int32 __stdcall pySMCVectMoveLineN(uint8 itotalaxis, int32 DistanceList1, int32 
 	_tanceList[2] = double(DistanceList3 / 1000);
 	_tanceList[3] = double(DistanceList4 / 1000);
 	uint8 _axis_iaxis[] = { 0, 1, 2, 3 };
-	return(SMCVectMoveLineN(g_handle, itotalaxis, _axis_iaxis, _tanceList, dspeed, bIfAbs));
+	double _dspeed = double(dspeed);
+	return(SMCVectMoveLineN(g_handle, itotalaxis, _axis_iaxis, _tanceList, _dspeed, bIfAbs));
 
 }
 
@@ -414,19 +415,351 @@ int32 __stdcall pySMCGetCurRunVectLength()
 	return pvectlength;
 }
 
-
 /*************************************************************
+说明：检查是否回零中。
+输入：卡链接handle 轴号
+输出：
+返回值：错误码
+*************************************************************/
+int32 __stdcall pySMCIfHomeMoveing( uint8 iaxis)
+{
+	uint8 pbIfHoming[1];
+	SMCIfHomeMoveing(g_handle, iaxis, pbIfHoming);
+	uint8 pbIfHomingOut = pbIfHoming[0];
+	return pbIfHomingOut;
+}
+
+
+/************************************************************************************************************************
 参数文件相关函数
-/*************************************************************
+/************************************************************************************************************************
 
 
 /*************************************************************
-说明：参数函数  //修改单轴速度设置
+说明：上传下载设置时， 通用的字符串接口。
+输入：卡链接handle 发送字符串，接收字符串， 接收字符串长度, 当不想要应答时，把uiResponseLength = 0
+输出：
+handle 链接标识
+pszCommand 命令字符串
+psResponse 返回结果字符串
+uiResponseLength 结果字符串缓冲的最大长度
+返回值：错误码
+***********************************************************
+int32 __stdcall pySMCCommand( const char* pszCommand, char* psResponse, uint32 uiResponseLength)
+{
+	SMCCommand(g_handle, const char* pszCommand, char* psResponse, uiResponseLength);
+}
+**/
+
+/*************************************************************
+说明：当前设置存盘
+输入：卡链接handle
+输出：
+返回值：错误码
+***************************************************************/
+int32 __stdcall pySMCBurnSetting()
+{
+	return(SMCBurnSetting(g_handle));
+}
+
+
+/*************************************************************
+说明：修改 IP 地址设置。
+输入：卡链接handle
+输出：
+handle 链接标识
+sIpAddr IP 地址字符串
+sGateAddr 网关地址字符串
+sMask 掩码字符串
+bifdhcp 是否采用 DHCP
+返回值：错误码
+*************************************************************
+int32 __stdcall pySMCSetIpAddr( const char* sIpAddr, const char* sGateAddr, const char* sMask, uint8 bifdhcp)
+{
+	SMCSetIpAddr(g_handle, const char* sIpAddr, const char* sGateAddr, const char* sMask, bifdhcp);
+}
+**/
+/*************************************************************
+说明：读取 IP 地址设置。
+输入：卡链接handle
+输出：
+handle 链接标识
+sIpAddr 返回 IP 地址字符串
+sGateAddr 返回网关地址字符串
+sMask 返回掩码字符串
+pbifdhcp 返回是否采用 DHCP
+返回值：错误码
+*************************************************************
+int32 __stdcall pySMCGetIpAddr(char* sIpAddr, char* sGateAddr, char* sMask, uint8 *pbifdhcp)
+{
+	SMCGetIpAddr(g_handle, char* sIpAddr, char* sGateAddr, char* sMask, uint8 *pbifdhcp);
+}**/
+
+/*************************************************************
+说明：读取当前控制器的IP地址, 注意:当设置dhcp以后，设置的IP与实际的不一致。
+输入：卡链接handle
+handle 链接标识
+sIpAddr 返回 IP 地址字符串
+输出：
+返回值：错误码
+*************************************************************
+int32 __stdcall pySMCGetCurIpAddr( char* sIpAddr)
+{
+	SMCGetCurIpAddr(g_handle, char* sIpAddr);
+}
+** /
+
+/*************************************************************
+说明：修改回零速度设置。
+输入：卡链接handle
+输出：
+返回值：错误码
+*************************************************************/
+int32 __stdcall pySMCSetZeroSpeed( uint8 iaxis, uint32 uiSpeed)
+{
+	return(SMCSetZeroSpeed(g_handle, iaxis, uiSpeed));
+}
+
+/*************************************************************
+说明：读取回零速度设置。
+输入：卡链接handle
+输出：
+返回值：错误码
+*************************************************************/
+int32 __stdcall pySMCGetZeroSpeed( uint8 iaxis)
+{
+	uint32 puiSpeed[1];
+	SMCGetLocateSpeed(g_handle, iaxis, puiSpeed);
+	uint32 puiSpeedOut = puiSpeed[0];
+	return puiSpeedOut;
+}
+
+/*************************************************************
+说明：修改单轴速度设置。
+输入：卡链接handle
+输出：
+返回值：错误码
+*************************************************************/
+int32 __stdcall pySMCSetLocateSpeed( uint8 iaxis, uint32 uiSpeed)
+{
+	return(SMCSetLocateSpeed(g_handle, iaxis, uiSpeed));
+}
+
+/*************************************************************
+说明：读取单轴速度设置。
+输入：卡链接handle
+输出：
+返回值：错误码
+*************************************************************/
+int32 __stdcall pySMCGetLocateSpeed( uint8 iaxis)
+{
+	uint32 puiSpeed[1];
+	SMCGetLocateSpeed(g_handle, iaxis, puiSpeed);
+	uint32 puiSpeedOut = puiSpeed[0];
+	return puiSpeedOut;
+}
+
+/*************************************************************
+说明：修改单轴起始速度设置。
 输入：卡链接handle
 输出：
 返回值：错误码
 *************************************************************/
 int32 __stdcall pySMCSetLocateStartSpeed( uint8 iaxis, uint32 uiSpeed)
 {
-	SMCSetLocateStartSpeed(g_handle, iaxis, uiSpeed);
+	return(SMCSetLocateStartSpeed(g_handle, iaxis, uiSpeed));
 }
+
+/*************************************************************
+说明：读取单轴起始速度设置
+输入：卡链接handle
+输出：
+返回值：错误码
+*************************************************************/
+int32 __stdcall pySMCGetLocateStartSpeed( uint8 iaxis)
+{
+	uint32 puiSpeed[1];
+	SMCGetLocateStartSpeed(g_handle, iaxis, puiSpeed);
+	uint32 puiSpeedOut = puiSpeed[0];
+	return puiSpeedOut;
+}
+
+
+/*************************************************************
+说明：修改单轴加速度设置。
+输入：卡链接handle
+输出：
+返回值：错误码
+*************************************************************/
+int32 __stdcall pySMCSetLocateAcceleration( uint8 iaxis, uint32 uiValue)
+{
+	return(SMCSetLocateAcceleration(g_handle, iaxis, uiValue));
+}
+
+/*************************************************************
+说明：读取单轴加速度设置。
+输入：卡链接handle
+输出：
+返回值：错误码
+*************************************************************/
+int32 __stdcall pySMCGetLocateAcceleration( uint8 iaxis)
+{
+	uint32 puiValue[1];
+	SMCGetLocateAcceleration(g_handle, iaxis, puiValue);
+	uint32 puiValueOut = puiValue[0];
+	return puiValueOut;
+}
+
+/*************************************************************
+说明：修改单轴减速度设置。
+输入：卡链接handle
+输出：
+返回值：错误码
+*************************************************************/
+int32 __stdcall pySMCSetLocateDeceleration( uint8 iaxis, uint32 uiValue)
+{
+	return(SMCSetLocateDeceleration(g_handle, iaxis, uiValue));
+}
+
+/*************************************************************
+说明：读取单轴减速度设置。
+输入：卡链接handle
+输出：
+返回值：错误码
+*************************************************************/
+int32 __stdcall pySMCGetLocateDeceleration( uint8 iaxis)
+{
+	uint32 puiValue[1];
+	SMCGetLocateDeceleration(g_handle, iaxis, puiValue);
+	uint32 puiValueOut = puiValue[0];
+	return puiValueOut;
+}
+
+/*************************************************************
+说明：修改脉冲当量设置（即用户单位对应脉冲数）。
+输入：卡链接handle
+输出：
+返回值：错误码
+*************************************************************/
+int32 __stdcall pySMCSetUnitPulses( uint8 iaxis, uint32 uiValue)
+{
+	return(SMCSetUnitPulses(g_handle, iaxis, uiValue));
+}
+
+/*************************************************************
+说明：读取脉冲当量设置（即用户单位对应脉冲数）。
+输入：卡链接handle
+输出：
+返回值：错误码
+*************************************************************/
+int32 __stdcall pySMCGetUnitPulses( uint8 iaxis)
+{
+	uint32 puiValue[1];
+	SMCGetUnitPulses(g_handle, iaxis, puiValue);
+	uint32 puiValueOut = puiValue[0];
+	return puiValueOut;
+
+}
+
+
+/*************************************************************
+说明：修改插补起始速度设置。
+输入：卡链接handle
+输出：
+返回值：错误码
+*************************************************************/
+int32 __stdcall pySMCSetVectStartSpeed( uint32 uiValue)
+{
+	return(SMCSetVectStartSpeed(g_handle, uiValue));
+}
+
+/*************************************************************
+说明：读取插补起始速度设置。
+输入：卡链接handle
+输出：
+返回值：错误码
+*************************************************************/
+int32 __stdcall pySMCGetVectStartSpeed()
+{
+	uint32 puiValue[1];
+	SMCGetVectStartSpeed(g_handle, puiValue);
+	uint32 puiValueOut = puiValue[0];
+	return puiValueOut;
+}
+
+/*************************************************************
+说明：修改插补最高速度设置。
+输入：卡链接handle
+输出：
+返回值：错误码
+*************************************************************/
+int32 __stdcall pySMCSetVectSpeed( uint32 uiValue)
+{
+	return(SMCSetVectSpeed(g_handle, uiValue));
+}
+
+/*************************************************************
+说明：读取插补最高速度设置。
+输入：卡链接handle
+输出：
+返回值：错误码
+*************************************************************/
+int32 __stdcall pySMCGetVectSpeed()
+{
+	uint32 puiValue[1];
+	SMCGetVectSpeed(g_handle, puiValue);
+	uint32 puiValueOut = puiValue[0];
+	return puiValueOut;
+}
+
+/*************************************************************
+说明：修改插补加速度设置
+输入：卡链接handle
+输出：
+返回值：错误码
+*************************************************************/
+int32 __stdcall pySMCSetVectAcceleration( uint32 uiValue)
+{
+	return(SMCSetVectAcceleration(g_handle, uiValue));
+}
+
+/*************************************************************
+说明：读取插补加速度设置。
+输入：卡链接handle
+输出：
+返回值：错误码
+*************************************************************/
+int32 __stdcall pySMCGetVectAcceleration()
+{
+	uint32 puiValue[1];
+	SMCGetVectAcceleration(g_handle, puiValue);
+	uint32 puiValueOut = puiValue[0];
+	return puiValueOut;
+}
+
+
+/*************************************************************
+说明：修改插补减速度设置。
+输入：卡链接handle
+输出：
+返回值：错误码
+*************************************************************/
+int32 __stdcall pySMCSetVectDeceleration( uint32 uiValue)
+{
+	return(SMCSetVectDeceleration(g_handle, uiValue));
+}
+
+/*************************************************************
+说明：读取插补减速度设置,返回 uint32 puiValueOut。
+输入：卡链接handle
+输出：
+返回值：错误码
+*************************************************************/
+int32 __stdcall pySMCGetVectDeceleration()
+{
+	uint32 puiValue[1];
+	SMCGetVectDeceleration(g_handle, puiValue);
+	uint32 puiValueOut = puiValue[0];
+	return puiValueOut;
+}
+
