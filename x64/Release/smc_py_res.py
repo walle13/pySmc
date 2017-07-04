@@ -13,6 +13,11 @@ from PyQt4.Qt import *
 
 from PyQt4.QtCore import *
 import time
+import sys , re , os
+import ctypes
+import math
+
+data_all = 11
 
 #UI相关
 try:
@@ -30,9 +35,10 @@ except AttributeError:
         return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_MicroValve(object):
+
     def setupUi(self, MicroValve):
         MicroValve.setObjectName(_fromUtf8("MicroValve"))
-        MicroValve.resize(645, 505)
+        MicroValve.resize(700, 505)
         self.pushButton_connect = QtGui.QPushButton(MicroValve)
         self.pushButton_connect.setGeometry(QtCore.QRect(220, 350, 81, 71))
         self.pushButton_connect.setObjectName(_fromUtf8("pushButton_connect"))
@@ -95,7 +101,7 @@ class Ui_MicroValve(object):
         self.label_X.setGeometry(QtCore.QRect(420, 282, 81, 20))
         self.label_X.setObjectName(_fromUtf8("label_X"))
         self.textBrowser = QtGui.QTextBrowser(MicroValve)
-        self.textBrowser.setGeometry(QtCore.QRect(410, 30, 121, 231))
+        self.textBrowser.setGeometry(QtCore.QRect(410, 30, 180, 231))
         self.textBrowser.setObjectName(_fromUtf8("textBrowser"))
         self.label_Y = QtGui.QLabel(MicroValve)
         self.label_Y.setGeometry(QtCore.QRect(420, 300, 81, 20))
@@ -137,24 +143,24 @@ class Ui_MicroValve(object):
         self.lineEdit_3.setGeometry(QtCore.QRect(420, 470, 113, 20))
         self.lineEdit_3.setObjectName(_fromUtf8("lineEdit_3"))
         self.pushButton_vext_x2 = QtGui.QPushButton(MicroValve)
-        self.pushButton_vext_x2.setGeometry(QtCore.QRect(540, 190, 81, 71))
+        self.pushButton_vext_x2.setGeometry(QtCore.QRect(600, 190, 81, 71))
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("SimSun-ExtB"))
         font.setPointSize(9)
         self.pushButton_vext_x2.setFont(font)
         self.pushButton_vext_x2.setObjectName(_fromUtf8("pushButton_vext_x2"))
         self.pushButton_vext_x1 = QtGui.QPushButton(MicroValve)
-        self.pushButton_vext_x1.setGeometry(QtCore.QRect(540, 110, 81, 71))
+        self.pushButton_vext_x1.setGeometry(QtCore.QRect(600, 110, 81, 71))
         self.pushButton_vext_x1.setObjectName(_fromUtf8("pushButton_vext_x1"))
         self.pushButton_vext_y2 = QtGui.QPushButton(MicroValve)
-        self.pushButton_vext_y2.setGeometry(QtCore.QRect(540, 350, 81, 71))
+        self.pushButton_vext_y2.setGeometry(QtCore.QRect(600, 350, 81, 71))
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("SimSun-ExtB"))
         font.setPointSize(9)
         self.pushButton_vext_y2.setFont(font)
         self.pushButton_vext_y2.setObjectName(_fromUtf8("pushButton_vext_y2"))
         self.pushButton_vext_y1 = QtGui.QPushButton(MicroValve)
-        self.pushButton_vext_y1.setGeometry(QtCore.QRect(540, 270, 81, 71))
+        self.pushButton_vext_y1.setGeometry(QtCore.QRect(600, 270, 81, 71))
         self.pushButton_vext_y1.setObjectName(_fromUtf8("pushButton_vext_y1"))
 
         self.retranslateUi(MicroValve)
@@ -166,7 +172,7 @@ class Ui_MicroValve(object):
         MicroValve.setWindowTitle(_translate("MicroValve", "Dialog", None))
         self.pushButton_connect.setText(_translate("MicroValve", "connect", None))
         self.pushButton_microValve.setText(_translate("MicroValve", "Micro Valve", None))
-        self.pushButton_yHome.setText(_translate("MicroValve", "Y home", None))
+        self.pushButton_yHome.setText(_translate("MicroValve", "File open", None))
         self.pushButton_xPul2.setText(_translate("MicroValve", "X-", None))
         self.pushButton_stop.setText(_translate("MicroValve", "stop", None))
         self.pushButton_16.setText(_translate("MicroValve", ".", None))
@@ -174,12 +180,12 @@ class Ui_MicroValve(object):
         self.pushButton_yPul1.setText(_translate("MicroValve", "Y+", None))
         self.pushButton_zPul1.setText(_translate("MicroValve", "Z+", None))
         self.pushButton_out4.setText(_translate("MicroValve", "OUT4", None))
-        self.pushButton_xHome.setText(_translate("MicroValve", "X home", None))
+        self.pushButton_xHome.setText(_translate("MicroValve", "Home Move", None))
         self.pushButton_yPul2.setText(_translate("MicroValve", "Y-", None))
         self.pushButton_out1.setText(_translate("MicroValve", "OUT1", None))
         self.pushButton_out2.setText(_translate("MicroValve", "OUT2", None))
         self.pushButton_out3.setText(_translate("MicroValve", "OUT3", None))
-        self.pushButton_zHome.setText(_translate("MicroValve", "Z home", None))
+        self.pushButton_zHome.setText(_translate("MicroValve", "Run", None))
         self.pushButton_zPul2.setText(_translate("MicroValve", "Z-", None))
         self.label_X.setText(_translate("MicroValve", "Textlabel_X", None))
         self.label_Y.setText(_translate("MicroValve", "Textlabel_Y", None))
@@ -246,38 +252,44 @@ class Ui_MicroValve(object):
         dll.pySMCWriteOutBit(8,1)
 
     def xPul1(self):
-        print(dll.pySMCPMove(X_IAXIS,200000,IFABS_NO))
+        dll.pySMCSetLocateAcceleration(X_IAXIS , 100)
+        dll.pySMCPMove(X_IAXIS,10000,IFABS_NO)
 
     def xPul2(self):
-        dll.pySMCPMove(X_IAXIS,-200000,IFABS_NO)
+        dll.pySMCSetLocateAcceleration(X_IAXIS , 100)
+        dll.pySMCPMove(X_IAXIS,-10000,IFABS_NO)
 
     def yPul1(self):
-        dll.pySMCPMovePluses(Y_IAXIS,10000,IFABS_NO)
+        dll.pySMCSetLocateAcceleration(Y_IAXIS , 100)
+        dll.pySMCPMove(Y_IAXIS,10000,IFABS_NO)
 
     def yPul2(self):
-        dll.pySMCPMovePluses(Y_IAXIS,-10000,IFABS_NO)
+        dll.pySMCSetLocateAcceleration(Y_IAXIS , 100)
+        dll.pySMCPMove(Y_IAXIS,-10000,IFABS_NO)
 
     def zPul1(self):
-        dll.pySMCPMovePluses(Z_IAXIS,10000,IFABS_NO)
+        dll.pySMCSetLocateAcceleration(Z_IAXIS , 50)
+        dll.pySMCPMove(Z_IAXIS,10000,IFABS_NO)
 
     def zPul2(self):
+        dll.pySMCSetLocateAcceleration(Z_IAXIS , 50)
         dll.pySMCPMovePluses(Z_IAXIS,-10000,IFABS_NO)
 
     def vextX1(self):
         dll.pySMCVectMoveStart()
-        dll.pySMCVectMoveLineN(3 , 1000000 , 100000 , 50000 , 0 , 300 , IFABS_YES)  #多轴插补 距离/1000
+        dll.pySMCVectMoveLineN(3 , 100000 , 100000 , 50000 , 0 , 30 , IFABS_YES)  #多轴插补 距离/1000
         # dll.pySMCVectMoveLineN(3 , 1000000 , 10000 , 50000 , 0 , 300 , IFABS_YES)  #多轴插补 距离/1000
-        dll.pySMCVectMoveLineN(3 , 2000000 , 20000 , 50000 , 0 , 300 , IFABS_YES)  #多轴插补 距离/1000
+        dll.pySMCVectMoveLineN(3 , 200000 , 20000 , 50000 , 0 , 30 , IFABS_YES)  #多轴插补 距离/1000
 
     def vextX2(self):
         dll.pySMCVectMoveStart()
         # dll.pySMCVectMoveLineN(3 , 1000000 , 10000 , 50000 , 0 , 300 , IFABS_YES)  #多轴插补 距离/1000
         # dll.pySMCVectMoveLineN(3 , 0 , 0 , 500000 , 0 , 300 , IFABS_YES)  #多轴插补 距离/1000
-        dll.pySMCVectMoveLineN(3 ,0 , 10000 , 50000 , 0 , 300 , IFABS_YES)  #多轴插补 距离/1000
+        dll.pySMCVectMoveLineN(3 ,0 , 1000 , 0 , 0 , 30 , IFABS_YES)  #多轴插补 距离/1000
 
 
-    def xHome(self):
-        dll.pySMCHomeMove(X_IAXIS)              #X轴回零运动
+    def xHome(self):    #HOME MOVE
+        # dll.pySMCHomeMove(X_IAXIS)              #X轴回零运动
         dll.pySMCHomeMove(Z_IAXIS)
         while 1:    #检测轴移动状态
             ifHomeMove3 = dll.pySMCIfHomeMoveing(Z_IAXIS)
@@ -296,11 +308,144 @@ class Ui_MicroValve(object):
             if (ifHomeMove1 ==0):
                 break
 
-    def yHome(self):
-        dll.pySMCHomeMove(Y_IAXIS)              #Y轴回零运动
+    def yHome(self):        #FILE OPEN
+        # dll.pySMCHomeMove(Y_IAXIS)              #Y轴回零运动
+        file_object = open("micro.gcode")
+        lines = file_object.readlines() #读全部文件
+        line_N1 = file_object.readline()   #读一行，带有‘\n’
+        for line_N1 in lines:
+            line_N1 = line_N1.strip('\n')  #去除 “\n”
+            self.textBrowser.append(line_N1)
+            print(line_N1)
 
-    def zHome(self):
-        dll.pySMCHomeMove(Z_IAXIS)              #Z轴回零运动
+    def zHome(self):    #RUN
+        # dll.pySMCHomeMove(Z_IAXIS)              #Z轴回零运动
+        global data_all
+        file_object = open("micro.gcode")
+        line_N1 = file_object.readline() #读一行，带有‘\n’
+        lines = file_object.readlines() #读全部文件
+        pul_X=0
+        pul_Y=0
+        pul_Z=0
+        pul_U=0
+        for line_N1 in lines:
+            line_N1 = line_N1.strip('\n')  #去除 “\n”
+            #print(line_N1)
+
+            if line_N1[0]=='G' :        #识别指令是否为 ‘G’ 指令
+                line_G= re.findall(".*G(\d+(?:\.\d+)?)",line_N1)  #读取G指令的类型
+                if line_G[0] == "1":    #识别指令是否为 ‘G1’ 指令
+                    # print 'G1'
+
+                    position_X = re.findall(".*X(\d+(?:\.\d+)?)",line_N1)  #正则运算，取X，Y 直接的数据
+                    position_Y = re.findall(".*Y(\d+(?:\.\d+)?)",line_N1)  #正则运算，取X，Y 直接的数据
+                    position_Z = re.findall(".*Z(\d+(?:\.\d+)?)",line_N1)  #正则运算，取X，Y 直接的数据
+                    position_U = re.findall(".*U(\d+(?:\.\d+)?)",line_N1)  #正则运算，取X，Y 直接的数据
+                    speed_F = re.findall(".*F(\d+(?:\.\d+)?)",line_N1)  #正则运算，取X，Y 直接的数据
+                    position_all = position_X + position_Y + position_Z + position_U
+                    print position_all , position_X , position_Y , position_Z , position_U ,speed_F
+
+                    if position_X:
+                        pul_X = int(float(position_X[0])*1000)
+                    else:
+                        pul_X = pul_X
+
+                    if position_Y:
+                        pul_Y = int(float(position_Y[0])*1000)
+                    else:
+                        pul_Y = pul_Y
+
+                    if position_Z:
+                        pul_Z = int(float(position_Z[0])*1000)
+                    else:
+                        pul_Z = pul_Z
+
+                    if speed_F:
+                        speed_f = int(float(speed_F[0])/100)
+                    else:
+                        speed_f = 10
+                    # dll.pySMCPMovePluses(X_IAXIS,pul_X,IFABS_NO)
+                    # dll.pySMCPMovePluses(Y_IAXIS,pul_Y,IFABS_NO)
+                    # dll.pySMCPMovePluses(Z_IAXIS,pul_Z,IFABS_NO)
+
+                    # dll.pySMCVectMoveLineN(2, _axis_iaxis, dist_array, 500, IFABS_NO)
+                    # dll.pySMCVectMoveLine1(1, 1000 ,500, IFABS_NO)
+                    print pul_X , pul_Y, pul_Z , pul_U
+                    dll.pySMCVectMoveStart()
+                    dll.pySMCVectMoveLineN(3 , pul_X , pul_Y , pul_Z , 0 , speed_f , IFABS_YES)  #多轴插补 距离/1000
+                    print ('ok')
+                    print(dll.pySMCGetVectMoveRemainSpace())
+                    # time.sleep(5)
+                    # while 1:    #检测轴移动状态
+                    #     smcvect = dll.pySMCVectMoveEnd()
+                    #     if smcvect !=0:
+                    #         break
+
+                elif line_G[0] == "2":  #识别指令是否为 ‘G2’ 指令
+                    print 'G2'
+
+                elif line_G[0] == "3":  #识别指令是否为 ‘G3’ 指令
+                    print 'G3'
+
+                elif line_G[0] == "26":  #识别指令是否为 ‘G26’ 指令 ， 回零点
+                    print 'G26'
+                    dll.pySMCHomeMove(Z_IAXIS)
+                    while 1:    #检测轴移动状态
+                        ifHomeMove3 = dll.pySMCIfHomeMoveing(Z_IAXIS)
+                        if ( ifHomeMove3 ==0):
+                            break
+
+                    dll.pySMCHomeMove(Y_IAXIS)
+                    while 1:    #检测轴移动状态
+                        ifHomeMove2 = dll.pySMCIfHomeMoveing(Y_IAXIS)
+                        if (ifHomeMove2 ==0):
+                            break
+
+                    dll.pySMCHomeMove(X_IAXIS)
+                    while 1:    #检测轴移动状态
+                        ifHomeMove1 = dll.pySMCIfHomeMoveing(X_IAXIS)
+                        if (ifHomeMove1 ==0):
+                            break
+                    #
+                    # while 1:    #检测轴移动状态
+                    #     smcvect = dll.pySMCVectMoveEnd()
+                    #     if smcvect !=0:
+                    #         break
+                    # print(dll.pySMCHomeMove(Z_IAXIS))
+
+                elif line_G[0] == "90":  #识别指令是否为 ‘G90' 指令 , 绝对坐标系
+                    print 'G90'
+
+                else:
+                    print 'G_err'
+
+            elif line_N1[0]=='M' :          #识别指令是否为 ‘M’ 指令
+                line_M= re.findall(".*M(\d+(?:\.\d+)?)",line_N1)  #正则运算，取M 直接的数据
+                while 1:    #检测轴移动状态
+                    smcvect = dll.pySMCVectMoveEnd()
+                    if smcvect !=0:
+                        break
+
+                if line_M[0] == "101":  #识别指令是否为 ‘M102’ 指令
+                    print 'M101'
+                    dll.pySMCWriteOutBit(4,1)
+                    time.sleep(0.1)
+                elif line_M[0] == "103":  #识别指令是否为 ‘M103’ 指令
+                    print 'M103'
+                    dll.pySMCWriteOutBit(4,0)
+                    time.sleep(0.1)
+                else:
+                    print 'err'
+
+            elif line_N1[0] == 'S':         #识别指令是否为 ‘S’ 指令
+                print 'S'
+
+            else:
+                print 'not find' #解析Gcode
+
+
+
+
 
     def out1(self):
         dll.pySMCWriteOutBit(1,0)
@@ -332,8 +477,10 @@ class Ui_MicroValve(object):
         print(dll.pySMCWaitVectLength())
 
     def test4(self):
+        global data_all
         print('test4')
         print('X:'+str(dll.pySMCIfHomeMoveing(X_IAXIS))+ ' Y:'+str(dll.pySMCIfHomeMoveing(Y_IAXIS)) + ' Z:'+str(dll.pySMCIfHomeMoveing(Z_IAXIS)))
+        print(data_all)
 
     def micro(self):
         #self.textBrowser.setText('stop'+"\n")
@@ -389,7 +536,12 @@ class Backend(QThread):     #新建一个线程类
     update_data_t2 = pyqtSignal(QString)
     update_data_t3 = pyqtSignal(QString)
     update_data_t4 = pyqtSignal(QString)
+
+    # data_all = 10
+    # def fname(self):
+    #     return data_all
     def run(self):      #重载Qthread run
+        global data_all
         while True:
             # data =dll.pySMCGetWorkPosition(X_IAXIS)/10000
             # data1 =dll.pySMCGetWorkPosition(X_IAXIS)%10000
@@ -403,6 +555,8 @@ class Backend(QThread):     #新建一个线程类
             # data3 = str(dll.pySMCVectMoveEnd())     #检测轴移动状态
 
             data_t1 = str(dll.pySMCVectMoveEnd())     #检测插补运行状态
+
+            data_all = dll.pySMCVectMoveEnd()
             data_t2 = str(dll.pySMCGetVectMoveState())     #检测插补状态
             data_t3 = str(dll.pySMCWaitVectLength(1000000))     #检测轴移动状态
             # data_t3 = str(data_t3)
@@ -445,7 +599,9 @@ if __name__ == "__main__":
     IFABS_YES  =  1		#//绝对坐标系
     IFABS_NO   =   0		#//不是绝对坐标系
 
+
     from time import ctime,sleep
+
 
 
     dll = ctypes.windll.LoadLibrary("pySmc.dll")
@@ -464,6 +620,7 @@ if __name__ == "__main__":
     demoThread.update_data_t2.connect(ui.handleDisplay5)
     demoThread.update_data_t3.connect(ui.handleDisplay6)
     demoThread.update_data_t4.connect(ui.handleDisplay7)
+    # buff = demoThread.fname()
 
     MicroValve.show()
     sys.exit(app.exec_())

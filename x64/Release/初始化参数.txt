@@ -1,0 +1,56 @@
+SMCCommand(SMCHandle, "IfMoveWhenPause=1", MC_CmdBuf, 1024);
+/* Set the electrical level of home */
+SMCCommand(SMCHandle, "IfHomeHighValid1=0", MC_CmdBuf, 1024);
+SMCCommand(SMCHandle, "IfHomeHighValid2=0", MC_CmdBuf, 1024);
+SMCCommand(SMCHandle, "IfHomeHighValid3=0", MC_CmdBuf, 1024);
+SMCCommand(SMCHandle, "IfHomeHighValid4=0", MC_CmdBuf, 1024);
+
+/* Set the mode of returning home */
+SMCCommand(SMCHandle, "ZeroMode1=2", MC_CmdBuf, 1024);
+SMCCommand(SMCHandle, "ZeroMode2=2", MC_CmdBuf, 1024);
+SMCCommand(SMCHandle, "ZeroMode3=2", MC_CmdBuf, 1024);
+SMCCommand(SMCHandle, "ZeroMode4=2", MC_CmdBuf, 1024);
+
+/* Set the direction to home */
+SMCCommand(SMCHandle, "IfZeroPlus1=0", MC_CmdBuf, 1024);
+SMCCommand(SMCHandle, "IfZeroPlus2=0", MC_CmdBuf, 1024);
+SMCCommand(SMCHandle, "IfZeroPlus3=0", MC_CmdBuf, 1024);
+SMCCommand(SMCHandle, "IfZeroPlus4=0", MC_CmdBuf, 1024);
+
+/* Set the speed of returning home */
+SMCCommand(SMCHandle, "ZeroSpeed1=20", MC_CmdBuf, 1024);
+SMCCommand(SMCHandle, "ZeroSpeed2=20", MC_CmdBuf, 1024);
+SMCCommand(SMCHandle, "ZeroSpeed3=20", MC_CmdBuf, 1024);
+SMCCommand(SMCHandle, "ZeroSpeed4=20", MC_CmdBuf, 1024);
+
+
+/* Set the PulseSet of axis */
+SMCCommand(SMCHandle, "PulseSet1=1", MC_CmdBuf, 1024);
+SMCCommand(SMCHandle, "PulseSet2=1", MC_CmdBuf, 1024);
+SMCCommand(SMCHandle, "PulseSet3=1", MC_CmdBuf, 1024);
+SMCCommand(SMCHandle, "PulseSet4=1", MC_CmdBuf, 1024);
+
+/* Set the unit pulse of axis */
+SMCCommand(SMCHandle, "UnitPulses1=500", MC_CmdBuf, 1024);
+SMCCommand(SMCHandle, "UnitPulses2=500", MC_CmdBuf, 1024);
+SMCCommand(SMCHandle, "UnitPulses3=500", MC_CmdBuf, 1024);
+SMCCommand(SMCHandle, "UnitPulses4=500", MC_CmdBuf, 1024);
+
+/* Set the mode of slowing to stop */
+SMCCommand(SMCHandle, "IfDecStopWhenEl=1", MC_CmdBuf, 1024);
+
+/* Set the electrical level of limits */
+SMCCommand(SMCHandle, "IfELHighValid1=1", MC_CmdBuf, 1024);
+SMCCommand(SMCHandle, "IfELHighValid2=1", MC_CmdBuf, 1024);
+SMCCommand(SMCHandle, "IfELHighValid3=0", MC_CmdBuf, 1024);
+SMCCommand(SMCHandle, "IfELHighValid4=0", MC_CmdBuf, 1024);
+SMCCommand(SMCHandle, "IfGContinueLine=1", MC_CmdBuf, 1024);
+
+//Set the valid mergency state is 1.
+SMCCommand(SMCHandle, "IfEMGHighValid=1", MC_CmdBuf, 1024);
+
+//初始化喷头切换模块IO状态，不选通任何部件。
+SMCWriteOutPort(SMCHandle, MC_MOT_DEGAUSSING_IOS, MC_MOT_DEGAUSSING_RELEASE);
+SMCSetLocateSpeed(SMCHandle, 0, 1500 / MC_MOVE_SPEED_MM_MIN_TO_PULSE);
+SMCSetLocateSpeed(SMCHandle, 1, 1500 / MC_MOVE_SPEED_MM_MIN_TO_PULSE);
+SMCSetLocateSpeed(SMCHandle, 2, 1000 / MC_MOVE_SPEED_MM_MIN_TO_PULSE);
