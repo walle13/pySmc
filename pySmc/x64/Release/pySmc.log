@@ -1,25 +1,25 @@
-﻿生成启动时间为 2017/7/2 23:01:15。
-     1>项目“G:\Code\7.pySmc64\pySmc\pySmc\pySmc.vcxproj”在节点 2 上(Build 个目标)。
+﻿生成启动时间为 2017/7/6 20:04:25。
+     1>项目“D:\Code\7.pySmc64\pySmc\pySmc\pySmc.vcxproj”在节点 2 上(Build 个目标)。
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D PYSMC_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"x64\Release\pySmc.pch" /Fo"x64\Release\\" /Fd"x64\Release\vc120.pdb" /Gd /TP /errorReport:prompt pySmc.cpp
+         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D PYSMC_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"x64\Release\pySmc.pch" /Fo"x64\Release\\" /Fd"x64\Release\vc120.pdb" /Gd /TP /errorReport:prompt pySmc.cpp
          pySmc.cpp
      1>pySmc.cpp(75): warning C4267: “初始化”: 从“size_t”转换到“const int”，可能丢失数据
      1>pySmc.cpp(357): warning C4244: “初始化”: 从“double”转换到“int32”，可能丢失数据
      1>pySmc.cpp(371): warning C4244: “初始化”: 从“double”转换到“int32”，可能丢失数据
      1>pySmc.cpp(401): warning C4244: “return”: 从“double”转换到“int32”，可能丢失数据
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"G:\Code\7.pySmc64\pySmc\x64\Release\pySmc.dll" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:"pySmc.def" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"G:\Code\7.pySmc64\pySmc\x64\Release\pySmc.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"G:\Code\7.pySmc64\pySmc\x64\Release\pySmc.lib" /MACHINE:X64 /DLL x64\Release\dllmain.obj
+         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Code\7.pySmc64\pySmc\x64\Release\pySmc.dll" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:"pySmc.def" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Code\7.pySmc64\pySmc\x64\Release\pySmc.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Code\7.pySmc64\pySmc\x64\Release\pySmc.lib" /MACHINE:X64 /DLL x64\Release\dllmain.obj
          x64\Release\pySmc.obj
          x64\Release\stdafx.obj
          smc6x.lib
-            正在创建库 G:\Code\7.pySmc64\pySmc\x64\Release\pySmc.lib 和对象 G:\Code\7.pySmc64\pySmc\x64\Release\pySmc.exp
-     1>pySmc.exp : warning LNK4070: .EXP 中的 /OUT:pySmc64.dll 指令与输出文件名“G:\Code\7.pySmc64\pySmc\x64\Release\pySmc.dll”不同；忽略指令
+            正在创建库 D:\Code\7.pySmc64\pySmc\x64\Release\pySmc.lib 和对象 D:\Code\7.pySmc64\pySmc\x64\Release\pySmc.exp
+     1>pySmc.exp : warning LNK4070: .EXP 中的 /OUT:pySmc64.dll 指令与输出文件名“D:\Code\7.pySmc64\pySmc\x64\Release\pySmc.dll”不同；忽略指令
          正在生成代码
          已完成代码的生成
-     1>pySmc.exp : warning LNK4070: .EXP 中的 /OUT:pySmc64.dll 指令与输出文件名“G:\Code\7.pySmc64\pySmc\x64\Release\pySmc.dll”不同；忽略指令
-         pySmc.vcxproj -> G:\Code\7.pySmc64\pySmc\x64\Release\pySmc.dll
-     1>已完成生成项目“G:\Code\7.pySmc64\pySmc\pySmc\pySmc.vcxproj”(Build 个目标)的操作。
+     1>pySmc.exp : warning LNK4070: .EXP 中的 /OUT:pySmc64.dll 指令与输出文件名“D:\Code\7.pySmc64\pySmc\x64\Release\pySmc.dll”不同；忽略指令
+         pySmc.vcxproj -> D:\Code\7.pySmc64\pySmc\x64\Release\pySmc.dll
+     1>已完成生成项目“D:\Code\7.pySmc64\pySmc\pySmc\pySmc.vcxproj”(Build 个目标)的操作。
 
 生成成功。
 
-已用时间 00:00:04.39
+已用时间 00:00:00.82

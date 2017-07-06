@@ -429,6 +429,43 @@ int32 __stdcall pySMCIfHomeMoveing( uint8 iaxis)
 	return pbIfHomingOut;
 }
 
+/*************************************************************
+说明： 设置当前坐标
+输入：卡链接handle 轴号 坐标
+输出：
+返回值：错误码
+*************************************************************/
+double __stdcall pySMCSetPosition( uint8 iaxis, double dpositionIn)
+{
+	//int32 dposition = int32(dpositionIn);
+	//return(SMCSetPosition(g_handle,  iaxis,  dposition));
+	if (dpositionIn == 1024.4)
+	{	
+		double double_buff = 1.11;
+		return double_buff;
+	}
+	else
+	{
+		double double_buff = 0.11;
+		return double_buff;
+	}	
+}
+
+
+/*************************************************************
+说明： 读取工件零点
+输入：卡链接handle 轴号
+输出：坐标
+返回值：错误码
+*************************************************************/
+int32 __stdcall pySMCGetWorkOriginPosition( uint8 iaxis)
+{
+	double pposition[1];
+	SMCGetWorkOriginPosition(g_handle, iaxis ,pposition);
+	int ppositionOut = int(pposition[0]);
+	return ppositionOut;
+}
+
 
 /************************************************************************************************************************
 参数文件相关函数

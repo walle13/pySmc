@@ -55,6 +55,10 @@ extern "C++" _declspec(dllexport) int32 __stdcall pySMCGetCurRunVectLength();	//
 
 extern "C++" _declspec(dllexport) int32 __stdcall pySMCIfHomeMoveing(uint8 iaxis);	//检查是否回零中。
 
+extern "C++" _declspec(dllexport) double __stdcall pySMCSetPosition(uint8 iaxis, double dposition);	//设置当前坐标
+
+extern "C++" _declspec(dllexport) int32 __stdcall pySMCGetWorkOriginPosition(uint8 iaxis);	 //读取工件零点
+
 //********************************************************************//
 extern "C++" _declspec(dllexport) int32 __stdcall pySMCBurnSetting();	//当前设置存盘（设置烧录到 FLASH）。
 

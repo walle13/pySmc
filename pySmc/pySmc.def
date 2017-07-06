@@ -31,6 +31,8 @@ EXPORTS
  pySMCWaitVectLength @ 28
  pySMCGetCurRunVectLength @ 29
  pySMCIfHomeMoveing @ 30
+ pySMCSetPosition @31
+ pySMCGetWorkOriginPosition @32
 
  pySMCBurnSetting @ 100
  pySMCSetZeroSpeed @ 101

@@ -15,6 +15,7 @@ from PyQt4.QtCore import *
 import time
 import sys , re , os
 import ctypes
+from ctypes import *
 import math
 
 data_all = 11
@@ -253,11 +254,11 @@ class Ui_MicroValve(object):
 
     def xPul1(self):
         dll.pySMCSetLocateAcceleration(X_IAXIS , 100)
-        dll.pySMCPMove(X_IAXIS,10000,IFABS_NO)
+        dll.pySMCPMove(X_IAXIS,10000,IFABS_YES)
 
     def xPul2(self):
         dll.pySMCSetLocateAcceleration(X_IAXIS , 100)
-        dll.pySMCPMove(X_IAXIS,-10000,IFABS_NO)
+        dll.pySMCPMove(X_IAXIS,20000,IFABS_YES)
 
     def yPul1(self):
         dll.pySMCSetLocateAcceleration(Y_IAXIS , 100)
@@ -474,7 +475,12 @@ class Ui_MicroValve(object):
 
     def test3(self):
         print('test3')
-        print(dll.pySMCWaitVectLength())
+        # print(dll.pySMCWaitVectLength())
+        # c_double double_buff = 1024.1
+        dll.pySMCSetPosition.restype = c_double
+        dll.pySMCSetPosition.argtypes = (c_int ,c_double)
+        print(dll.pySMCSetPosition(X_IAXIS,1024.4))
+        # print(dll.pySMCGetWorkOriginPosition(X_IAXIS))
 
     def test4(self):
         global data_all
@@ -546,9 +552,9 @@ class Backend(QThread):     #新建一个线程类
             # data =dll.pySMCGetWorkPosition(X_IAXIS)/10000
             # data1 =dll.pySMCGetWorkPosition(X_IAXIS)%10000
 
-            data1 = float(dll.pySMCGetWorkPosition(X_IAXIS))
+            data1 = float(dll.pySMCGetPosition(X_IAXIS))
             data1 = str("%.3f"% (data1/10000))
-            data2 = float(dll.pySMCGetWorkPosition(Y_IAXIS))
+            data2 = float(dll.pySMCGetWorkPosition(X_IAXIS))
             data2 = str("%.3f"% (data2/10000))
             data3 = float(dll.pySMCGetWorkPosition(Z_IAXIS))
             data3 = str("%.3f"% (data3/10000))
@@ -580,7 +586,6 @@ if __name__ == "__main__":
     import sys
     reload(sys)
     sys.setdefaultencoding( "utf-8" )
-    import ctypes
     import threading
 
     SMC_OUT_VALIDVALUE     =   0    #//有效电平，通用IO为低电平, 当切换初始电平后，输出电平会相反
