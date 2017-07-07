@@ -20,8 +20,8 @@ IFABS_YES  =  1		#//绝对坐标系
 IFABS_NO   =   0		#//不是绝对坐标系
 # list g_handle
 # g_handle[0] = None
-aa = c_char()
-bb = "192.168.1.11"
+g_handle = c_char()
+ip = "192.168.1.11"
 # ip = c_wchar("aa")
 
 # b = pointer(a)        # 创建指针
@@ -38,13 +38,13 @@ dist_array = [100,100,100,200]
 dll.SMCOpenEth.argtypes = (c_char_p,c_char_p)
  # addf 有两个形参，都是 float 类型c_char_p
 
-print(dll.SMCOpenEth(bb, byref(aa)))
+print(dll.SMCOpenEth(ip,byref(g_handle)))
 	# iresult = SMCOpenEth("192.168.1.11", &g_handle);
 
 # SMCOpenEth(char *ipaddr, SMCHANDLE * phandle);
 
-print(dll.SMCHomeMove(byref(aa),X_IAXIS));             #Y轴回零运动
-# dll.pySMCHomeMove(Y_IAXIS)              #Y轴回零运动
+print(dll.SMCHomeMove(byref(g_handle),X_IAXIS));             #Y轴回零运动
+# dll.pySMCHomeMove(Y_IAXIS)              #Y轴回零运动B
 # dll.pySMCHomeMove(Z_IAXIS)              #Y轴回零运动
 # dll.SMCWriteOutBit(2,1)
 # dll.SMCWriteOutBit(2,0)

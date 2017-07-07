@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file 'smc_py.ui'
@@ -19,7 +20,7 @@ from ctypes import *
 import math
 
 data_all = 11
-
+g_handle = c_char()
 #UI相关
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -230,51 +231,75 @@ class Ui_MicroValve(object):
         QtCore.QObject.connect(self.pushButton_test3, QtCore.SIGNAL("clicked()"), self.test3),
         QtCore.QObject.connect(self.pushButton_test4, QtCore.SIGNAL("clicked()"), self.test4),
 
-
-
+# dll.SMCOpenEth.restype = c_int # addf 返回值的类型是 flaot
+# dll.SMCOpenEth.argtypes = (c_char_p,POINTER(Point)) # addf 有两个形参，都是 float 类型c_char_p
     def connect(self):
-        print(dll.pySMCOpenEth(192,168,1,11))
+        ip = "192.168.1.11"
+        dll.SMCOpenEth.argtypes = (c_char_p,c_char_p)
+        print(dll.SMCOpenEth(ip,byref(g_handle)))
         self.label_X.setText('connect')
 
     def stop(self):
+        dll.SMCVectMoveStop.argtypes = (c_char_p)
+        dll.SMCClose.argtypes = (c_char_p)
+        dll.SMCVectMoveStop(byref(g_handle))
+        dll.SMCClose(byref(g_handle))
         self.label_X.setText('stop')
-        dll.pySMCVectMoveStop()
-        dll.pySMCClose()
 
 
     def delete(self):
-        dll.pySMCWriteOutBit(1,1)
-        dll.pySMCWriteOutBit(2,1)
-        dll.pySMCWriteOutBit(3,1)
-        dll.pySMCWriteOutBit(4,1)
-        dll.pySMCWriteOutBit(5,1)
-        dll.pySMCWriteOutBit(6,1)
-        dll.pySMCWriteOutBit(7,1)
-        dll.pySMCWriteOutBit(8,1)
+        dll.SMCWriteOutBit.argtypes = (c_char_p,c_int,c_int)
+        dll.SMCWriteOutBit(byref(g_handle),1,1)
+        dll.SMCWriteOutBit(byref(g_handle),2,1)
+        dll.SMCWriteOutBit(byref(g_handle),3,1)
+        dll.SMCWriteOutBit(byref(g_handle),4,1)
+        dll.SMCWriteOutBit(byref(g_handle),5,1)
+        dll.SMCWriteOutBit(byref(g_handle),6,1)
+        dll.SMCWriteOutBit(byref(g_handle),7,1)
+        dll.SMCWriteOutBit(byref(g_handle),8,1)
+        print('delete')
 
     def xPul1(self):
-        dll.pySMCSetLocateAcceleration(X_IAXIS , 100)
-        dll.pySMCPMove(X_IAXIS,10000,IFABS_YES)
+        dll.SMCSetLocateAcceleration.argtypes = (c_char_p,c_uint,c_uint)
+        dll.SMCPMove.argtypes = (c_char_p, c_uint, c_double, c_uint)
+
+        dll.SMCSetLocateAcceleration(byref(g_handle),X_IAXIS , 100)
+        dll.SMCPMove(byref(g_handle),X_IAXIS,100.00,IFABS_YES)
 
     def xPul2(self):
-        dll.pySMCSetLocateAcceleration(X_IAXIS , 100)
-        dll.pySMCPMove(X_IAXIS,20000,IFABS_YES)
+        dll.SMCSetLocateAcceleration.argtypes = (c_char_p,c_uint,c_uint)
+        dll.SMCPMove.argtypes = (c_char_p, c_uint, c_double, c_uint)
+
+        dll.SMCSetLocateAcceleration(byref(g_handle),X_IAXIS , 100)
+        dll.SMCPMove(byref(g_handle),X_IAXIS,-100.00,IFABS_NO)
 
     def yPul1(self):
-        dll.pySMCSetLocateAcceleration(Y_IAXIS , 100)
-        dll.pySMCPMove(Y_IAXIS,10000,IFABS_NO)
+        dll.SMCSetLocateAcceleration.argtypes = (c_char_p,c_uint,c_uint)
+        dll.SMCPMove.argtypes = (c_char_p, c_uint, c_double, c_uint)
+
+        dll.SMCSetLocateAcceleration(byref(g_handle),Y_IAXIS , 100)
+        dll.SMCPMove(byref(g_handle),Y_IAXIS,100.00,IFABS_NO)
 
     def yPul2(self):
-        dll.pySMCSetLocateAcceleration(Y_IAXIS , 100)
-        dll.pySMCPMove(Y_IAXIS,-10000,IFABS_NO)
+        dll.SMCSetLocateAcceleration.argtypes = (c_char_p,c_uint,c_uint)
+        dll.SMCPMove.argtypes = (c_char_p, c_uint, c_double, c_uint)
+
+        dll.SMCSetLocateAcceleration(byref(g_handle),Y_IAXIS , 100)
+        dll.SMCPMove(byref(g_handle),Y_IAXIS,-100.00,IFABS_NO)
 
     def zPul1(self):
-        dll.pySMCSetLocateAcceleration(Z_IAXIS , 50)
-        dll.pySMCPMove(Z_IAXIS,10000,IFABS_NO)
+        dll.SMCSetLocateAcceleration.argtypes = (c_char_p,c_uint,c_uint)
+        dll.SMCPMove.argtypes = (c_char_p, c_uint, c_double, c_uint)
+
+        dll.SMCSetLocateAcceleration(byref(g_handle),Z_IAXIS , 50)
+        dll.SMCPMove(byref(g_handle),Z_IAXIS,-100.00,IFABS_NO)
 
     def zPul2(self):
-        dll.pySMCSetLocateAcceleration(Z_IAXIS , 50)
-        dll.pySMCPMovePluses(Z_IAXIS,-10000,IFABS_NO)
+        dll.SMCSetLocateAcceleration.argtypes = (c_char_p,c_uint,c_uint)
+        dll.SMCPMove.argtypes = (c_char_p, c_uint, c_double, c_uint)
+
+        dll.SMCSetLocateAcceleration(byref(g_handle),Z_IAXIS , 50)
+        dll.SMCPMove(byref(g_handle),Z_IAXIS,-100.00,IFABS_NO)
 
     def vextX1(self):
         dll.pySMCVectMoveStart()
@@ -291,21 +316,24 @@ class Ui_MicroValve(object):
 
     def xHome(self):    #HOME MOVE
         # dll.pySMCHomeMove(X_IAXIS)              #X轴回零运动
-        dll.pySMCHomeMove(Z_IAXIS)
+        dll.SMCHomeMove.argtypes = (c_char_p,c_uint)
+        dll.SMCHomeMove(byref(g_handle),Z_IAXIS)
         while 1:    #检测轴移动状态
-            ifHomeMove3 = dll.pySMCIfHomeMoveing(Z_IAXIS)
+            ifHomeMove3 = dll.SMCHomeMove(byref(g_handle),Z_IAXIS)
             if ( ifHomeMove3 ==0):
                 break
 
-        dll.pySMCHomeMove(Y_IAXIS)
+        dll.SMCHomeMove.argtypes = (c_char_p,c_uint)
+        dll.SMCHomeMove(byref(g_handle),Y_IAXIS)
         while 1:    #检测轴移动状态
-            ifHomeMove2 = dll.pySMCIfHomeMoveing(Y_IAXIS)
+            ifHomeMove2 = dll.SMCHomeMove(byref(g_handle),Y_IAXIS)
             if (ifHomeMove2 ==0):
                 break
 
-        dll.pySMCHomeMove(X_IAXIS)
+        dll.SMCHomeMove.argtypes = (c_char_p,c_uint)
+        dll.SMCHomeMove(byref(g_handle),X_IAXIS)
         while 1:    #检测轴移动状态
-            ifHomeMove1 = dll.pySMCIfHomeMoveing(X_IAXIS)
+            ifHomeMove1 = dll.SMCHomeMove(byref(g_handle),X_IAXIS)
             if (ifHomeMove1 ==0):
                 break
 
@@ -372,8 +400,13 @@ class Ui_MicroValve(object):
                     # dll.pySMCVectMoveLineN(2, _axis_iaxis, dist_array, 500, IFABS_NO)
                     # dll.pySMCVectMoveLine1(1, 1000 ,500, IFABS_NO)
                     print pul_X , pul_Y, pul_Z , pul_U
-                    dll.pySMCVectMoveStart()
-                    dll.pySMCVectMoveLineN(3 , pul_X , pul_Y , pul_Z , 0 , speed_f , IFABS_YES)  #多轴插补 距离/1000
+                    dll.SMCVectMoveStart.argtypes = (c_char_p)
+                    dll.SMCVectMoveLineN.argtypes = (c_char_p,c_int,c_int_p,c_double_p,c_double,c_int,cint)
+
+                    piaxisList = [1,2,3,4]
+                    DistanceList = [pul_X , pul_Y , pul_Z , 0]
+                    dll.SMCVectMoveStart(byref(g_handle))
+                    dll.SMCVectMoveLineN(byref(g_handle),3 ,byref(piaxisList),byref(DistanceList) , speed_f , IFABS_YES)  #多轴插补 距离/1000
                     print ('ok')
                     print(dll.pySMCGetVectMoveRemainSpace())
                     # time.sleep(5)
