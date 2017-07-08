@@ -375,22 +375,22 @@ class Ui_MicroValve(object):
                     print position_all , position_X , position_Y , position_Z , position_U ,speed_F
 
                     if position_X:
-                        pul_X = int(float(position_X[0])*1000)
+                        pul_X = float(position_X[0])
                     else:
                         pul_X = pul_X
 
                     if position_Y:
-                        pul_Y = int(float(position_Y[0])*1000)
+                        pul_Y =float(position_Y[0])
                     else:
                         pul_Y = pul_Y
 
                     if position_Z:
-                        pul_Z = int(float(position_Z[0])*1000)
+                        pul_Z = float(position_Z[0])
                     else:
                         pul_Z = pul_Z
 
                     if speed_F:
-                        speed_f = int(float(speed_F[0])/100)
+                        speed_f = float(speed_F[0])/100
                     else:
                         speed_f = 10
                     # dll.pySMCPMovePluses(X_IAXIS,pul_X,IFABS_NO)
@@ -408,7 +408,12 @@ class Ui_MicroValve(object):
                     dll.SMCVectMoveStart(byref(g_handle))
                     dll.SMCVectMoveLineN(byref(g_handle),3 ,byref(piaxisList),byref(DistanceList) , speed_f , IFABS_YES)  #多轴插补 距离/1000
                     print ('ok')
-                    print(dll.pySMCGetVectMoveRemainSpace())
+
+# dll.SMCOpenEth.restype = c_int # addf 返回值的类型是 flaot
+# dll.SMCOpenEth.argtypes = (c_char_p,POINTER(Point)) # addf 有两个形参，都是 float 类型c_char_p
+                    pSpace
+                    dll.SMCGetVectMoveRemainSpace.argtypes = (c_char_p,)
+                    print(dll.SMCGetVectMoveRemainSpace())
                     # time.sleep(5)
                     # while 1:    #检测轴移动状态
                     #     smcvect = dll.pySMCVectMoveEnd()
@@ -423,21 +428,24 @@ class Ui_MicroValve(object):
 
                 elif line_G[0] == "26":  #识别指令是否为 ‘G26’ 指令 ， 回零点
                     print 'G26'
-                    dll.pySMCHomeMove(Z_IAXIS)
+                    dll.SMCHomeMove.argtypes = (c_char_p,c_uint)
+                    dll.SMCHomeMove(byref(g_handle),Z_IAXIS)
                     while 1:    #检测轴移动状态
-                        ifHomeMove3 = dll.pySMCIfHomeMoveing(Z_IAXIS)
+                        ifHomeMove3 = dll.SMCHomeMove(byref(g_handle),Z_IAXIS)
                         if ( ifHomeMove3 ==0):
                             break
 
-                    dll.pySMCHomeMove(Y_IAXIS)
+                    dll.SMCHomeMove.argtypes = (c_char_p,c_uint)
+                    dll.SMCHomeMove(byref(g_handle),Y_IAXIS)
                     while 1:    #检测轴移动状态
-                        ifHomeMove2 = dll.pySMCIfHomeMoveing(Y_IAXIS)
+                        ifHomeMove2 = dll.SMCHomeMove(byref(g_handle),Y_IAXIS)
                         if (ifHomeMove2 ==0):
                             break
 
-                    dll.pySMCHomeMove(X_IAXIS)
+                    dll.SMCHomeMove.argtypes = (c_char_p,c_uint)
+                    dll.SMCHomeMove(byref(g_handle),X_IAXIS)
                     while 1:    #检测轴移动状态
-                        ifHomeMove1 = dll.pySMCIfHomeMoveing(X_IAXIS)
+                        ifHomeMove1 = dll.SMCHomeMove(byref(g_handle),X_IAXIS)
                         if (ifHomeMove1 ==0):
                             break
                     #

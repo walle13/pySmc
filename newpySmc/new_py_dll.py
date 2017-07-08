@@ -20,7 +20,8 @@ IFABS_YES  =  1		#//绝对坐标系
 IFABS_NO   =   0		#//不是绝对坐标系
 # list g_handle
 # g_handle[0] = None
-g_handle = c_char()
+handle = None
+g_handle = c_void()
 ip = "192.168.1.11"
 # ip = c_wchar("aa")
 
@@ -34,21 +35,33 @@ dist_array = [100,100,100,200]
 
 # SMCHANDLE * aaa = NULL;
 # dll.SMCOpenEth.restype = c_int # addf 返回值的类型是 flaot
-# dll.SMCOpenEth.argtypes = (c_char_p,POINTER(Point)) # addf 有两个形参，都是 float 类型c_char_p
-dll.SMCOpenEth.argtypes = (c_char_p,c_char_p)
+# dll.SMCOpenEth.argtypes = (c_char_p,c_char_p) # addf 有两个形参，都是 float 类型c_char_p
+# dll.SMCOpenEth.restype = c_char_p # addf 返回值的类型是 flaot
+dll.SMCOpenEth.argtypes = [c_char_p,c_void_p]
  # addf 有两个形参，都是 float 类型c_char_p
-
-print(dll.SMCOpenEth(ip,byref(g_handle)))
+print(dll.SMCOpenEth(ip,POINTER(g_handle)))
 	# iresult = SMCOpenEth("192.168.1.11", &g_handle);
+print(byref(g_handle))
+print(g_handle)
 
-# SMCOpenEth(char *ipaddr, SMCHANDLE * phandle);
+# dll.pySMCWriteOutBit(2,1)
+# dll.pySMCWriteOutBit(2,0)
+# dll.pySMCPMovePluses(Y_IAXIS,10000,IFABS_NO)
 
-print(dll.SMCHomeMove(byref(g_handle),X_IAXIS));             #Y轴回零运动
+# dll.SMCHomeMove.argtypes = (c_char_p,c_int)
+# print(dll.SMCHomeMove(byref(g_handle),X_IAXIS));             #Y轴回零运动
+
 # dll.pySMCHomeMove(Y_IAXIS)              #Y轴回零运动B
 # dll.pySMCHomeMove(Z_IAXIS)              #Y轴回零运动
 # dll.SMCWriteOutBit(2,1)
 # dll.SMCWriteOutBit(2,0)
-# dll.SMCPMovePluses(Y_IAXIS,10000,IFABS_NO)
+aa = g_handle
+
+dll.SMCPMovePluses.argtypes = [c_void_p,c_int,c_int,c_int]
+print(dll.SMCPMovePluses(g_handle,1,10000,1))
+dll.SMCWriteOutBit.argtypes = [c_char,c_uint,c_uint]
+print(dll.SMCWriteOutBit(aa,2,1))
+
 #
 # dll.SMCVectMoveStop()
 # dll.SMCVectMoveStart()
