@@ -21,8 +21,11 @@ IFABS_NO   =   0		#//不是绝对坐标系
 # list g_handle
 # g_handle[0] = None
 handle = None
-g_handle = c_void()
+g_handle = c_int()
+aaa=pointer(g_handle)
+# g_handle = None
 ip = "192.168.1.11"
+# id()
 # ip = c_wchar("aa")
 
 # b = pointer(a)        # 创建指针
@@ -39,7 +42,7 @@ dist_array = [100,100,100,200]
 # dll.SMCOpenEth.restype = c_char_p # addf 返回值的类型是 flaot
 dll.SMCOpenEth.argtypes = [c_char_p,c_void_p]
  # addf 有两个形参，都是 float 类型c_char_p
-print(dll.SMCOpenEth(ip,POINTER(g_handle)))
+print(dll.SMCOpenEth(ip,byref(g_handle)))
 	# iresult = SMCOpenEth("192.168.1.11", &g_handle);
 print(byref(g_handle))
 print(g_handle)
@@ -55,14 +58,15 @@ print(g_handle)
 # dll.pySMCHomeMove(Z_IAXIS)              #Y轴回零运动
 # dll.SMCWriteOutBit(2,1)
 # dll.SMCWriteOutBit(2,0)
-aa = g_handle
 
-dll.SMCPMovePluses.argtypes = [c_void_p,c_int,c_int,c_int]
-print(dll.SMCPMovePluses(g_handle,1,10000,1))
-dll.SMCWriteOutBit.argtypes = [c_char,c_uint,c_uint]
-print(dll.SMCWriteOutBit(aa,2,1))
-
+# aa = g_handle
+dlength = c_double(100.001)
+dll.SMCPMovePluses.argtypes = [c_int,c_int,c_double,c_int]
+print(dll.SMCPMove(g_handle,1,dlength,1))
+dll.SMCWriteOutBit.argtypes = [c_int,c_uint,c_uint]
+print(dll.SMCWriteOutBit(g_handle,2,1))
 #
+# #
 # dll.SMCVectMoveStop()
 # dll.SMCVectMoveStart()
 # # print(dll.pySMCVectMoveLineN(3,float(101.1), float(101.1), float(101.1), float(101.1),float(30), IFABS_YES))
