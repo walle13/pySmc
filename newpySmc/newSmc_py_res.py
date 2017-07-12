@@ -20,7 +20,9 @@ from ctypes import *
 import math
 
 data_all = 11
-g_handle = c_char()
+g_handle = c_int()
+pvectlength = c_double()
+pState = c_int()
 #UI相关
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -235,71 +237,71 @@ class Ui_MicroValve(object):
 # dll.SMCOpenEth.argtypes = (c_char_p,POINTER(Point)) # addf 有两个形参，都是 float 类型c_char_p
     def connect(self):
         ip = "192.168.1.11"
-        dll.SMCOpenEth.argtypes = (c_char_p,c_char_p)
+        dll.SMCOpenEth.argtypes = (c_char_p,c_void_p)
         print(dll.SMCOpenEth(ip,byref(g_handle)))
         self.label_X.setText('connect')
 
     def stop(self):
-        dll.SMCVectMoveStop.argtypes = (c_char_p)
-        dll.SMCClose.argtypes = (c_char_p)
-        dll.SMCVectMoveStop(byref(g_handle))
-        dll.SMCClose(byref(g_handle))
+        # dll.SMCVectMoveStop.argtypes = (c_int)
+        # dll.SMCClose.argtypes = (c_int)
+        print(dll.SMCVectMoveStop(g_handle))
+        print(dll.SMCClose(g_handle))
         self.label_X.setText('stop')
 
 
     def delete(self):
-        dll.SMCWriteOutBit.argtypes = (c_char_p,c_int,c_int)
-        dll.SMCWriteOutBit(byref(g_handle),1,1)
-        dll.SMCWriteOutBit(byref(g_handle),2,1)
-        dll.SMCWriteOutBit(byref(g_handle),3,1)
-        dll.SMCWriteOutBit(byref(g_handle),4,1)
-        dll.SMCWriteOutBit(byref(g_handle),5,1)
-        dll.SMCWriteOutBit(byref(g_handle),6,1)
-        dll.SMCWriteOutBit(byref(g_handle),7,1)
-        dll.SMCWriteOutBit(byref(g_handle),8,1)
+        dll.SMCWriteOutBit.argtypes = (c_int,c_int,c_int)
+        dll.SMCWriteOutBit(g_handle,1,1)
+        dll.SMCWriteOutBit(g_handle,2,1)
+        dll.SMCWriteOutBit(g_handle,3,1)
+        dll.SMCWriteOutBit(g_handle,4,1)
+        dll.SMCWriteOutBit(g_handle,5,1)
+        dll.SMCWriteOutBit(g_handle,6,1)
+        dll.SMCWriteOutBit(g_handle,7,1)
+        dll.SMCWriteOutBit(g_handle,8,1)
         print('delete')
 
     def xPul1(self):
-        dll.SMCSetLocateAcceleration.argtypes = (c_char_p,c_uint,c_uint)
-        dll.SMCPMove.argtypes = (c_char_p, c_uint, c_double, c_uint)
+        dll.SMCSetLocateAcceleration.argtypes = (c_int,c_uint,c_uint)
+        dll.SMCPMove.argtypes = (c_int, c_uint, c_double, c_uint)
 
-        dll.SMCSetLocateAcceleration(byref(g_handle),X_IAXIS , 100)
-        dll.SMCPMove(byref(g_handle),X_IAXIS,100.00,IFABS_YES)
+        dll.SMCSetLocateAcceleration(g_handle,X_IAXIS , 100)
+        dll.SMCPMove(g_handle,X_IAXIS,100.00,IFABS_YES)
 
     def xPul2(self):
-        dll.SMCSetLocateAcceleration.argtypes = (c_char_p,c_uint,c_uint)
-        dll.SMCPMove.argtypes = (c_char_p, c_uint, c_double, c_uint)
+        dll.SMCSetLocateAcceleration.argtypes = (c_int,c_uint,c_uint)
+        dll.SMCPMove.argtypes = (c_int, c_uint, c_double, c_uint)
 
-        dll.SMCSetLocateAcceleration(byref(g_handle),X_IAXIS , 100)
-        dll.SMCPMove(byref(g_handle),X_IAXIS,-100.00,IFABS_NO)
+        dll.SMCSetLocateAcceleration(g_handle,X_IAXIS , 100)
+        dll.SMCPMove(g_handle,X_IAXIS,-100.00,IFABS_NO)
 
     def yPul1(self):
-        dll.SMCSetLocateAcceleration.argtypes = (c_char_p,c_uint,c_uint)
-        dll.SMCPMove.argtypes = (c_char_p, c_uint, c_double, c_uint)
+        dll.SMCSetLocateAcceleration.argtypes = (c_int,c_uint,c_uint)
+        dll.SMCPMove.argtypes = (c_int, c_uint, c_double, c_uint)
 
-        dll.SMCSetLocateAcceleration(byref(g_handle),Y_IAXIS , 100)
-        dll.SMCPMove(byref(g_handle),Y_IAXIS,100.00,IFABS_NO)
+        dll.SMCSetLocateAcceleration(g_handle,Y_IAXIS , 100)
+        dll.SMCPMove(g_handle,Y_IAXIS,100.00,IFABS_NO)
 
     def yPul2(self):
-        dll.SMCSetLocateAcceleration.argtypes = (c_char_p,c_uint,c_uint)
-        dll.SMCPMove.argtypes = (c_char_p, c_uint, c_double, c_uint)
+        dll.SMCSetLocateAcceleration.argtypes = (c_int,c_uint,c_uint)
+        dll.SMCPMove.argtypes = (c_int, c_uint, c_double, c_uint)
 
-        dll.SMCSetLocateAcceleration(byref(g_handle),Y_IAXIS , 100)
-        dll.SMCPMove(byref(g_handle),Y_IAXIS,-100.00,IFABS_NO)
+        dll.SMCSetLocateAcceleration(g_handle,Y_IAXIS , 100)
+        dll.SMCPMove(g_handle,Y_IAXIS,-100.00,IFABS_NO)
 
     def zPul1(self):
-        dll.SMCSetLocateAcceleration.argtypes = (c_char_p,c_uint,c_uint)
-        dll.SMCPMove.argtypes = (c_char_p, c_uint, c_double, c_uint)
+        dll.SMCSetLocateAcceleration.argtypes = (c_int,c_uint,c_uint)
+        dll.SMCPMove.argtypes = (c_int, c_uint, c_double, c_uint)
 
-        dll.SMCSetLocateAcceleration(byref(g_handle),Z_IAXIS , 50)
-        dll.SMCPMove(byref(g_handle),Z_IAXIS,-100.00,IFABS_NO)
+        dll.SMCSetLocateAcceleration(g_handle,Z_IAXIS , 50)
+        dll.SMCPMove(g_handle,Z_IAXIS,-100.00,IFABS_NO)
 
     def zPul2(self):
-        dll.SMCSetLocateAcceleration.argtypes = (c_char_p,c_uint,c_uint)
-        dll.SMCPMove.argtypes = (c_char_p, c_uint, c_double, c_uint)
+        dll.SMCSetLocateAcceleration.argtypes = (c_int,c_uint,c_uint)
+        dll.SMCPMove.argtypes = (c_int, c_uint, c_double, c_uint)
 
-        dll.SMCSetLocateAcceleration(byref(g_handle),Z_IAXIS , 50)
-        dll.SMCPMove(byref(g_handle),Z_IAXIS,-100.00,IFABS_NO)
+        dll.SMCSetLocateAcceleration(g_handle,Z_IAXIS , 50)
+        dll.SMCPMove(g_handle,Z_IAXIS,-100.00,IFABS_NO)
 
     def vextX1(self):
         dll.pySMCVectMoveStart()
@@ -316,24 +318,23 @@ class Ui_MicroValve(object):
 
     def xHome(self):    #HOME MOVE
         # dll.pySMCHomeMove(X_IAXIS)              #X轴回零运动
-        dll.SMCHomeMove.argtypes = (c_char_p,c_uint)
-        dll.SMCHomeMove(byref(g_handle),Z_IAXIS)
+        dll.SMCHomeMove.argtypes = (c_int,c_uint)
+        dll.SMCHomeMove(bg_handle,Z_IAXIS)
         while 1:    #检测轴移动状态
             ifHomeMove3 = dll.SMCHomeMove(byref(g_handle),Z_IAXIS)
-            if ( ifHomeMove3 ==0):
-                break
+            if ( ifHomeMove3 ==0):b
 
-        dll.SMCHomeMove.argtypes = (c_char_p,c_uint)
-        dll.SMCHomeMove(byref(g_handle),Y_IAXIS)
+        dll.SMCHomeMove.argtypes = (c_int,c_uint)
+        dll.SMCHomeMove(g_handle,Y_IAXIS)
         while 1:    #检测轴移动状态
             ifHomeMove2 = dll.SMCHomeMove(byref(g_handle),Y_IAXIS)
             if (ifHomeMove2 ==0):
                 break
 
-        dll.SMCHomeMove.argtypes = (c_char_p,c_uint)
-        dll.SMCHomeMove(byref(g_handle),X_IAXIS)
+        dll.SMCHomeMove.argtypes = (c_int,c_uint)
+        dll.SMCHomeMove(g_handle,X_IAXIS)
         while 1:    #检测轴移动状态
-            ifHomeMove1 = dll.SMCHomeMove(byref(g_handle),X_IAXIS)
+            ifHomeMove1 = dll.SMCHomeMove(g_handle,X_IAXIS)
             if (ifHomeMove1 ==0):
                 break
 
@@ -400,20 +401,20 @@ class Ui_MicroValve(object):
                     # dll.pySMCVectMoveLineN(2, _axis_iaxis, dist_array, 500, IFABS_NO)
                     # dll.pySMCVectMoveLine1(1, 1000 ,500, IFABS_NO)
                     print pul_X , pul_Y, pul_Z , pul_U
-                    dll.SMCVectMoveStart.argtypes = (c_char_p)
-                    dll.SMCVectMoveLineN.argtypes = (c_char_p,c_int,c_int_p,c_double_p,c_double,c_int,cint)
+                    dll.SMCVectMoveStart.argtypes = (c_int)
+                    dll.SMCVectMoveLineN.argtypes = (c_int,c_int,c_int_p,c_double_p,c_double,c_int,cint)
 
                     piaxisList = [1,2,3,4]
                     DistanceList = [pul_X , pul_Y , pul_Z , 0]
-                    dll.SMCVectMoveStart(byref(g_handle))
-                    dll.SMCVectMoveLineN(byref(g_handle),3 ,byref(piaxisList),byref(DistanceList) , speed_f , IFABS_YES)  #多轴插补 距离/1000
+                    dll.SMCVectMoveStart(g_handle)
+                    dll.SMCVectMoveLineN(g_handle,3 ,byref(piaxisList),byref(DistanceList) , speed_f , IFABS_YES)  #多轴插补 距离/1000
                     print ('ok')
 
 # dll.SMCOpenEth.restype = c_int # addf 返回值的类型是 flaot
 # dll.SMCOpenEth.argtypes = (c_char_p,POINTER(Point)) # addf 有两个形参，都是 float 类型c_char_p
                     pSpace
-                    dll.SMCGetVectMoveRemainSpace.argtypes = (c_char_p,)
-                    print(dll.SMCGetVectMoveRemainSpace())
+                    dll.SMCGetVectMoveRemainSpace.argtypes = (c_int,)
+                    print(dll.SMCGetVectMoveRemainSpace(g_handle))
                     # time.sleep(5)
                     # while 1:    #检测轴移动状态
                     #     smcvect = dll.pySMCVectMoveEnd()
@@ -428,24 +429,24 @@ class Ui_MicroValve(object):
 
                 elif line_G[0] == "26":  #识别指令是否为 ‘G26’ 指令 ， 回零点
                     print 'G26'
-                    dll.SMCHomeMove.argtypes = (c_char_p,c_uint)
-                    dll.SMCHomeMove(byref(g_handle),Z_IAXIS)
+                    dll.SMCHomeMove.argtypes = (c_int,c_uint)
+                    dll.SMCHomeMove(g_handle,Z_IAXIS)
                     while 1:    #检测轴移动状态
                         ifHomeMove3 = dll.SMCHomeMove(byref(g_handle),Z_IAXIS)
                         if ( ifHomeMove3 ==0):
                             break
 
-                    dll.SMCHomeMove.argtypes = (c_char_p,c_uint)
-                    dll.SMCHomeMove(byref(g_handle),Y_IAXIS)
+                    dll.SMCHomeMove.argtypes = (c_int,c_uint)
+                    dll.SMCHomeMove(g_handle,Y_IAXIS)
                     while 1:    #检测轴移动状态
                         ifHomeMove2 = dll.SMCHomeMove(byref(g_handle),Y_IAXIS)
                         if (ifHomeMove2 ==0):
                             break
 
-                    dll.SMCHomeMove.argtypes = (c_char_p,c_uint)
-                    dll.SMCHomeMove(byref(g_handle),X_IAXIS)
+                    dll.SMCHomeMove.argtypes = (c_int,c_uint)
+                    dll.SMCHomeMove(g_handle,X_IAXIS)
                     while 1:    #检测轴移动状态
-                        ifHomeMove1 = dll.SMCHomeMove(byref(g_handle),X_IAXIS)
+                        ifHomeMove1 = dll.SMCHomeMove(g_handle,X_IAXIS)
                         if (ifHomeMove1 ==0):
                             break
                     #
@@ -464,17 +465,19 @@ class Ui_MicroValve(object):
             elif line_N1[0]=='M' :          #识别指令是否为 ‘M’ 指令
                 line_M= re.findall(".*M(\d+(?:\.\d+)?)",line_N1)  #正则运算，取M 直接的数据
                 while 1:    #检测轴移动状态
-                    smcvect = dll.pySMCVectMoveEnd()
+                    smcvect = dll.SMCVectMoveEnd(g_handle)
                     if smcvect !=0:
                         break
 
                 if line_M[0] == "101":  #识别指令是否为 ‘M102’ 指令
                     print 'M101'
-                    dll.pySMCWriteOutBit(4,1)
+                    dll.SMCWriteOutBit.argtypes = (c_int,c_int,c_int)
+                    dll.SMCWriteOutBit(g_handle,4,1)
                     time.sleep(0.1)
                 elif line_M[0] == "103":  #识别指令是否为 ‘M103’ 指令
                     print 'M103'
-                    dll.pySMCWriteOutBit(4,0)
+                    dll.SMCWriteOutBit.argtypes = (c_int,c_int,c_int)
+                    dll.SMCWriteOutBit(g_handle,4,0)
                     time.sleep(0.1)
                 else:
                     print 'err'
@@ -490,43 +493,50 @@ class Ui_MicroValve(object):
 
 
     def out1(self):
-        dll.pySMCWriteOutBit(1,0)
-        print(dll.pySMCVectMoveStart())  #110014 时候已经运行结束， 0 时候正在运行
+        dll.SMCWriteOutBit.argtypes = (c_int,c_int,c_int)
+        dll.SMCWriteOutBit(g_handle,1,0)
+        print(dll.SMCVectMoveStart(g_handle))  #110014 时候已经运行结束， 0 时候正在运行
 
     def out2(self):
-        dll.pySMCWriteOutBit(2,0)
-        print(dll.pySMCVectMovePause())
+        dll.SMCWriteOutBit.argtypes = (c_int,c_int,c_int)
+        dll.SMCWriteOutBit(g_handle,2,0)
+        print(dll.SMCVectMovePause(g_handle))
 
     def out3(self):
-        dll.pySMCWriteOutBit(3,0)
-        print(dll.pySMCVectMoveStop())
+        dll.SMCWriteOutBit.argtypes = (c_int,c_int,c_int)
+        dll.SMCWriteOutBit(g_handle,3,0)
+        print(dll.SMCVectMoveStop(g_handle))
 
     def out4(self):
-        dll.pySMCWriteOutBit(4,0)
-        dll.pySMCVectMoveEnd()
+        dll.SMCWriteOutBit.argtypes = (c_int,c_int,c_int)
+        dll.SMCWriteOutBit(g_handle,4,0)
+        dll.SMCVectMoveEnd(g_handle)
 
 
     def test1(self):
         print('test1')
-        print('X:'+str(dll.pySMCCheckDown(X_IAXIS)) + ' Y:'+str(dll.pySMCCheckDown(Y_IAXIS)) + ' Z:'+str(dll.pySMCCheckDown(Z_IAXIS)))      #检测轴移动状态
+        dll.SMCCheckDown.argtypes = (c_int,c_int)
+        print('X:'+str(dll.SMCCheckDown(g_handle,X_IAXIS)) + ' Y:'+str(dll.SMCCheckDown(g_handle,Y_IAXIS)) + ' Z:'+str(dll.SMCCheckDown(g_handle,Z_IAXIS)))      #检测轴移动状态
 
     def test2(self):
         print('test2')
-        print('X:'+str(dll.pySMCGetZeroSpeed(X_IAXIS))+ ' Y:'+str(dll.pySMCGetZeroSpeed(Y_IAXIS)) + ' Z:'+str(dll.pySMCGetZeroSpeed(Z_IAXIS)))
+        dll.SMCGetZeroSpeed.argtypes = (c_int,c_int)
+        print('X:'+str(dll.SMCGetZeroSpeed(g_handle,X_IAXIS))+ ' Y:'+str(dll.SMCGetZeroSpeed(g_handle,Y_IAXIS)) + ' Z:'+str(dll.SMCGetZeroSpeed(g_handle,Z_IAXIS)))
 
     def test3(self):
         print('test3')
         # print(dll.pySMCWaitVectLength())
         # c_double double_buff = 1024.1
-        dll.pySMCSetPosition.restype = c_double
-        dll.pySMCSetPosition.argtypes = (c_int ,c_double)
-        print(dll.pySMCSetPosition(X_IAXIS,1024.4))
+        dll.SMCSetPosition.restype = c_double
+        dll.SMCSetPosition.argtypes = (c_int,c_int ,c_double)
+        print(dll.SMCSetPosition(g_handle,X_IAXIS,1024.4))
         # print(dll.pySMCGetWorkOriginPosition(X_IAXIS))
 
     def test4(self):
         global data_all
         print('test4')
-        print('X:'+str(dll.pySMCIfHomeMoveing(X_IAXIS))+ ' Y:'+str(dll.pySMCIfHomeMoveing(Y_IAXIS)) + ' Z:'+str(dll.pySMCIfHomeMoveing(Z_IAXIS)))
+        dll.SMCIfHomeMoveing.argtypes = (c_int,c_int)
+        print('X:'+str(dll.SMCIfHomeMoveing(g_handle,X_IAXIS))+ ' Y:'+str(dll.SMCIfHomeMoveing(g_handle,Y_IAXIS)) + ' Z:'+str(dll.SMCIfHomeMoveing(g_handle,Z_IAXIS)))
         print(data_all)
 
     def micro(self):
@@ -543,8 +553,11 @@ class Ui_MicroValve(object):
 
 
     def displayUi(self, MicroValve):
-        test1=float('%.3f' % (dll.pySMCGetWorkPosition(X_IAXIS)/10000))
-        test2=dll.pySMCGetWorkPosition(X_IAXIS)%10000
+        dll.SMCGetWorkPosition.restype = c_double # addf 返回值的类型是 flaot
+        dll.SMCGetWorkPosition.argtypes = (c_int,c_int)
+
+        test1=float('%.3f' % (dll.SMCGetWorkPosition(g_handle,X_IAXIS)/10000))
+        test2=dll.SMCGetWorkPosition(g_handle,X_IAXIS)%10000
 
 
     def handleDisplay1(self, data1):  #接收信号
@@ -592,24 +605,35 @@ class Backend(QThread):     #新建一个线程类
         while True:
             # data =dll.pySMCGetWorkPosition(X_IAXIS)/10000
             # data1 =dll.pySMCGetWorkPosition(X_IAXIS)%10000
+            # dll.SMCGetPosition.restype = c_double # addf 返回值的类型是 flaot
+            dll.SMCGetPosition.argtypes = (c_int,c_int)
+            dll.SMCGetVectMoveState.argtypes = (c_int,c_char_p)
+            # dll.SMCGetWorkPosition.restype = c_double
+            dll.SMCGetWorkPosition.argtypes = (c_int,c_int)
+            # dll.SMCWaitVectLength.restype = c_double
+            dll.SMCWaitVectLength.argtypes = (c_int,c_double)
+            # dll.SMCGetCurRunVectLength.restype = c_int
+            dll.SMCGetCurRunVectLength.argtypes = (c_int,c_char_p)
+            pvectlength = c_double()
 
-            data1 = float(dll.pySMCGetPosition(X_IAXIS))
-            data1 = str("%.3f"% (data1/10000))
-            data2 = float(dll.pySMCGetWorkPosition(X_IAXIS))
-            data2 = str("%.3f"% (data2/10000))
-            data3 = float(dll.pySMCGetWorkPosition(Z_IAXIS))
-            data3 = str("%.3f"% (data3/10000))
+            data1 = float(dll.SMCGetWorkPosition(g_handle,X_IAXIS))
+            # data1 = str("%.3f"% (data1/10000))
+            data2 = float(dll.SMCGetWorkPosition(g_handle,Y_IAXIS))
+            # data2 = str("%.3f"% (data2/10000))
+            data3 = float(dll.SMCGetWorkPosition(g_handle,Z_IAXIS))
+            # data3 = str("%.3f"% (data3/10000))
             # data3 = str(dll.pySMCVectMoveEnd())     #检测轴移动状态
 
-            data_t1 = str(dll.pySMCVectMoveEnd())     #检测插补运行状态
+            data_t1 = str(dll.SMCVectMoveEnd(g_handle))     #检测插补运行状态
 
-            data_all = dll.pySMCVectMoveEnd()
-            data_t2 = str(dll.pySMCGetVectMoveState())     #检测插补状态
-            data_t3 = str(dll.pySMCWaitVectLength(1000000))     #检测轴移动状态
-            # data_t3 = str(data_t3)
-            # data_t4 = float(dll.pySMCGetCurRunVectLength()) #插补运动可以填入的线段数
-            # data_t4 = str("%.3f"% (data_t4/1000))     #检测轴移动状态
-            data_t4 = str(dll.pySMCGetVectMoveRemainSpace())
+            data_all = dll.SMCVectMoveEnd(g_handle)
+            data_t2 = str(dll.SMCGetVectMoveState(g_handle,byref(pState)))     #检测插补状态
+            data_t3 = str(dll.SMCWaitVectLength(g_handle,1000000))
+            data_t3 = str(data_t3)
+            # data_t4 = dll.SMCGetCurRunVectLength(g_handle,byref(pvectlength)) #插补运动可以填入的线段数
+            data_t4 = 100
+            data_t4 = str("%.3f"% (data_t4/1000))     #检测轴移动状态
+            # data_t4 = str(dll.SMCGetVectMoveRemainSpace(g_handle))
 
             # print(data)
             # data = QDateTime.currentDateTime()

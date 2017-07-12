@@ -238,8 +238,8 @@ class Ui_MicroValve(object):
 
     def stop(self):
         self.label_X.setText('stop')
-        dll.pySMCVectMoveStop()
-        dll.pySMCClose()
+        print(dll.pySMCVectMoveStop())
+        print(dll.pySMCClose())
 
 
     def delete(self):
