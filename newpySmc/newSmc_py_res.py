@@ -266,42 +266,42 @@ class Ui_MicroValve(object):
         dll.SMCPMove.argtypes = (c_int, c_uint, c_double, c_uint)
 
         dll.SMCSetLocateAcceleration(g_handle,X_IAXIS , 100)
-        dll.SMCPMove(g_handle,X_IAXIS,100.00,IFABS_YES)
+        dll.SMCPMove(g_handle,X_IAXIS,10.00,IFABS_NO)
 
     def xPul2(self):
         dll.SMCSetLocateAcceleration.argtypes = (c_int,c_uint,c_uint)
         dll.SMCPMove.argtypes = (c_int, c_uint, c_double, c_uint)
 
         dll.SMCSetLocateAcceleration(g_handle,X_IAXIS , 100)
-        dll.SMCPMove(g_handle,X_IAXIS,-100.00,IFABS_NO)
+        dll.SMCPMove(g_handle,X_IAXIS,-10.00,IFABS_NO)
 
     def yPul1(self):
         dll.SMCSetLocateAcceleration.argtypes = (c_int,c_uint,c_uint)
         dll.SMCPMove.argtypes = (c_int, c_uint, c_double, c_uint)
 
         dll.SMCSetLocateAcceleration(g_handle,Y_IAXIS , 100)
-        dll.SMCPMove(g_handle,Y_IAXIS,100.00,IFABS_NO)
+        dll.SMCPMove(g_handle,Y_IAXIS,10.00,IFABS_NO)
 
     def yPul2(self):
         dll.SMCSetLocateAcceleration.argtypes = (c_int,c_uint,c_uint)
         dll.SMCPMove.argtypes = (c_int, c_uint, c_double, c_uint)
 
         dll.SMCSetLocateAcceleration(g_handle,Y_IAXIS , 100)
-        dll.SMCPMove(g_handle,Y_IAXIS,-100.00,IFABS_NO)
+        dll.SMCPMove(g_handle,Y_IAXIS,-10.00,IFABS_NO)
 
     def zPul1(self):
         dll.SMCSetLocateAcceleration.argtypes = (c_int,c_uint,c_uint)
         dll.SMCPMove.argtypes = (c_int, c_uint, c_double, c_uint)
 
         dll.SMCSetLocateAcceleration(g_handle,Z_IAXIS , 50)
-        dll.SMCPMove(g_handle,Z_IAXIS,-100.00,IFABS_NO)
+        dll.SMCPMove(g_handle,Z_IAXIS,10.00,IFABS_NO)
 
     def zPul2(self):
         dll.SMCSetLocateAcceleration.argtypes = (c_int,c_uint,c_uint)
         dll.SMCPMove.argtypes = (c_int, c_uint, c_double, c_uint)
 
         dll.SMCSetLocateAcceleration(g_handle,Z_IAXIS , 50)
-        dll.SMCPMove(g_handle,Z_IAXIS,-100.00,IFABS_NO)
+        dll.SMCPMove(g_handle,Z_IAXIS,-10.00,IFABS_NO)
 
     def vextX1(self):
         dll.pySMCVectMoveStart()
@@ -319,15 +319,16 @@ class Ui_MicroValve(object):
     def xHome(self):    #HOME MOVE
         # dll.pySMCHomeMove(X_IAXIS)              #X轴回零运动
         dll.SMCHomeMove.argtypes = (c_int,c_uint)
-        dll.SMCHomeMove(bg_handle,Z_IAXIS)
+        dll.SMCHomeMove(g_handle,Z_IAXIS)
         while 1:    #检测轴移动状态
-            ifHomeMove3 = dll.SMCHomeMove(byref(g_handle),Z_IAXIS)
-            if ( ifHomeMove3 ==0):b
+            ifHomeMove3 = dll.SMCHomeMove(g_handle,Z_IAXIS)
+            if ( ifHomeMove3 ==0):
+                break
 
         dll.SMCHomeMove.argtypes = (c_int,c_uint)
         dll.SMCHomeMove(g_handle,Y_IAXIS)
         while 1:    #检测轴移动状态
-            ifHomeMove2 = dll.SMCHomeMove(byref(g_handle),Y_IAXIS)
+            ifHomeMove2 = dll.SMCHomeMove(g_handle,Y_IAXIS)
             if (ifHomeMove2 ==0):
                 break
 
@@ -354,10 +355,10 @@ class Ui_MicroValve(object):
         file_object = open("micro.gcode")
         line_N1 = file_object.readline() #读一行，带有‘\n’
         lines = file_object.readlines() #读全部文件
-        pul_X=0
-        pul_Y=0
-        pul_Z=0
-        pul_U=0
+        pul_X= c_double(0)
+        pul_Y= c_double(0)
+        pul_Z= c_double(0)
+        pul_U= c_double(0)
         for line_N1 in lines:
             line_N1 = line_N1.strip('\n')  #去除 “\n”
             #print(line_N1)
@@ -381,7 +382,7 @@ class Ui_MicroValve(object):
                         pul_X = pul_X
 
                     if position_Y:
-                        pul_Y =float(position_Y[0])
+                        pul_Y = float(position_Y[0])
                     else:
                         pul_Y = pul_Y
 
@@ -400,21 +401,37 @@ class Ui_MicroValve(object):
 
                     # dll.pySMCVectMoveLineN(2, _axis_iaxis, dist_array, 500, IFABS_NO)
                     # dll.pySMCVectMoveLine1(1, 1000 ,500, IFABS_NO)
-                    print pul_X , pul_Y, pul_Z , pul_U
-                    dll.SMCVectMoveStart.argtypes = (c_int)
-                    dll.SMCVectMoveLineN.argtypes = (c_int,c_int,c_int_p,c_double_p,c_double,c_int,cint)
+                    print pul_X ,pul_Y , pul_Z , pul_U
+                    # dll.SMCVectMoveStart.argtypes = (c_int)
+                    dll.SMCVectMoveLineN.argtypes = (c_int,c_int,c_void_p,c_void_p,c_double,c_int)
+                    # type_int_array_10 = c_int * 10
+                    # my_array = type_int_array_10()
+                    piaxisList = ctypes.c_short * 4       # piaxisList = ctypes.c_int * 4即为创建的数组类型
+                    piaxisList_array = piaxisList()     #想得到数组变量，则需要例化这个类型 ，即piaxisList_array
+                    piaxisList_array[0] = c_short(1)      #这里将它索引为0，的成员赋予值 c_int(1)
+                    piaxisList_array[1] = c_short(2)
+                    piaxisList_array[2] = c_short(3)
+                    piaxisList_array[3] = c_short(4)
 
-                    piaxisList = [1,2,3,4]
-                    DistanceList = [pul_X , pul_Y , pul_Z , 0]
+                    # DistanceList_array = [pul_X,pul_Y,pul_Z,0]
+                    DistanceList = ctypes.c_double * 4
+                    DistanceList_array = DistanceList()
+                    DistanceList_array[0] = c_double(pul_X)
+                    DistanceList_array[1] = c_double(pul_Y)
+                    DistanceList_array[2] = c_double(pul_Z)
+                    DistanceList_array[3] = c_double(0)
+                    print("ggggggggg")
                     dll.SMCVectMoveStart(g_handle)
-                    dll.SMCVectMoveLineN(g_handle,3 ,byref(piaxisList),byref(DistanceList) , speed_f , IFABS_YES)  #多轴插补 距离/1000
+                    # dll.SMCVectMoveLineN(g_handle,3 ,byref(piaxisList_array), byref(DistanceList_array), speed_f , IFABS_YES)  #多轴插补 距离/1000
+                    print(dll.SMCVectMoveLineN(g_handle,3 ,piaxisList_array, DistanceList_array, speed_f , IFABS_YES))  #多轴插补 距离/1000
                     print ('ok')
 
 # dll.SMCOpenEth.restype = c_int # addf 返回值的类型是 flaot
 # dll.SMCOpenEth.argtypes = (c_char_p,POINTER(Point)) # addf 有两个形参，都是 float 类型c_char_p
-                    pSpace
-                    dll.SMCGetVectMoveRemainSpace.argtypes = (c_int,)
-                    print(dll.SMCGetVectMoveRemainSpace(g_handle))
+                    Space = c_int()
+                    pSpace_c = pointer(Space)
+                    dll.SMCGetVectMoveRemainSpace.argtypes = (c_int,c_void_p)
+                    print(dll.SMCGetVectMoveRemainSpace(g_handle,pSpace_c))
                     # time.sleep(5)
                     # while 1:    #检测轴移动状态
                     #     smcvect = dll.pySMCVectMoveEnd()
@@ -432,15 +449,17 @@ class Ui_MicroValve(object):
                     dll.SMCHomeMove.argtypes = (c_int,c_uint)
                     dll.SMCHomeMove(g_handle,Z_IAXIS)
                     while 1:    #检测轴移动状态
-                        ifHomeMove3 = dll.SMCHomeMove(byref(g_handle),Z_IAXIS)
+                        ifHomeMove3 = dll.SMCHomeMove(g_handle,Z_IAXIS)
                         if ( ifHomeMove3 ==0):
+                            print(ifHomeMove3)
                             break
 
                     dll.SMCHomeMove.argtypes = (c_int,c_uint)
                     dll.SMCHomeMove(g_handle,Y_IAXIS)
                     while 1:    #检测轴移动状态
-                        ifHomeMove2 = dll.SMCHomeMove(byref(g_handle),Y_IAXIS)
+                        ifHomeMove2 = dll.SMCHomeMove(g_handle,Y_IAXIS)
                         if (ifHomeMove2 ==0):
+                            print(ifHomeMove2)
                             break
 
                     dll.SMCHomeMove.argtypes = (c_int,c_uint)
@@ -448,6 +467,7 @@ class Ui_MicroValve(object):
                     while 1:    #检测轴移动状态
                         ifHomeMove1 = dll.SMCHomeMove(g_handle,X_IAXIS)
                         if (ifHomeMove1 ==0):
+                            print(ifHomeMove1)
                             break
                     #
                     # while 1:    #检测轴移动状态
@@ -605,29 +625,46 @@ class Backend(QThread):     #新建一个线程类
         while True:
             # data =dll.pySMCGetWorkPosition(X_IAXIS)/10000
             # data1 =dll.pySMCGetWorkPosition(X_IAXIS)%10000
-            # dll.SMCGetPosition.restype = c_double # addf 返回值的类型是 flaot
-            dll.SMCGetPosition.argtypes = (c_int,c_int)
+
             dll.SMCGetVectMoveState.argtypes = (c_int,c_char_p)
-            # dll.SMCGetWorkPosition.restype = c_double
-            dll.SMCGetWorkPosition.argtypes = (c_int,c_int)
+
+            dll.SMCGetWorkPosition.restype = c_double # addf 返回值的类型是 flaot
+            dll.SMCGetWorkPosition.argtypes = (c_int,c_int,c_void_p)  #获取当前工件坐标
+            pworkposition = c_double(0.0)
+            pworkposition_c = pointer(pworkposition)
+            ############################
+            dll.SMCGetPosition.restype = c_double # addf 返回值的类型是 flaot
+            dll.SMCGetPosition.argtypes = (c_int,c_int,c_void_p)  #获取当前机械坐标
+            pposition = c_double(0.0)
+            pposition_c = pointer(pposition)
+            # count = c_int(0)
+            # backends_c = POINTER(c_char_p)()
+            # lglip.glip_get_backends(byref(backends_c), byref(count))
+
+
             # dll.SMCWaitVectLength.restype = c_double
             dll.SMCWaitVectLength.argtypes = (c_int,c_double)
             # dll.SMCGetCurRunVectLength.restype = c_int
             dll.SMCGetCurRunVectLength.argtypes = (c_int,c_char_p)
-            pvectlength = c_double()
+            pvectlength = ctypes.POINTER(c_double)
+            # pposition = ctypes.POINTER(c_double)
 
-            data1 = float(dll.SMCGetWorkPosition(g_handle,X_IAXIS))
-            # data1 = str("%.3f"% (data1/10000))
-            data2 = float(dll.SMCGetWorkPosition(g_handle,Y_IAXIS))
-            # data2 = str("%.3f"% (data2/10000))
-            data3 = float(dll.SMCGetWorkPosition(g_handle,Z_IAXIS))
+            # aa = pointer(pposition)
+            data1 =str("%.3f"% (dll.SMCGetPosition(g_handle,X_IAXIS,byref(pposition_c))))
+            data2 =str("%.3f"% (dll.SMCGetPosition(g_handle,Y_IAXIS,byref(pposition_c))))
+            data3 =str("%.3f"% (dll.SMCGetPosition(g_handle,Z_IAXIS,byref(pposition_c))))
+
+            data1_w =str("%.3f"% (dll.SMCGetWorkPosition(g_handle,X_IAXIS,byref(pworkposition_c))))
+            data2_w =str("%.3f"% (dll.SMCGetWorkPosition(g_handle,Y_IAXIS,byref(pworkposition_c))))
+            data3_w =str("%.3f"% (dll.SMCGetWorkPosition(g_handle,Z_IAXIS,byref(pworkposition_c))))
+
             # data3 = str("%.3f"% (data3/10000))
             # data3 = str(dll.pySMCVectMoveEnd())     #检测轴移动状态
 
             data_t1 = str(dll.SMCVectMoveEnd(g_handle))     #检测插补运行状态
-
             data_all = dll.SMCVectMoveEnd(g_handle)
-            data_t2 = str(dll.SMCGetVectMoveState(g_handle,byref(pState)))     #检测插补状态
+            # data_t2 = str(dll.SMCGetVectMoveState(g_handle,byref(pState)))     #检测插补状态
+            data_t2 = str("123")     #检测插补状态
             data_t3 = str(dll.SMCWaitVectLength(g_handle,1000000))
             data_t3 = str(data_t3)
             # data_t4 = dll.SMCGetCurRunVectLength(g_handle,byref(pvectlength)) #插补运动可以填入的线段数
@@ -694,3 +731,15 @@ if __name__ == "__main__":
 
     MicroValve.show()
     sys.exit(app.exec_())
+
+
+
+ #
+ #
+ # class SimpStruct(Structure):
+ #    _fields_ = [ ("nNo", c_int),
+ #              ("fVirus", c_float),
+ #              ("szBuffer", c_char * 512)]
+ #
+ #
+ #
