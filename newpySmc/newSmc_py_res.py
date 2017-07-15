@@ -304,17 +304,57 @@ class Ui_MicroValve(object):
         dll.SMCPMove(g_handle,Z_IAXIS,-10.00,IFABS_NO)
 
     def vextX1(self):
-        dll.pySMCVectMoveStart()
-        dll.pySMCVectMoveLineN(3 , 100000 , 100000 , 50000 , 0 , 30 , IFABS_YES)  #多轴插补 距离/1000
-        # dll.pySMCVectMoveLineN(3 , 1000000 , 10000 , 50000 , 0 , 300 , IFABS_YES)  #多轴插补 距离/1000
-        dll.pySMCVectMoveLineN(3 , 200000 , 20000 , 50000 , 0 , 30 , IFABS_YES)  #多轴插补 距离/1000
+
+        dll.SMCVectMoveLineN.argtypes = (c_int,c_int,c_void_p,c_void_p,c_double,c_int)
+        dll.SMCVectMoveStart()
+        dll.SMCVectMoveStart(g_handle)
+        piaxisList = ctypes.c_short * 4       # piaxisList = ctypes.c_int * 4即为创建的数组类型
+        piaxisList_array = piaxisList()     #想得到数组变量，则需要例化这个类型 ，即piaxisList_array
+        piaxisList_array[0] = c_short(1)      #这里将它索引为0，的成员赋予值 c_int(1)
+        piaxisList_array[1] = c_short(2)
+        piaxisList_array[2] = c_short(3)
+        piaxisList_array[3] = c_short(0)
+        # DistanceList_array = [pul_X,pul_Y,pul_Z,0]
+        DistanceList = ctypes.c_double * 4
+        DistanceList_array = DistanceList()
+        DistanceList_array[0] = c_double(100)
+        DistanceList_array[1] = c_double(100)
+        DistanceList_array[2] = c_double(50)
+        DistanceList_array[3] = c_double(0)
+        print(dll.SMCVectMoveLineN(g_handle,3 ,piaxisList_array, DistanceList_array, 30 , IFABS_YES))  #多轴插补 距离/1000
+        pul_X= c_double()
+        pul_X = float("150.00")
+        print(pul_X)
+        pul_Y= c_double()
+        pul_Y = 200.00
+        pul_Z= c_double()
+        pul_Z = 200.00
+        pul_U= c_double()
+        pul_U = 200.00
+        DistanceList_array[0] = c_double(pul_X)
+        DistanceList_array[1] = c_double(pul_Y)
+        DistanceList_array[2] = c_double(pul_Z)
+        DistanceList_array[3] = c_double(pul_U)
+        print(dll.SMCVectMoveLineN(g_handle,3 ,piaxisList_array, DistanceList_array, 30 , IFABS_YES))  #多轴插补 距离/1000
 
     def vextX2(self):
-        dll.pySMCVectMoveStart()
-        # dll.pySMCVectMoveLineN(3 , 1000000 , 10000 , 50000 , 0 , 300 , IFABS_YES)  #多轴插补 距离/1000
-        # dll.pySMCVectMoveLineN(3 , 0 , 0 , 500000 , 0 , 300 , IFABS_YES)  #多轴插补 距离/1000
-        dll.pySMCVectMoveLineN(3 ,0 , 1000 , 0 , 0 , 30 , IFABS_YES)  #多轴插补 距离/1000
-
+        dll.SMCVectMoveLineN.argtypes = (c_int,c_int,c_void_p,c_void_p,c_double,c_int)
+        dll.SMCVectMoveStart()
+        dll.SMCVectMoveStart(g_handle)
+        piaxisList = ctypes.c_short * 4       # piaxisList = ctypes.c_int * 4即为创建的数组类型
+        piaxisList_array = piaxisList()     #想得到数组变量，则需要例化这个类型 ，即piaxisList_array
+        piaxisList_array[0] = c_short(1)      #这里将它索引为0，的成员赋予值 c_int(1)
+        piaxisList_array[1] = c_short(2)
+        piaxisList_array[2] = c_short(3)
+        piaxisList_array[3] = c_short(0)
+        # DistanceList_array = [pul_X,pul_Y,pul_Z,0]
+        DistanceList = ctypes.c_double * 4
+        DistanceList_array = DistanceList()
+        DistanceList_array[0] = c_double(20)
+        DistanceList_array[1] = c_double(10)
+        DistanceList_array[2] = c_double(30)
+        DistanceList_array[3] = c_double(10)
+        print(dll.SMCVectMoveLineN(g_handle,c_int(3) ,piaxisList_array, DistanceList_array, 30 , IFABS_YES))  #多轴插补 距离/1000
 
     def xHome(self):    #HOME MOVE
         # dll.pySMCHomeMove(X_IAXIS)              #X轴回零运动
@@ -322,6 +362,7 @@ class Ui_MicroValve(object):
         dll.SMCHomeMove(g_handle,Z_IAXIS)
         while 1:    #检测轴移动状态
             ifHomeMove3 = dll.SMCHomeMove(g_handle,Z_IAXIS)
+            print("X:"+ifHomeMove3)
             if ( ifHomeMove3 ==0):
                 break
 
@@ -329,6 +370,7 @@ class Ui_MicroValve(object):
         dll.SMCHomeMove(g_handle,Y_IAXIS)
         while 1:    #检测轴移动状态
             ifHomeMove2 = dll.SMCHomeMove(g_handle,Y_IAXIS)
+            print("Y:"+ifHomeMove2)
             if (ifHomeMove2 ==0):
                 break
 
@@ -336,12 +378,13 @@ class Ui_MicroValve(object):
         dll.SMCHomeMove(g_handle,X_IAXIS)
         while 1:    #检测轴移动状态
             ifHomeMove1 = dll.SMCHomeMove(g_handle,X_IAXIS)
+            print("Z:"+ifHomeMove1)
             if (ifHomeMove1 ==0):
                 break
 
     def yHome(self):        #FILE OPEN
         # dll.pySMCHomeMove(Y_IAXIS)              #Y轴回零运动
-        file_object = open("micro.gcode")
+        file_object = open("micro2.gcode")
         lines = file_object.readlines() #读全部文件
         line_N1 = file_object.readline()   #读一行，带有‘\n’
         for line_N1 in lines:
@@ -352,13 +395,17 @@ class Ui_MicroValve(object):
     def zHome(self):    #RUN
         # dll.pySMCHomeMove(Z_IAXIS)              #Z轴回零运动
         global data_all
-        file_object = open("micro.gcode")
+        file_object = open("micro2.gcode")
         line_N1 = file_object.readline() #读一行，带有‘\n’
         lines = file_object.readlines() #读全部文件
-        pul_X= c_double(0)
-        pul_Y= c_double(0)
-        pul_Z= c_double(0)
-        pul_U= c_double(0)
+        pul_X= c_double()
+        pul_Y= c_double()
+        pul_Z= c_double()
+        pul_U= c_double()
+        pul_X = 0
+        pul_Y = 0
+        pul_Z = 0
+        pul_U = 0
         for line_N1 in lines:
             line_N1 = line_N1.strip('\n')  #去除 “\n”
             #print(line_N1)
@@ -580,29 +627,29 @@ class Ui_MicroValve(object):
         test2=dll.SMCGetWorkPosition(g_handle,X_IAXIS)%10000
 
 
-    def handleDisplay1(self, data1):  #接收信号
+    def handleDisplay1(self, data1_w):  #接收信号
         # self.label.setText('X:'+str(data))   #槽函数
-        self.label_X.setText('X:'+str(data1))   #槽函数
+        self.label_X.setText('X:'+str(data1_w))   #槽函数
 
-    def handleDisplay2(self, data2):  #接收信号
+    def handleDisplay2(self, data2_w):  #接收信号
         # self.label.setText('X:'+str(data))   #槽函数
-        self.label_Y.setText('Y:'+str(data2))   #槽函数
+        self.label_Y.setText('Y:'+str(data2_w))   #槽函数
 
-    def handleDisplay3(self, data3):  #接收信号
+    def handleDisplay3(self, data3_w):  #接收信号
         # self.label.setText('X:'+str(data))   #槽函数
-        self.label_Z.setText('Z:'+str(data3))   #槽函数
+        self.label_Z.setText('Z:'+str(data3_w))   #槽函数
 
-    def handleDisplay4(self, data_t1):  #接收信号
+    def handleDisplay4(self, data1):  #接收信号
         # self.label.setText('X:'+str(data))   #槽函数
-        self.label_1.setText(str(data_t1))   #槽函数
+        self.label_1.setText(str(data1))   #槽函数
 
-    def handleDisplay5(self, data_t2):  #接收信号
+    def handleDisplay5(self, data2):  #接收信号
         # self.label.setText('X:'+str(data))   #槽函数
-        self.label_2.setText(str(data_t2))   #槽函数
+        self.label_2.setText(str(data2))   #槽函数
 
-    def handleDisplay6(self, data_t3):  #接收信号
+    def handleDisplay6(self, data3):  #接收信号
         # self.label.setText('X:'+str(data))   #槽函数
-        self.label_3.setText(str(data_t3))   #槽函数
+        self.label_3.setText(str(data3))   #槽函数
 
     def handleDisplay7(self, data_t4):  #接收信号
         # self.label.setText('X:'+str(data))   #槽函数
@@ -674,13 +721,17 @@ class Backend(QThread):     #新建一个线程类
 
             # print(data)
             # data = QDateTime.currentDateTime()
-            self.update_date1.emit(QString(data1))   #发送 update_date 信号，附带 data 数据
-            self.update_date2.emit(QString(data2))   #发送 update_date2 信号，附带 data2 数据
-            self.update_date3.emit(QString(data3))   #发送 update_date3 信号，附带 data3 数据
-            self.update_data_t1.emit(QString(data_t1))
-            self.update_data_t2.emit(QString(data_t2))
-            self.update_data_t3.emit(QString(data_t3))
+            self.update_date1.emit(QString(data1_w))   #发送 update_date 信号，附带 data 数据
+            self.update_date2.emit(QString(data2_w))   #发送 update_date2 信号，附带 data2 数据
+            self.update_date3.emit(QString(data3_w))   #发送 update_date3 信号，附带 data3 数据
+            self.update_data_t1.emit(QString(data1))
+            self.update_data_t2.emit(QString(data2))
+            self.update_data_t3.emit(QString(data3))
             self.update_data_t4.emit(QString(data_t4))
+            # self.update_data_t1.emit(QString(data_t1))
+            # self.update_data_t2.emit(QString(data_t2))
+            # self.update_data_t3.emit(QString(data_t3))
+            # self.update_data_t4.emit(QString(data_t4))
             time.sleep(0.05)
 
 
