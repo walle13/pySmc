@@ -1,109 +1,64 @@
-n Mon, Sep 22, 2014 at 12:34 AM, Koteswara Rao Ruvva <ruvva@...> wrote:
-> I have the following getData function in a DLL that allocates memory and
-> fill its contents.
->
-> extern "C" __declspec(dllexport) int getData(int *data) {
->     int size = 20;
->     data = (int*) malloc(size*sizeof(int));
->
->     for (int i = 0; i < size; i++) {
->         data[i] = i*i;
->     }
->
->     return size;
-> }
->
-> I have the following Python code to call the getData function:
->
->        mydll = ctypes.cdll.LoadLibrary('MathFuncs.dll')
->
->        mydll.getData.argtypes = [ctypes.POINTER(ctypes.c_int)]
->        mydll.getData.restype  = ctypes.c_int
->
->        data = ctypes.POINTER(ctypes.c_int)
->        size = mydll.getData(ctypes.POINTER(data))
->
-> When I execute, I get the following error:
-> ctypes.ArgumentError: argument 1: <type 'exceptions.TypeError'>: expected
-> LP_c_long instance instead of _ctypes.PyCPointerType
->
-> I am not able to figure out the mistake. Could someone please correct me.
+<span style="font-size:12px;">#!/usr/bin/python
+# togglebutton.py
 
-POINTER returns a pointer type that can be set in a function's
-argtypes. Subsequently calling the function requires that the
-corresponding argument is an instance of the type. So the immediate
-problem here is that `data` needs to be an instance of the pointer
-type.
+from PyQt5.QtWidgets import QApplication, QPushButton, QStyleFactory
+from PyQt5 import QtWidgets
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QColor
 
-That said, don't pass the pointer by value (initially NULL). Instead
-pass by reference in order to receive the address of the malloc'd
-buffer. For example:
+class ToggleButton(QtWidgets.QWidget):
+    def __init__(self, parent= None):
+        QtWidgets.QWidget.__init__(self)
 
-// mathfuncs.cpp
+        self.color = QColor(0, 0, 0)
+        self.setGeometry(300, 300, 280, 170)
+        self.setWindowTitle('ToggleButton')
+        self.red = QPushButton('Red',  self)
+        self.red.setCheckable(True)
+        self.red.move(10, 10)
+        self.red.clicked.connect(self.setRed)
+        self.green = QPushButton('Green',  self)
+        self.green.setCheckable(True)
+        self.green.move(10, 60)
+        self.green.clicked.connect(self.setGreen)
+        self.blue = QPushButton('Blue',  self)
+        self.blue.setCheckable(True)
+        self.blue.move(10, 110)
+        self.blue.clicked.connect(self.setBlue)
 
-#include <stdlib.h>
-
-// The data paramater has to be a pointer to a pointer, i.e.
-// an int **. The address of the malloc'd buffer gets stored
-// to the caller's pointer, i.e. *data.
-
-extern "C" __declspec(dllexport) int getData(int **data) {
-    int size = 20;
-    int *arr = (int *)malloc(size * sizeof(int));
-    for (int i = 0; i < size; i++)
-        arr[i] = i*i;
-    *data = arr;
-    return size;
-}
+        self.square = QtWidgets.QWidget(self)
+        self.square.setGeometry(150, 20, 100, 100)
+        self.square.setStyleSheet('QWidget{background-color:%s}'%self.color.name())
+        QApplication.setStyle(QStyleFactory.create('cleanlooks'))
 
 
-# test_mathfuncs.py
+    def setRed(self):
+        if self.red.isChecked():
+            self.color.setRed(255)
+        else:
+            self.color.setRed(0)
 
-import ctypes
+        self.square.setStyleSheet('QWidget{background-color:%s}'%self.color.name())
 
-# Use CDLL instead of cdll.LoadLibrary. Windows appends the .dll
-# extension for you.
-mydll = ctypes.CDLL('mathfuncs')
+    def setGreen(self):
+        if self.green.isChecked():
+            self.color.setGreen(255)
+        else:
+            self.color.setGreen(0)
 
-c_int_p = ctypes.POINTER(ctypes.c_int)
-c_int_pp = ctypes.POINTER(c_int_p)
+        self.square.setStyleSheet('QWidget{background-color:%s}'%self.color.name())
 
-mydll.getData.argtypes = [c_int_pp]
-mydll.getData.restype  = ctypes.c_int
+    def setBlue(self):
+        if self.blue.isChecked():
+            self.color.setBlue(255)
+        else:
+            self.color.setBlue(0)
 
-# Instantiate an int * pointer.
-data = c_int_p()
+        self.square.setStyleSheet('QWidget{background-color:%s}'%self.color.name())
 
-# Use byref to pass the address of the pointer.
-size = mydll.getData(ctypes.byref(data))
-
-print("data.contents is", data.contents)
-# data.contents is c_long(0)
-
-print("size ==", size)
-# size == 20
-
-print("data[size-1] ==", data[size-1])
-# data[size-1] == 361
-
-print("data[:3] ==", data[:3])
-# data[:3] == [0, 1, 4]
-
-# Casting the result to an array requires
-# a pointer cast to int (*)[size]; then
-# a pointer dereference.
-# typedefs
-array_t = ctypes.c_int * size
-array_t_p = ctypes.POINTER(array_t)
-# pointer cast
-p_data_array = ctypes.cast(data, array_t_p)
-# pointer dereference
-data_array = p_data_array.contents
-
-# array_t is an aggregate type consisting of 20 elements
-# that are each 4 bytes.
-
-print("sizeof(data_array) ==",  ctypes.sizeof(data_array))
-print("len(data_array) ==", len(data_array))
-# sizeof(data_array) == 80
-# len(data_array) == 20
+if __name__ == "__main__":
+    import sys
+    app = QApplication(sys.argv)
+    qb = ToggleButton()
+    qb.show()
+    sys.exit(app.exec_())</span>

@@ -117,10 +117,10 @@ class Ui_MicroValve(object):
         self.lineEdit_1.setGeometry(QtCore.QRect(420, 340, 113, 20))
         self.lineEdit_1.setObjectName(_fromUtf8("lineEdit_1"))
         self.label_1 = QtGui.QLabel(MicroValve)
-        self.label_1.setGeometry(QtCore.QRect(420, 380, 81, 20))
+        self.label_1.setGeometry(QtCore.QRect(420, 360, 81, 20))
         self.label_1.setObjectName(_fromUtf8("label_1"))
         self.label_2 = QtGui.QLabel(MicroValve)
-        self.label_2.setGeometry(QtCore.QRect(420, 360, 81, 20))
+        self.label_2.setGeometry(QtCore.QRect(420, 380, 81, 20))
         self.label_2.setObjectName(_fromUtf8("label_2"))
         self.label_3 = QtGui.QLabel(MicroValve)
         self.label_3.setGeometry(QtCore.QRect(420, 400, 81, 20))
@@ -362,7 +362,7 @@ class Ui_MicroValve(object):
         dll.SMCHomeMove(g_handle,Z_IAXIS)
         while 1:    #检测轴移动状态
             ifHomeMove3 = dll.SMCHomeMove(g_handle,Z_IAXIS)
-            print("X:"+ifHomeMove3)
+            print("X:"+str(ifHomeMove3))
             if ( ifHomeMove3 ==0):
                 break
 
@@ -370,7 +370,7 @@ class Ui_MicroValve(object):
         dll.SMCHomeMove(g_handle,Y_IAXIS)
         while 1:    #检测轴移动状态
             ifHomeMove2 = dll.SMCHomeMove(g_handle,Y_IAXIS)
-            print("Y:"+ifHomeMove2)
+            print("Y:"+str(ifHomeMove2))
             if (ifHomeMove2 ==0):
                 break
 
@@ -378,7 +378,7 @@ class Ui_MicroValve(object):
         dll.SMCHomeMove(g_handle,X_IAXIS)
         while 1:    #检测轴移动状态
             ifHomeMove1 = dll.SMCHomeMove(g_handle,X_IAXIS)
-            print("Z:"+ifHomeMove1)
+            print("Z:"+str(ifHomeMove1))
             if (ifHomeMove1 ==0):
                 break
 
@@ -609,15 +609,24 @@ class Ui_MicroValve(object):
     def micro(self):
         #self.textBrowser.setText('stop'+"\n")
         #self.textBrowser.append("123")
-        file_object = open("micro.txt")
-        lines = file_object.readlines() #读全部文件
-        line = file_object.readline()   #读一行，带有‘\n’
-        for line in lines:
-            line = line.strip('\n')  #去除 “\n”
-            self.textBrowser.append(line)
-            print(line)
-    #    self.textBrowser.toPlainText('stop'+"\n")
+        dll.SMCCommand.restype = c_char
+        dll.SMCCommand.argtypes = (c_int,c_char_p ,c_void_p,c_long)
+        pszCommand = "UnitPulses1=500"
+        # pszCommand = "LocateSpeed1=5"
+        # pszCommand = "IfELHighValid2=1"
+        # print(pszCpmmand_p)
+        psResponse = c_char()
+        psResponse_p = pointer(psResponse)
+        uiResponseLength = c_int(1024)
+        psResponseList = ctypes.c_char * 1024       #创建char型的数组，1024个元素
+        psResponseList_array = psResponseList()
 
+        # print(dll.SMCCommand(g_handle, pszCpmmand_p, psResponse_p, 1024))
+        print(dll.SMCCommand(g_handle,pszCommand, psResponseList_array, 1024))
+        # pszCommand = "LocateSpeed2=50"
+        # print(dll.SMCCommand(g_handle, byref(pszCpmmand_p), psResponseList_array, 1024))
+        # print(psResponseList_array[0])
+        print(psResponseList_array[0])
 
     def displayUi(self, MicroValve):
         dll.SMCGetWorkPosition.restype = c_double # addf 返回值的类型是 flaot
@@ -641,15 +650,15 @@ class Ui_MicroValve(object):
 
     def handleDisplay4(self, data1):  #接收信号
         # self.label.setText('X:'+str(data))   #槽函数
-        self.label_1.setText(str(data1))   #槽函数
+        self.label_1.setText("X: "+str(data1))   #槽函数
 
     def handleDisplay5(self, data2):  #接收信号
         # self.label.setText('X:'+str(data))   #槽函数
-        self.label_2.setText(str(data2))   #槽函数
+        self.label_2.setText("Y: "+str(data2))   #槽函数
 
     def handleDisplay6(self, data3):  #接收信号
         # self.label.setText('X:'+str(data))   #槽函数
-        self.label_3.setText(str(data3))   #槽函数
+        self.label_3.setText("Z: "+str(data3))   #槽函数
 
     def handleDisplay7(self, data_t4):  #接收信号
         # self.label.setText('X:'+str(data))   #槽函数
